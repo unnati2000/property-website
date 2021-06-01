@@ -2,6 +2,8 @@ import React from "react";
 import useStyles from "./HomePage.styles";
 import { Typography, Button, Container, Grid } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import ProjectCard from "../../components/project-card/ProjectCard.component";
+import PropertyCard from "../../components/property-card/PropertyCard.component";
 
 const HomePage = () => {
   const classes = useStyles();
@@ -48,6 +50,53 @@ const HomePage = () => {
               Advanced Search
             </Link>
           </div>
+        </Container>
+      </div>
+
+      <div className={classes.featuredProjects}>
+        <Typography
+          variant="h3"
+          color="primary"
+          className={classes.featuredHeader}
+        >
+          Featured Projects
+        </Typography>
+
+        <Container>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+              <ProjectCard />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <ProjectCard />
+            </Grid>
+          </Grid>
+        </Container>
+      </div>
+
+      <div className={classes.property}>
+        <Typography
+          variant="h4"
+          color="primary"
+          className={classes.propertyHeader}
+        >
+          Amazing properties near you
+        </Typography>
+        <Container>
+          <Grid spacing={2} container>
+            <Grid item xs={12} md={3}>
+              <PropertyCard />
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <PropertyCard />
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <PropertyCard />
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <PropertyCard />
+            </Grid>
+          </Grid>
         </Container>
       </div>
     </div>
