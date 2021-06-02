@@ -6,7 +6,7 @@ import {
   Typography,
   Button,
 } from "@material-ui/core";
-
+import { Link } from "react-router-dom";
 import useStyles from "./Navbar.styles";
 
 const Navbar = () => {
@@ -32,7 +32,12 @@ const Navbar = () => {
           <Typography variant="h6" color="primary" className={classes.title}>
             PROPERTY WEBSITE
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Link to="/login" className={classes.link}>
+            <Button color="inherit">Login</Button>
+          </Link>
+          <Link to="/register" className={classes.link}>
+            <Button color="inherit">Register</Button>
+          </Link>
         </Toolbar>
       </AppBar>
     </div>

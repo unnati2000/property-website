@@ -12,4 +12,7 @@ export default makeStyles((theme) => ({
   appBar: {
     backgroud: "#fff",
   },
+  link: {
+    textDecoration: "none",
+  },
 }));
