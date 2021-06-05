@@ -45,5 +45,8 @@ export default makeStyles((theme) => ({
     "&:hover": {
       background: "#7BB4D2",
     },
+    googleButton: {
+      textAlign: "center",
+    },
   },
 }));

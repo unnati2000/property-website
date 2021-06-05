@@ -1,34 +1,36 @@
 import React, { useState } from "react";
-import { Modal, TextField, Button, Typography, Grid } from "@material-ui/core";
+import { Modal, Box, Button, Typography, Grid } from "@material-ui/core";
 import User from "../../assets/user.png";
 import Agent from "../../assets/agent.png";
 import useStyles from "./Register.styles";
+import GoogleButton from "react-google-button";
 import firebase from "../../firebase/firebase.utils";
+import { auth, firestore } from "../../firebase/firebase.utils";
 
 const SignInPage = () => {
   const classes = useStyles();
   const rootRef = React.useRef(null);
 
   const [role, setRole] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
 
   const onSubmit = (e) => {
     e.preventDefault();
-    let recaptcha = new firebase.auth.RecaptchaVerifier("recaptcha");
+    const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
     firebase
       .auth()
-      .signInWithPhoneNumber("+91" + phoneNumber, recaptcha)
-      .then((e) => {
-        let code = prompt("Enter OTP", "");
-        if (code === null) return;
-        e.confirm(code).then(function (result) {
-          console.log(result.user, "user");
-          alert("Number verified");
-        });
+      .signInWithPopup(googleAuthProvider)
+      .then((res) => {
+        firestore
+          .collection("user")
+          .add({
+            role: role,
+            email: res.additionalUserInfo.profile.email,
+            name: res.additionalUserInfo.profile.name,
+          })
+          .then((result) => console.log(result))
+          .catch((err) => console.log(err));
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => console.log(err));
   };
   return (
     <div>
@@ -46,7 +48,7 @@ const SignInPage = () => {
           <Typography variant="h6" color="primary" className={classes.header}>
             Choose your account type
           </Typography>
-          <form onSubmit={onSubmit}>
+          <form>
             <Grid container spacing={2}>
               <Grid item md={6} sm={6}>
                 <Button
@@ -68,24 +70,9 @@ const SignInPage = () => {
               </Grid>
             </Grid>
 
-            <TextField
-              id="outlined-basic"
-              label="Phone Number"
-              variant="outlined"
-              name="phoneNumber"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              className={classes.text}
-            />
-            <br />
-            <Button
-              variant="contained"
-              type="submit"
-              className={classes.button}
-            >
-              Submit
-            </Button>
-            <div id="recaptcha"></div>
+            <Box display="flex" justifyContent="center" mt={2}>
+              <GoogleButton onClick={onSubmit} />
+            </Box>
           </form>
         </div>
       </Modal>
