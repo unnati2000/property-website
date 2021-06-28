@@ -8,9 +8,14 @@ import {
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import useStyles from "./Navbar.styles";
+import { useAuth } from "../../context/auth-context";
+
 
 const Navbar = () => {
   const classes = useStyles();
+  const {currentUser} = useAuth()
+
+  
   return (
     <div>
       <AppBar
@@ -32,12 +37,23 @@ const Navbar = () => {
           <Typography variant="h6" color="primary" className={classes.title}>
             PROPERTY WEBSITE
           </Typography>
-          <Link to="/login" className={classes.link}>
-            <Button color="inherit">Login</Button>
-          </Link>
-          <Link to="/register" className={classes.link}>
-            <Button color="inherit">Register</Button>
-          </Link>
+         
+          {currentUser ? (<div> 
+            <Link to="/add" className={classes.link}>
+              <Button color="inherit">Add properties</Button>
+            </Link>
+            <Link to="/add" className={classes.link}>
+              <Button color="inherit">Profile</Button>
+            </Link>
+          </div>):(<div>
+            <Link to="/login" className={classes.link}>
+              <Button color="inherit">Login</Button>
+            </Link>
+            <Link to="/register" className={classes.link}>
+              <Button color="inherit">Register</Button>
+            </Link>
+          </div>)}   
+    
         </Toolbar>
       </AppBar>
     </div>

@@ -7,6 +7,7 @@ import PropertyCard from "../../components/property-card/PropertyCard.component"
 
 const HomePage = () => {
   const classes = useStyles();
+   
   return (
     <div>
       <div className={classes.header}>
@@ -22,7 +23,7 @@ const HomePage = () => {
             className={classes.textHeader}
             color="secondary"
           >
-            A place of trust and relationship
+            Search properties as per your convinience 
           </Typography>
           <div className={classes.searchBox}>
             <div className={classes.linkDiv}>
