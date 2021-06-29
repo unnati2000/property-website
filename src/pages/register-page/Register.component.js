@@ -57,7 +57,7 @@ const SignInPage = () => {
                   .then(res=>{console.log(res); history.push("/")})
                   .catch(err=>console.log(err))
               })
-          }).catch(err=>console.log(err))
+        }).catch(err=>console.log(err))
     
       } catch (error) {
         console.log(error)
@@ -123,7 +123,7 @@ const SignInPage = () => {
               className={classes.text}
             />
             </Box>
-            <Button color="primary" type="submit" className={classes.button}>Sign In</Button>
+            <Button color="primary" type="submit" className={classes.button}>Sign Up</Button>
             <div id="recaptcha"></div>
           </form>
         </div>
