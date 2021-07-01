@@ -8,14 +8,27 @@ import {
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import useStyles from "./Navbar.styles";
+import { useHistory } from "react-router";
 import { useAuth } from "../../context/auth-context";
-
+import firebase from "../../firebase/firebase.utils";
 
 const Navbar = () => {
   const classes = useStyles();
-  const {currentUser} = useAuth()
+  const { currentUser } = useAuth();
+  const history = useHistory();
 
-  
+  const Logout = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        history.push("/login");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <div>
       <AppBar
@@ -37,23 +50,29 @@ const Navbar = () => {
           <Typography variant="h6" color="primary" className={classes.title}>
             PROPERTY WEBSITE
           </Typography>
-         
-          {currentUser ? (<div> 
-            <Link to="/add" className={classes.link}>
-              <Button color="inherit">Add properties</Button>
-            </Link>
-            <Link to="/add" className={classes.link}>
-              <Button color="inherit">Profile</Button>
-            </Link>
-          </div>):(<div>
-            <Link to="/login" className={classes.link}>
-              <Button color="inherit">Login</Button>
-            </Link>
-            <Link to="/register" className={classes.link}>
-              <Button color="inherit">Register</Button>
-            </Link>
-          </div>)}   
-    
+
+          {currentUser ? (
+            <div>
+              <Link to="/add" className={classes.link}>
+                <Button color="inherit">Add properties</Button>
+              </Link>
+              <Link to="/add" className={classes.link}>
+                <Button color="inherit">Profile</Button>
+              </Link>
+              <Link>
+                <Button onClick={Logout}>Logout</Button>
+              </Link>
+            </div>
+          ) : (
+            <div>
+              <Link to="/login" className={classes.link}>
+                <Button color="inherit">Login</Button>
+              </Link>
+              <Link to="/register" className={classes.link}>
+                <Button color="inherit">Register</Button>
+              </Link>
+            </div>
+          )}
         </Toolbar>
       </AppBar>
     </div>

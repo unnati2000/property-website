@@ -1,75 +1,91 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Box, Button, Typography, Grid, TextField } from "@material-ui/core";
+import {
+  Modal,
+  Box,
+  Button,
+  Typography,
+  Grid,
+  TextField,
+} from "@material-ui/core";
 import User from "../../assets/user.png";
 import Agent from "../../assets/agent.png";
 import useStyles from "./Register.styles";
-import {useAuth} from "../../context/auth-context";
+import { useAuth } from "../../context/auth-context";
 import Alert from "../../components/alert/Alert.component";
 import { firestore } from "../../firebase/firebase.utils";
 import firebase from "../../firebase/firebase.utils";
 import { doesPhoneNumberExist } from "../../services/firebase.services";
 import { useHistory } from "react-router-dom";
 
-const SignInPage = () => {
+const RegisterPage = () => {
   const classes = useStyles();
   const rootRef = React.useRef(null);
   const history = useHistory();
-  
-  const {currentUser} = useAuth()
+
+  const { currentUser } = useAuth();
 
   const [role, setRole] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  useEffect(()=>{
-    if(!currentUser?.phoneNumber){
-      history.push("/login");
-    }else{
-      history.push("/")
+  useEffect(() => {
+    if (!currentUser) {
+      history.push("/register");
+    } else {
+      history.push("/");
     }
-  },[currentUser])
+  }, [currentUser]);
 
-  console.log(currentUser)
+  console.log(currentUser);
 
-  const onSubmit = async(e) => {
-
+  const onSubmit = async (e) => {
     e.preventDefault();
 
-    const phoneNumberExists = doesPhoneNumberExist(phoneNumber)
-
-    if(phoneNumberExists === false){
+    const phoneNumberExists = await doesPhoneNumberExist(phoneNumber);
+    console.log(phoneNumberExists);
+    if (phoneNumberExists === false) {
+      console.log("yes");
       let recaptcha = new firebase.auth.RecaptchaVerifier("recaptcha");
       try {
-        setError('');
+        setError("");
         setLoading(true);
-        await firebase.auth().signInWithPhoneNumber("+91"+phoneNumber, recaptcha).then((e)=>{
-              let code = prompt("Enter OTP ", "");
-           
-              if(code === null)return;
-              e.confirm(code).then(function(result){
-               console.log(result.user.uid)
-               console.log(result.user.phoneNumber)
-               console.log(result.user)
-                  alert("Email verified")
-                  firestore.collection("users")
-                  .add({userId:result.user.uid, phoneNumber: phoneNumber, role:role, dateCreated: Date.now()})
-                  .then(res=>{console.log(res); history.push("/")})
-                  .catch(err=>console.log(err))
-              })
-        }).catch(err=>console.log(err))
-    
+        await firebase
+          .auth()
+          .signInWithPhoneNumber("+91" + phoneNumber, recaptcha)
+          .then((e) => {
+            let code = prompt("Enter OTP ", "");
+
+            if (code === null) return;
+            e.confirm(code).then(function (result) {
+              console.log(result.user.uid);
+              console.log(result.user.phoneNumber);
+              console.log(result.user);
+              alert("Email verified");
+              firestore
+                .collection("users")
+                .add({
+                  userId: result.user.uid,
+                  phoneNumber: phoneNumber,
+                  role: role,
+                  dateCreated: Date.now(),
+                })
+                .then((res) => {
+                  console.log(res);
+                  history.push("/");
+                })
+                .catch((err) => console.log(err));
+            });
+          })
+          .catch((err) => console.log(err));
       } catch (error) {
-        console.log(error)
-        setError("Failed to create an account")
+        console.log(error);
+        setError("Failed to create an account");
         setLoading(false);
       }
-      
-    }else{
-      setError("User already exists")
+    } else {
+      setError("User already exists");
     }
-    
-    
   };
   return (
     <div>
@@ -88,7 +104,7 @@ const SignInPage = () => {
             Choose your account type
           </Typography>
           <Box>
-            <Alert errorMsg={error}/>
+            <Alert errorMsg={error} />
           </Box>
           <form onSubmit={onSubmit}>
             <Grid container spacing={2}>
@@ -113,17 +129,19 @@ const SignInPage = () => {
             </Grid>
 
             <Box display="flex" justifyContent="center" mt={2}>
-            <TextField
-              label="Phone Number"
-              id="outlined-size-normal"
-              variant="outlined"
-              name="phoneNumber"
-              value={phoneNumber}
-              onChange={(e)=>setPhoneNumber(e.target.value)}
-              className={classes.text}
-            />
+              <TextField
+                label="Phone Number"
+                id="outlined-size-normal"
+                variant="outlined"
+                name="phoneNumber"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                className={classes.text}
+              />
             </Box>
-            <Button color="primary" type="submit" className={classes.button}>Sign Up</Button>
+            <Button color="primary" type="submit" className={classes.button}>
+              Sign Up
+            </Button>
             <div id="recaptcha"></div>
           </form>
         </div>
@@ -132,4 +150,4 @@ const SignInPage = () => {
   );
 };
 
-export default SignInPage;
+export default RegisterPage;
