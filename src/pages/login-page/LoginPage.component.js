@@ -18,11 +18,11 @@ const SignInPage = () => {
     } else {
       history.push("/");
     }
-  }, [currentUser]);
+  }, [currentUser, history]);
 
   const [phoneNumber, setPhoneNumber] = useState("");
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -32,7 +32,7 @@ const SignInPage = () => {
     if (phoneNumberExists) {
       try {
         setError("");
-        setLoading(true);
+        // setLoading(true);
         await firebase
           .auth()
           .signInWithPhoneNumber("+91" + phoneNumber, recaptcha)
@@ -48,7 +48,7 @@ const SignInPage = () => {
           .catch((err) => console.log(err));
       } catch (error) {
         setError("");
-        setLoading(false);
+        // setLoading(false);
       }
     } else {
       setError("You don't have an account. Please register");

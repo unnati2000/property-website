@@ -17,16 +17,15 @@ export async function getUserDetailsByID(id) {
     .collection("users")
     .where("userId", "==", id)
     .get();
-  console.log(
-    result.docs.map((item) => ({
-      ...item.data(),
-      docId: item.id,
-    }))[0]
-  );
+
+  console.log(result);
+
   const user = result.docs.map((item) => ({
     ...item.data(),
     docId: item.id,
   }))[0];
+
+  console.log(user);
   return user;
 }
 
@@ -36,5 +35,19 @@ export async function addProfileToAccount(id, name, address, pincode) {
     .firestore()
     .collection("users")
     .doc(id)
-    .set({ name: name }, { merge: true });
+    .update(
+      { name: name, address: address, pincode: pincode },
+      { merge: true }
+    );
+
+  console.log(res);
+}
+
+export async function addPackage(id, packageName, packagePrice) {
+  console.log(id, packagePrice, packageName);
+  const res = await firebase
+    .firestore()
+    .collection("users")
+    .doc(id)
+    .update({ packageName: packageName, packagePrice: packagePrice });
 }

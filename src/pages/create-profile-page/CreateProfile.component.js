@@ -15,14 +15,13 @@ const CreateProfile = () => {
 
   useEffect(() => {
     if (currentUser?.name) {
-      console.log("yes");
       history.push("/");
     }
-  }, [currentUser]);
+  }, [currentUser, history]);
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await addProfileToAccount(currentUser?.userId, name, address, pincode);
+    await addProfileToAccount(currentUser?.docId, name, address, pincode);
   };
   return (
     <div className={classes.profileDiv}>

@@ -69,6 +69,11 @@ const RegisterPage = () => {
                   phoneNumber: phoneNumber,
                   role: role,
                   dateCreated: Date.now(),
+                  name: "",
+                  address: "",
+                  pincode: "",
+                  packageName: "",
+                  packagePrice: "",
                 })
                 .then((res) => {
                   console.log(res);

@@ -9,15 +9,14 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState();
-  const [loading, setLoading] = useState(true);
+  const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
     const unSubscribe = auth.onAuthStateChanged((user) => {
       getUserDetailsByID(user?.uid)
         .then((res) => {
+          console.log(res);
           setCurrentUser(res);
-          setLoading(false);
         })
         .catch((err) => console.log(err));
     });
@@ -29,9 +28,5 @@ export function AuthProvider({ children }) {
     currentUser,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {!loading && children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

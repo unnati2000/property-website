@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import useStyles from "./HomePage.styles";
 import { Typography, Button, Container, Grid } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import ProjectCard from "../../components/project-card/ProjectCard.component";
 import PropertyCard from "../../components/property-card/PropertyCard.component";
 import { useAuth } from "../../context/auth-context";
@@ -9,6 +9,12 @@ import { useAuth } from "../../context/auth-context";
 const HomePage = () => {
   const classes = useStyles();
   const { currentUser } = useAuth();
+  const history = useHistory();
+  useEffect(() => {
+    if (currentUser?.name === "") {
+      history.push("/onboarding");
+    }
+  }, [currentUser]);
 
   return (
     <div>

@@ -52,17 +52,31 @@ const Navbar = () => {
           </Typography>
 
           {currentUser ? (
-            <div>
-              <Link to="/add" className={classes.link}>
-                <Button color="inherit">Add properties</Button>
-              </Link>
-              <Link to="/add" className={classes.link}>
-                <Button color="inherit">Profile</Button>
-              </Link>
-              <Link>
-                <Button onClick={Logout}>Logout</Button>
-              </Link>
-            </div>
+            currentUser?.packageName === "" ? (
+              <div>
+                <Link to="/package" className={classes.link}>
+                  <Button color="inherit">Package</Button>
+                </Link>
+                <Link to="/add" className={classes.link}>
+                  <Button color="inherit">Profile</Button>
+                </Link>
+                <Link>
+                  <Button onClick={Logout}>Logout</Button>
+                </Link>
+              </div>
+            ) : (
+              <div>
+                <Link to="/add" className={classes.link}>
+                  <Button color="inherit">Add properties</Button>
+                </Link>
+                <Link to="/add" className={classes.link}>
+                  <Button color="inherit">Profile</Button>
+                </Link>
+                <Link>
+                  <Button onClick={Logout}>Logout</Button>
+                </Link>
+              </div>
+            )
           ) : (
             <div>
               <Link to="/login" className={classes.link}>
