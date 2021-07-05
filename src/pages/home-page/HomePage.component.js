@@ -32,7 +32,7 @@ const HomePage = () => {
             className={classes.textHeader}
             color="secondary"
           >
-            Search properties as per your convinience
+            Search properties as per your convenience
           </Typography>
           <div className={classes.searchBox}>
             <div className={classes.linkDiv}>

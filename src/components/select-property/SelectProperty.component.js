@@ -14,78 +14,81 @@ const SelectProperty = () => {
   const [plan, setPlan] = useState("");
   return (
     <div className={classes.mainDiv}>
-      <Container className={classes.container}>
-        {currentUser?.packageName === "Primary Pack" && (
-          <AddPropertyComponent />
-        )}
+      {currentUser?.packageName === "Primary Pack" && <AddPropertyComponent />}
 
-        {currentUser?.packageName === "Developer Pack" && (
-          <>
+      {currentUser?.packageName === "Developer Pack" && (
+        <>
+          <Container className={classes.container}>
             <Button
-              onClick={() => setPlan("smol")}
-              className={plan === "smol" && classes.button}
+              onClick={() => setPlan("flat")}
+              className={plan === "flat" && classes.button}
             >
               <Card className={classes.card}>
                 <img src={house} className={classes.cardImg} />
                 <Typography variant="h6" color="primary">
-                  Smol plan
+                  Add a flat
                 </Typography>
               </Card>
             </Button>
 
             <Button
-              onClick={() => setPlan("medium")}
-              className={plan === "medium" && classes.button}
+              onClick={() => setPlan("project")}
+              className={plan === "project" && classes.button}
             >
               <Card className={classes.card}>
                 <img src={building} className={classes.cardImg} />
                 <Typography variant="h6" color="primary">
-                  Medium plan
+                  Add a project
                 </Typography>
               </Card>
             </Button>
-          </>
-        )}
+          </Container>
+          {plan && <AddPropertyComponent plan={plan} />}
+        </>
+      )}
 
-        {currentUser?.packageName === "Pro Developer Pack" && (
-          <>
+      {currentUser?.packageName === "Pro Developer Pack" && (
+        <>
+          <Container className={classes.container}>
             <Button
-              onClick={() => setPlan("smol")}
-              className={plan === "smol" && classes.button}
+              onClick={() => setPlan("flat")}
+              className={plan === "flat" && classes.button}
             >
               <Card className={classes.card}>
                 <img src={house} className={classes.cardImg} />
                 <Typography variant="h6" color="primary">
-                  Smol plan
+                  Add a flat
                 </Typography>
               </Card>
             </Button>
 
             <Button
-              onClick={() => setPlan("medium")}
-              className={plan === "medium" && classes.button}
+              onClick={() => setPlan("project")}
+              className={plan === "project" && classes.button}
             >
               <Card className={classes.card}>
                 <img src={building} className={classes.cardImg} />
                 <Typography variant="h6" color="primary">
-                  Medium plan
+                  Add a project
                 </Typography>
               </Card>
             </Button>
             <Button
-              onClick={() => setPlan("big")}
-              className={plan === "big" && classes.button}
+              onClick={() => setPlan("villa")}
+              className={plan === "villa" && classes.button}
             >
               <Card className={classes.card}>
                 <img src={proplan} className={classes.cardImg} />
                 <Typography variant="h6" color="primary">
-                  Big plan
+                  Add villa
                 </Typography>
               </Card>
             </Button>
-          </>
-        )}
-      </Container>
+          </Container>
+
+          {plan && <AddPropertyComponent plan={plan} />}
+        </>
+      )}
     </div>
   );
 };
