@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   TextField,
@@ -10,11 +10,52 @@ import {
   Container,
   FormControlLabel,
   Checkbox,
+  Typography,
+  Button,
 } from "@material-ui/core";
 import useStyles from "./AddPropertyComponent.styles";
 
 const AddPropertyComponent = ({ plan }) => {
   const classes = useStyles();
+  const [flatDetails, setFlatDetails] = useState([{ value: null }]);
+  const [flatAreas, setFlatAreas] = useState([{ value: null }]);
+
+  function handleChange(i, event) {
+    const values = [...flatDetails];
+    values[i].value = event.target.value;
+    setFlatDetails(values);
+  }
+
+  function handleAdd() {
+    const values = [...flatDetails];
+    values.push({ value: null });
+    setFlatDetails(values);
+  }
+
+  function handleRemove(i) {
+    const values = [...flatDetails];
+    values.splice(i, 1);
+    setFlatDetails(values);
+  }
+
+  function handleChangeFlatAreas(i, event) {
+    const values = [...flatAreas];
+    values[i].value = event.target.value;
+    setFlatAreas(values);
+  }
+
+  function handleAddFlatAreas() {
+    const values = [...flatAreas];
+    values.push({ value: null });
+    setFlatAreas(values);
+  }
+
+  function handleRemoveFlatAreas(i) {
+    const values = [...flatAreas];
+    values.splice(i, 1);
+    setFlatAreas(values);
+  }
+
   return (
     <div className={classes.mainDiv}>
       <Container className={classes.container}>
@@ -217,8 +258,12 @@ const AddPropertyComponent = ({ plan }) => {
                   className={classes.text}
                 />
               </Box>
-              <Box>
-                <Box display="flex" justifyContent="space-evenly">
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                flexDirection="column"
+              >
+                <Box>
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -242,7 +287,7 @@ const AddPropertyComponent = ({ plan }) => {
                     label="Gym"
                   />
                 </Box>
-                <Box display="flex" justifyContent="space-evenly">
+                <Box>
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -263,10 +308,10 @@ const AddPropertyComponent = ({ plan }) => {
                         color="primary"
                       />
                     }
-                    label="Jogging & Cycling Track"
+                    label="Jogging Track"
                   />
                 </Box>
-                <Box display="flex" justifyContent="space-evenly">
+                <Box>
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -290,7 +335,7 @@ const AddPropertyComponent = ({ plan }) => {
                     label="Primary"
                   />
                 </Box>
-                <Box display="flex" justifyContent="space-evenly">
+                <Box>
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -315,7 +360,183 @@ const AddPropertyComponent = ({ plan }) => {
                   />
                 </Box>
               </Box>
+              <Box mt={3}>
+                <Typography variant="h5" color="primary">
+                  Flat Details
+                </Typography>
+                <Button
+                  className={classes.button}
+                  variant="contained"
+                  onClick={() => handleAdd()}
+                >
+                  Add flat type
+                </Button>
+
+                {flatDetails?.map((flatDetail, idx) => {
+                  return (
+                    <Box className={classes.flatDetails}>
+                      <Box display="flex" justifyContent="space-evenly">
+                        <TextField
+                          label="Room Type"
+                          id="outlined-size-normal"
+                          variant="outlined"
+                          name="phoneNumber"
+                          value={""}
+                          className={classes.text}
+                        />
+                        <Button
+                          variant="contained"
+                          className={classes.button}
+                          onClick={() => handleRemove(idx)}
+                        >
+                          x
+                        </Button>
+                      </Box>
+
+                      {flatAreas?.map((flatArea, ind) => {
+                        return (
+                          <div className={classes.flatarea}>
+                            <TextField
+                              label="Area of the room"
+                              id="outlined-size-normal"
+                              variant="outlined"
+                              name="phoneNumber"
+                              value={""}
+                              className={classes.text}
+                            />
+                            <Box display="flex" justifyContent="space-evenly">
+                              <TextField
+                                label="Price of the room"
+                                id="outlined-size-normal"
+                                variant="outlined"
+                                name="phoneNumber"
+                                value={""}
+                                className={classes.text}
+                              />
+                              <TextField
+                                label="Price of the room"
+                                id="outlined-size-normal"
+                                variant="outlined"
+                                name="phoneNumber"
+                                value={""}
+                                className={classes.text}
+                              />
+                            </Box>
+
+                            <Box display="flex" justifyContent="right">
+                              <Button
+                                variant="contained"
+                                onClick={() => handleRemoveFlatAreas(ind)}
+                                className={classes.button}
+                              >
+                                Delete areas
+                              </Button>
+                              <Button
+                                variant="contained"
+                                onClick={() => handleAddFlatAreas(ind)}
+                                className={classes.button}
+                              >
+                                Add more areas
+                              </Button>
+                            </Box>
+                          </div>
+                        );
+                      })}
+                    </Box>
+                  );
+                })}
+              </Box>
             </>
+          )}
+
+          {plan === "villa" && (
+            <div>
+              <Box>
+                <TextField
+                  label="Area"
+                  id="outlined-size-normal"
+                  variant="outlined"
+                  name="phoneNumber"
+                  value={""}
+                  className={classes.text}
+                />
+                <TextField
+                  label="Average Price"
+                  id="outlined-size-normal"
+                  variant="outlined"
+                  name="phoneNumber"
+                  value={""}
+                  className={classes.text}
+                />
+              </Box>
+
+              <TextField
+                label="Area"
+                id="outlined-size-normal"
+                variant="outlined"
+                name="phoneNumber"
+                value={""}
+                className={classes.text}
+              />
+              <Box>
+                <TextField
+                  label="Price"
+                  id="outlined-size-normal"
+                  variant="outlined"
+                  name="phoneNumber"
+                  value={""}
+                  className={classes.text}
+                />
+                <FormControl
+                  variant="outlined"
+                  className={classes.formControlRoom}
+                >
+                  <InputLabel id="demo-simple-select-outlined-label">
+                    Room Type
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    // value={age}
+                    // onChange={handleChange}
+                    label="Room type"
+                    className={classes.select}
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value="Lakh">Lakh</MenuItem>
+                    <MenuItem value="Crore">Crore</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+              <Box>
+                <TextField
+                  label="Bathrooms"
+                  id="outlined-size-normal"
+                  variant="outlined"
+                  name="phoneNumber"
+                  value={""}
+                  className={classes.text}
+                />
+                <TextField
+                  label="Bedroom"
+                  id="outlined-size-normal"
+                  variant="outlined"
+                  name="phoneNumber"
+                  value={""}
+                  className={classes.text}
+                />
+              </Box>
+              <TextField
+                label="About this property"
+                id="outlined-size-normal"
+                variant="outlined"
+                name="phoneNumber"
+                value={""}
+                className={classes.text}
+              />
+            </div>
           )}
         </Card>
       </Container>

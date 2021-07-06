@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core";
-export default makeStyles(() => ({
+export default makeStyles((theme) => ({
   mainDiv: {
     display: "flex",
     justifyContent: "center",
@@ -30,5 +30,24 @@ export default makeStyles(() => ({
   formControlRoom: {
     width: "100%",
     marginTop: "10px",
+  },
+  button: {
+    background: theme.palette.primary.main,
+    color: "white",
+    marginTop: "10px",
+    "&:hover": {
+      background: theme.palette.primary.main,
+      color: "white",
+    },
+  },
+  flatDetails: {
+    background: "#eee",
+    padding: "10px",
+    marginTop: "10px",
+  },
+  flatarea: {
+    border: "solid 1px black",
+    padding: "5px 10px",
+    borderRadius: "5px",
   },
 }));
