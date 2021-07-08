@@ -14,11 +14,48 @@ import {
   Button,
 } from "@material-ui/core";
 import useStyles from "./AddPropertyComponent.styles";
+import { storage } from "../../firebase/firebase.utils";
+import { useAuth } from "../../context/auth-context";
+import { addFlat } from "../../services/firebase.services";
+import firebase from "../../firebase/firebase.utils";
 
 const AddPropertyComponent = ({ plan }) => {
   const classes = useStyles();
+  const { currentUser } = useAuth();
   const [flatDetails, setFlatDetails] = useState([{ value: null }]);
   const [flatAreas, setFlatAreas] = useState([{ value: null }]);
+  const [images, setImages] = useState([]);
+  const urls = [];
+
+  const [flatData, setFlatData] = useState({
+    propertyName: "",
+    address: "",
+    roomType: "",
+    price: "",
+    value: "",
+    area: "",
+    parking: "",
+    averagePrice: "",
+    facing: "",
+    description: "",
+  });
+
+  const {
+    propertyName,
+    address,
+    roomType,
+    price,
+    value,
+    area,
+    parking,
+    averagePrice,
+    facing,
+    description,
+  } = flatData;
+
+  const onFlatChange = (e) => {
+    setFlatData({ ...flatData, [e.target.name]: e.target.value });
+  };
 
   function handleChange(i, event) {
     const values = [...flatDetails];
@@ -56,29 +93,83 @@ const AddPropertyComponent = ({ plan }) => {
     setFlatAreas(values);
   }
 
+  const handleImageChange = (e) => {
+    for (let i = 0; i < e.target.files.length; i++) {
+      const newImage = e.target.files[i];
+      newImage["id"] = Math.random();
+      setImages((prevState) => [...prevState, newImage]);
+    }
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
+    if (images.length > 4) {
+      console.log("Not allowed to upload more than 4 images");
+    } else {
+      const promises = [];
+      images.forEach((image) => {
+        const uploadTask = storage
+          .ref()
+          .child(`images/${image.name}`)
+          .put(image);
+        promises.push(uploadTask);
+        uploadTask.on(
+          firebase.storage.TaskEvent.STATE_CHANGED,
+          (snapshot) => {},
+          (error) => console.log(error.code),
+          async () => {
+            const downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
+            urls.push(downloadURL);
+
+            if (urls.length === images.length) {
+              await addFlat(
+                propertyName,
+                address,
+                roomType,
+                price,
+                value,
+                area,
+                parking,
+                averagePrice,
+                facing,
+                description,
+                urls,
+                currentUser?.userId,
+                currentUser?.docId
+              );
+            }
+          }
+        );
+      });
+    }
+  };
+
   return (
     <div className={classes.mainDiv}>
       <Container className={classes.container}>
         <Card className={classes.card}>
-          <TextField
-            label="Building/Property Name"
-            id="outlined-size-normal"
-            variant="outlined"
-            name="phoneNumber"
-            value={""}
-            className={classes.text}
-          />
-          <TextField
-            label="Address"
-            id="outlined-size-normal"
-            variant="outlined"
-            name="phoneNumber"
-            value={""}
-            className={classes.text}
-          />
-
           {plan === "flat" && (
-            <>
+            <form onSubmit={onSubmit}>
+              <TextField
+                label="Building/Property Name"
+                id="outlined-size-normal"
+                variant="outlined"
+                name="propertyName"
+                value={propertyName}
+                onChange={onFlatChange}
+                className={classes.text}
+              />
+              <TextField
+                label="Address"
+                id="outlined-size-normal"
+                variant="outlined"
+                name="address"
+                value={address}
+                onChange={onFlatChange}
+                className={classes.text}
+              />
+
               <FormControl
                 variant="outlined"
                 className={classes.formControlRoom}
@@ -89,8 +180,9 @@ const AddPropertyComponent = ({ plan }) => {
                 <Select
                   labelId="demo-simple-select-outlined-label"
                   id="demo-simple-select-outlined"
-                  // value={age}
-                  // onChange={handleChange}
+                  name="roomType"
+                  value={roomType}
+                  onChange={onFlatChange}
                   label="Room type"
                   className={classes.select}
                 >
@@ -99,9 +191,9 @@ const AddPropertyComponent = ({ plan }) => {
                   </MenuItem>
                   <MenuItem value="1 BHK">1 BHK</MenuItem>
                   <MenuItem value="2 BHK">2 BHK</MenuItem>
-                  <MenuItem value="3 BKH">3 BHK</MenuItem>
-                  <MenuItem value="4 BKH">4 BHK</MenuItem>
-                  <MenuItem value="5 BKH">5 BHK</MenuItem>
+                  <MenuItem value="3 BHK">3 BHK</MenuItem>
+                  <MenuItem value="4 BHK">4 BHK</MenuItem>
+                  <MenuItem value="5 BHK">5 BHK</MenuItem>
                 </Select>
               </FormControl>
               <Box mt={2} mb={2} ml={3} mr={3}>
@@ -109,8 +201,9 @@ const AddPropertyComponent = ({ plan }) => {
                   label="Price"
                   id="outlined-size-normal"
                   variant="outlined"
-                  name="phoneNumber"
-                  value={""}
+                  name="price"
+                  value={price}
+                  onChange={onFlatChange}
                   className={classes.textMed}
                 />
 
@@ -121,9 +214,11 @@ const AddPropertyComponent = ({ plan }) => {
                   <Select
                     labelId="demo-simple-select-outlined-label"
                     id="demo-simple-select-outlined"
-                    // value={age}
+                    name="value"
                     // onChange={handleChange}
                     label="Value"
+                    onChange={onFlatChange}
+                    value={value}
                     className={classes.select}
                   >
                     <MenuItem value="">
@@ -138,9 +233,9 @@ const AddPropertyComponent = ({ plan }) => {
                     label="Area"
                     id="outlined-size-normal"
                     variant="outlined"
-                    name="phoneNumber"
-                    value={""}
-                    // className={classes.text}
+                    name="area"
+                    value={area}
+                    onChange={onFlatChange}
                   />
                   <FormControl
                     variant="outlined"
@@ -152,9 +247,10 @@ const AddPropertyComponent = ({ plan }) => {
                     <Select
                       labelId="demo-simple-select-outlined-label"
                       id="demo-simple-select-outlined"
-                      // value={age}
-                      // onChange={handleChange}
-                      label="Age"
+                      name="parking"
+                      value={parking}
+                      onChange={onFlatChange}
+                      label="Parking"
                       className={classes.select}
                     >
                       <MenuItem value="">
@@ -170,9 +266,9 @@ const AddPropertyComponent = ({ plan }) => {
                     label="Average Price"
                     id="outlined-size-normal"
                     variant="outlined"
-                    name="phoneNumber"
-                    value={""}
-                    // className={classes.text}
+                    name="averagePrice"
+                    value={averagePrice}
+                    onChange={onFlatChange}
                   />
                   <FormControl
                     variant="outlined"
@@ -184,9 +280,10 @@ const AddPropertyComponent = ({ plan }) => {
                     <Select
                       labelId="demo-simple-select-outlined-label"
                       id="demo-simple-select-outlined"
-                      // value={age}
-                      // onChange={handleChange}
+                      name="facing"
                       label="Facing"
+                      value={facing}
+                      onChange={onFlatChange}
                       className={classes.select}
                     >
                       <MenuItem value="">
@@ -203,17 +300,43 @@ const AddPropertyComponent = ({ plan }) => {
                     label="Description"
                     id="outlined-size-normal"
                     variant="outlined"
-                    name="phoneNumber"
-                    value={""}
+                    name="description"
+                    value={description}
+                    onChange={onFlatChange}
                     className={classes.text}
                   />
                 </Box>
+                <input type="file" multiple onChange={handleImageChange} />
               </Box>
-            </>
+              <Button
+                type="contained"
+                className={classes.formbutton}
+                type="submit"
+              >
+                Submit
+              </Button>
+            </form>
           )}
 
           {plan === "project" && (
-            <>
+            <form>
+              <TextField
+                label="Building/Property Name"
+                id="outlined-size-normal"
+                variant="outlined"
+                name="phoneNumber"
+                value={""}
+                className={classes.text}
+              />
+              <TextField
+                label="Address"
+                id="outlined-size-normal"
+                variant="outlined"
+                name="phoneNumber"
+                value={""}
+                className={classes.text}
+              />
+
               <TextField
                 label="Apartments"
                 id="outlined-size-normal"
@@ -329,10 +452,10 @@ const AddPropertyComponent = ({ plan }) => {
                         // checked={state.checkedB}
                         // onChange={handleChange}
                         name="checkedB"
-                        color="Badminton Court"
+                        color="primary"
                       />
                     }
-                    label="Primary"
+                    label="Badminton Court"
                   />
                 </Box>
                 <Box>
@@ -356,7 +479,7 @@ const AddPropertyComponent = ({ plan }) => {
                         color="primary"
                       />
                     }
-                    label="Primary"
+                    label="Park"
                   />
                 </Box>
               </Box>
@@ -446,12 +569,36 @@ const AddPropertyComponent = ({ plan }) => {
                   );
                 })}
               </Box>
-            </>
+              <Button
+                type="contained"
+                className={classes.formbutton}
+                type="submit"
+              >
+                Submit
+              </Button>
+            </form>
           )}
 
           {plan === "villa" && (
-            <div>
-              <Box>
+            <form>
+              <TextField
+                label="Building/Property Name"
+                id="outlined-size-normal"
+                variant="outlined"
+                name="phoneNumber"
+                value={""}
+                className={classes.text}
+              />
+              <TextField
+                label="Address"
+                id="outlined-size-normal"
+                variant="outlined"
+                name="phoneNumber"
+                value={""}
+                className={classes.text}
+              />
+
+              <Box display="flex" justifyContent="space-evenly">
                 <TextField
                   label="Area"
                   id="outlined-size-normal"
@@ -478,7 +625,7 @@ const AddPropertyComponent = ({ plan }) => {
                 value={""}
                 className={classes.text}
               />
-              <Box>
+              <Box display="flex" justifyContent="space-evenly">
                 <TextField
                   label="Price"
                   id="outlined-size-normal"
@@ -492,7 +639,7 @@ const AddPropertyComponent = ({ plan }) => {
                   className={classes.formControlRoom}
                 >
                   <InputLabel id="demo-simple-select-outlined-label">
-                    Room Type
+                    Value
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-outlined-label"
@@ -510,23 +657,62 @@ const AddPropertyComponent = ({ plan }) => {
                   </Select>
                 </FormControl>
               </Box>
-              <Box>
-                <TextField
-                  label="Bathrooms"
-                  id="outlined-size-normal"
+              <Box display="flex" justifyContent="space-evenly">
+                <FormControl
                   variant="outlined"
-                  name="phoneNumber"
-                  value={""}
-                  className={classes.text}
-                />
-                <TextField
-                  label="Bedroom"
-                  id="outlined-size-normal"
+                  className={classes.formControlRoom}
+                >
+                  <InputLabel id="demo-simple-select-outlined-label">
+                    No of bedroom
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    // value={age}
+                    // onChange={handleChange}
+                    label="No of bedroom"
+                    className={classes.select}
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value="1">1</MenuItem>
+                    <MenuItem value="2">2</MenuItem>
+                    <MenuItem value="3">3</MenuItem>
+                    <MenuItem value="4">4</MenuItem>
+                    <MenuItem value="5">5</MenuItem>
+                    <MenuItem value="6">6</MenuItem>
+                    <MenuItem value="7">7</MenuItem>
+                    <MenuItem value="8">8</MenuItem>
+                    <MenuItem value="9">9</MenuItem>
+                    <MenuItem value="10">10</MenuItem>
+                  </Select>
+                </FormControl>
+                <FormControl
                   variant="outlined"
-                  name="phoneNumber"
-                  value={""}
-                  className={classes.text}
-                />
+                  className={classes.formControlRoom}
+                >
+                  <InputLabel id="demo-simple-select-outlined-label">
+                    Bathroom
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    // value={age}
+                    // onChange={handleChange}
+                    label="Value"
+                    className={classes.select}
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value="1">1</MenuItem>
+                    <MenuItem value="2">2</MenuItem>
+                    <MenuItem value="3">3</MenuItem>
+                    <MenuItem value="4">4</MenuItem>
+                    <MenuItem value="5">5</MenuItem>
+                  </Select>
+                </FormControl>
               </Box>
               <TextField
                 label="About this property"
@@ -536,7 +722,14 @@ const AddPropertyComponent = ({ plan }) => {
                 value={""}
                 className={classes.text}
               />
-            </div>
+              <Button
+                type="contained"
+                className={classes.formbutton}
+                type="submit"
+              >
+                Submit
+              </Button>
+            </form>
           )}
         </Card>
       </Container>

@@ -51,3 +51,36 @@ export async function addPackage(id, packageName, packagePrice) {
     .doc(id)
     .update({ packageName: packageName, packagePrice: packagePrice });
 }
+
+export async function addFlat(
+  propertyName,
+  address,
+  roomType,
+  price,
+  value,
+  area,
+  parking,
+  averagePrice,
+  facing,
+  description,
+  urls,
+  userId,
+  userDocId
+) {
+  console.log(propertyName, userId, userDocId);
+  const res = await firebase.firestore().collection("property").add({
+    propertyName: propertyName,
+    address: address,
+    roomType: roomType,
+    price: price,
+    value: value,
+    area: area,
+    parking: parking,
+    averagePrice: averagePrice,
+    facing: facing,
+    description: description,
+    images: urls,
+    userId: userId,
+    userDocId: userDocId,
+  });
+}

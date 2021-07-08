@@ -50,4 +50,14 @@ export default makeStyles((theme) => ({
     padding: "5px 10px",
     borderRadius: "5px",
   },
+  formbutton: {
+    background: theme.palette.primary.main,
+    color: "white",
+    marginTop: "10px",
+    width: "100%",
+    "&:hover": {
+      background: theme.palette.primary.main,
+      color: "white",
+    },
+  },
 }));
