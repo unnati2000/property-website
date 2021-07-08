@@ -16,8 +16,9 @@ import {
 import useStyles from "./AddPropertyComponent.styles";
 import { storage } from "../../firebase/firebase.utils";
 import { useAuth } from "../../context/auth-context";
-import { addFlat } from "../../services/firebase.services";
+import { addFlat, addVilla } from "../../services/firebase.services";
 import firebase from "../../firebase/firebase.utils";
+import { useHistory } from "react-router";
 
 const AddPropertyComponent = ({ plan }) => {
   const classes = useStyles();
@@ -26,6 +27,8 @@ const AddPropertyComponent = ({ plan }) => {
   const [flatAreas, setFlatAreas] = useState([{ value: null }]);
   const [images, setImages] = useState([]);
   const urls = [];
+
+  const history = useHistory();
 
   const [flatData, setFlatData] = useState({
     propertyName: "",
@@ -38,6 +41,19 @@ const AddPropertyComponent = ({ plan }) => {
     averagePrice: "",
     facing: "",
     description: "",
+  });
+
+  const [villaData, setVillaData] = useState({
+    villaAddress: "",
+    villaArea: "",
+    villaAveragePrice: "",
+    furnishedStatus: "",
+    possessionStatus: "",
+    villaPrice: "",
+    villaValue: "",
+    villaBedroom: "",
+    villaBathroom: "",
+    villaDescription: "",
   });
 
   const {
@@ -53,10 +69,26 @@ const AddPropertyComponent = ({ plan }) => {
     description,
   } = flatData;
 
+  const {
+    villaAddress,
+    villaArea,
+    villaAveragePrice,
+    furnishedStatus,
+    possessionStatus,
+    villaPrice,
+    villaValue,
+    villaBedroom,
+    villaBathroom,
+    villaDescription,
+  } = villaData;
+
   const onFlatChange = (e) => {
     setFlatData({ ...flatData, [e.target.name]: e.target.value });
   };
 
+  const onVillaChange = (e) => {
+    setVillaData({ ...villaData, [e.target.name]: e.target.value });
+  };
   function handleChange(i, event) {
     const values = [...flatDetails];
     values[i].value = event.target.value;
@@ -123,26 +155,56 @@ const AddPropertyComponent = ({ plan }) => {
             urls.push(downloadURL);
 
             if (urls.length === images.length) {
-              await addFlat(
-                propertyName,
-                address,
-                roomType,
-                price,
-                value,
-                area,
-                parking,
-                averagePrice,
-                facing,
-                description,
-                urls,
-                currentUser?.userId,
-                currentUser?.docId
-              );
+              if (plan === "flat") {
+                await addFlat(
+                  propertyName,
+                  address,
+                  roomType,
+                  price,
+                  value,
+                  area,
+                  parking,
+                  averagePrice,
+                  facing,
+                  description,
+                  urls,
+                  currentUser?.userId,
+                  currentUser?.docId
+                );
+                history.push("/");
+              } else if (plan === "project") {
+              } else if (plan === "villa") {
+                await addVilla(
+                  villaAddress,
+                  villaArea,
+                  villaAveragePrice,
+                  furnishedStatus,
+                  possessionStatus,
+                  villaPrice,
+                  villaValue,
+                  villaBedroom,
+                  villaBathroom,
+                  villaDescription,
+                  urls,
+                  currentUser?.userId,
+                  currentUser?.docId
+                );
+                history.push("/");
+              }
             }
           }
         );
       });
     }
+  };
+
+  const onVillaSubmit = async (e) => {
+    e.preventDefault();
+    console.log(villaData);
+  };
+
+  const onProjectSubmit = async (e) => {
+    e.preventDefault();
   };
 
   return (
@@ -319,7 +381,7 @@ const AddPropertyComponent = ({ plan }) => {
           )}
 
           {plan === "project" && (
-            <form>
+            <form onSubmit={onSubmit}>
               <TextField
                 label="Building/Property Name"
                 id="outlined-size-normal"
@@ -580,21 +642,14 @@ const AddPropertyComponent = ({ plan }) => {
           )}
 
           {plan === "villa" && (
-            <form>
-              <TextField
-                label="Building/Property Name"
-                id="outlined-size-normal"
-                variant="outlined"
-                name="phoneNumber"
-                value={""}
-                className={classes.text}
-              />
+            <form onSubmit={onSubmit}>
               <TextField
                 label="Address"
                 id="outlined-size-normal"
                 variant="outlined"
-                name="phoneNumber"
-                value={""}
+                name="villaAddress"
+                value={villaAddress}
+                onChange={onVillaChange}
                 className={classes.text}
               />
 
@@ -603,36 +658,84 @@ const AddPropertyComponent = ({ plan }) => {
                   label="Area"
                   id="outlined-size-normal"
                   variant="outlined"
-                  name="phoneNumber"
-                  value={""}
+                  name="villaArea"
+                  value={villaArea}
+                  onChange={onVillaChange}
                   className={classes.text}
                 />
                 <TextField
                   label="Average Price"
                   id="outlined-size-normal"
                   variant="outlined"
-                  name="phoneNumber"
-                  value={""}
+                  name="villaAveragePrice"
+                  value={villaAveragePrice}
+                  onChange={onVillaChange}
                   className={classes.text}
                 />
               </Box>
 
-              <TextField
-                label="Area"
-                id="outlined-size-normal"
-                variant="outlined"
-                name="phoneNumber"
-                value={""}
-                className={classes.text}
-              />
+              <Box display="flex" justifyContent="space-evenly">
+                <FormControl
+                  variant="outlined"
+                  className={classes.formControlRoom}
+                >
+                  <InputLabel id="demo-simple-select-outlined-label">
+                    Furnished Status
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    name="furnishedStatus"
+                    value={furnishedStatus}
+                    label="Furnished Status"
+                    className={classes.select}
+                    onChange={onVillaChange}
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value="Fully furnished">Fully furnished</MenuItem>
+                    <MenuItem value="Semi furnished">Semi furnished</MenuItem>
+                    <MenuItem value="Not furnished">Not furnished</MenuItem>
+                  </Select>
+                </FormControl>
+                <FormControl
+                  variant="outlined"
+                  className={classes.formControlRoom}
+                >
+                  <InputLabel id="demo-simple-select-outlined-label">
+                    Possession Status
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    name="possessionStatus"
+                    value={possessionStatus}
+                    onChange={onVillaChange}
+                    label="Possession Status"
+                    className={classes.select}
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value="Read to move in">
+                      Ready to Move In
+                    </MenuItem>
+                    <MenuItem value="Not ready to move in">
+                      Not ready to move in
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
               <Box display="flex" justifyContent="space-evenly">
                 <TextField
                   label="Price"
                   id="outlined-size-normal"
                   variant="outlined"
-                  name="phoneNumber"
-                  value={""}
+                  name="villaPrice"
+                  value={villaPrice}
                   className={classes.text}
+                  onChange={onVillaChange}
                 />
                 <FormControl
                   variant="outlined"
@@ -644,9 +747,10 @@ const AddPropertyComponent = ({ plan }) => {
                   <Select
                     labelId="demo-simple-select-outlined-label"
                     id="demo-simple-select-outlined"
-                    // value={age}
-                    // onChange={handleChange}
-                    label="Room type"
+                    name="villaValue"
+                    value={villaValue}
+                    label="Value"
+                    onChange={onVillaChange}
                     className={classes.select}
                   >
                     <MenuItem value="">
@@ -668,10 +772,11 @@ const AddPropertyComponent = ({ plan }) => {
                   <Select
                     labelId="demo-simple-select-outlined-label"
                     id="demo-simple-select-outlined"
-                    // value={age}
-                    // onChange={handleChange}
+                    name="villaBedroom"
+                    value={villaBedroom}
                     label="No of bedroom"
                     className={classes.select}
+                    onChange={onVillaChange}
                   >
                     <MenuItem value="">
                       <em>None</em>
@@ -698,9 +803,10 @@ const AddPropertyComponent = ({ plan }) => {
                   <Select
                     labelId="demo-simple-select-outlined-label"
                     id="demo-simple-select-outlined"
-                    // value={age}
-                    // onChange={handleChange}
-                    label="Value"
+                    name="villaBathroom"
+                    value={villaBathroom}
+                    label="Bathroom"
+                    onChange={onVillaChange}
                     className={classes.select}
                   >
                     <MenuItem value="">
@@ -718,10 +824,12 @@ const AddPropertyComponent = ({ plan }) => {
                 label="About this property"
                 id="outlined-size-normal"
                 variant="outlined"
-                name="phoneNumber"
-                value={""}
+                name="villaDescription"
+                value={villaDescription}
                 className={classes.text}
+                onChange={onVillaChange}
               />
+              <input type="file" multiple onChange={handleImageChange} />
               <Button
                 type="contained"
                 className={classes.formbutton}

@@ -84,3 +84,35 @@ export async function addFlat(
     userDocId: userDocId,
   });
 }
+
+export async function addVilla(
+  villaAddress,
+  villaArea,
+  villaAveragePrice,
+  furnishedStatus,
+  possessionStatus,
+  villaPrice,
+  villaValue,
+  villaBedroom,
+  villaBathroom,
+  villaDescription,
+  urls,
+  userId,
+  userDocId
+) {
+  const res = await firebase.firestore().collection("property").add({
+    address: villaAddress,
+    price: villaPrice,
+    value: villaValue,
+    area: villaArea,
+    averagePrice: villaAveragePrice,
+    description: villaDescription,
+    images: urls,
+    furnishedStatus: furnishedStatus,
+    possessionStatus: possessionStatus,
+    villaBedroom: villaBedroom,
+    villaBathroom: villaBathroom,
+    userId: userId,
+    userDocId: userDocId,
+  });
+}
