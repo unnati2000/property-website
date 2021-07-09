@@ -56,6 +56,40 @@ const AddPropertyComponent = ({ plan }) => {
     villaDescription: "",
   });
 
+  const [projectData, setProjectData] = useState({
+    propertyName: "",
+    address: "",
+    listOfBHK: "",
+    possessionStatus: "",
+    averagePrice: "",
+    minCarpetSize: "",
+    maxCarpetSize: "",
+  });
+
+  const [ammenities, setAmmenities] = useState([]);
+
+  const addToAmmenities = (value) => {
+    setAmmenities([...ammenities, value]);
+  };
+
+  const removeAmmenities = (value) => {
+    setAmmenities(ammenities.filter((val) => val !== value));
+  };
+
+  const onChangeAmmenitiesOn = (e) => {
+    if (e.target.checked) {
+      if (!ammenities.includes(e.target.value)) {
+        addToAmmenities(e.target.value);
+      }
+    } else {
+      removeAmmenities(e.target.value);
+    }
+  };
+
+  const checkAmmenities = (value) => {
+    return ammenities.includes(value);
+  };
+
   const {
     propertyName,
     address,
@@ -135,6 +169,7 @@ const AddPropertyComponent = ({ plan }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    console.log(ammenities);
 
     if (images.length > 4) {
       console.log("Not allowed to upload more than 4 images");
@@ -173,6 +208,8 @@ const AddPropertyComponent = ({ plan }) => {
                 );
                 history.push("/");
               } else if (plan === "project") {
+                console.log("submit");
+                console.log(ammenities);
               } else if (plan === "villa") {
                 await addVilla(
                   villaAddress,
@@ -196,15 +233,6 @@ const AddPropertyComponent = ({ plan }) => {
         );
       });
     }
-  };
-
-  const onVillaSubmit = async (e) => {
-    e.preventDefault();
-    console.log(villaData);
-  };
-
-  const onProjectSubmit = async (e) => {
-    e.preventDefault();
   };
 
   return (
@@ -452,10 +480,9 @@ const AddPropertyComponent = ({ plan }) => {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        // checked={state.checkedB}
-                        // onChange={handleChange}
-                        name="checkedB"
+                        onChange={onChangeAmmenitiesOn}
                         color="primary"
+                        value="Swimming Pool"
                       />
                     }
                     label="Swimming Pool"
@@ -463,10 +490,9 @@ const AddPropertyComponent = ({ plan }) => {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        // checked={state.checkedB}
-                        // onChange={handleChange}
-                        name="checkedB"
+                        onChange={onChangeAmmenitiesOn}
                         color="primary"
+                        value="Gym"
                       />
                     }
                     label="Gym"
@@ -476,10 +502,9 @@ const AddPropertyComponent = ({ plan }) => {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        // checked={state.checkedB}
-                        // onChange={handleChange}
-                        name="checkedB"
+                        onChange={onChangeAmmenitiesOn}
                         color="primary"
+                        value="Lift"
                       />
                     }
                     label="Lift"
@@ -487,10 +512,9 @@ const AddPropertyComponent = ({ plan }) => {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        // checked={state.checkedB}
-                        // onChange={handleChange}
-                        name="checkedB"
+                        onChange={onChangeAmmenitiesOn}
                         color="primary"
+                        value="Jogging Track"
                       />
                     }
                     label="Jogging Track"
@@ -500,10 +524,9 @@ const AddPropertyComponent = ({ plan }) => {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        // checked={state.checkedB}
-                        // onChange={handleChange}
-                        name="checkedB"
+                        onChange={onChangeAmmenitiesOn}
                         color="primary"
+                        value="Community Hall"
                       />
                     }
                     label="Community Hall"
@@ -511,10 +534,9 @@ const AddPropertyComponent = ({ plan }) => {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        // checked={state.checkedB}
-                        // onChange={handleChange}
-                        name="checkedB"
+                        onChange={onChangeAmmenitiesOn}
                         color="primary"
+                        value="Badminton Court"
                       />
                     }
                     label="Badminton Court"
@@ -524,10 +546,9 @@ const AddPropertyComponent = ({ plan }) => {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        // checked={state.checkedB}
-                        // onChange={handleChange}
-                        name="checkedB"
+                        onChange={onChangeAmmenitiesOn}
                         color="primary"
+                        value="Water 24 hours"
                       />
                     }
                     label="Water 24 hours"
@@ -535,10 +556,9 @@ const AddPropertyComponent = ({ plan }) => {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        // checked={state.checkedB}
-                        // onChange={handleChange}
-                        name="checkedB"
+                        onChange={onChangeAmmenitiesOn}
                         color="primary"
+                        value="Park"
                       />
                     }
                     label="Park"
