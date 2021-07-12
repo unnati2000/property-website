@@ -66,6 +66,9 @@ const Navbar = () => {
               </div>
             ) : (
               <div>
+                <Link to="/" className={classes.link}>
+                  <Button color="inherit">Home</Button>
+                </Link>
                 <Link to="/add" className={classes.link}>
                   <Button color="inherit">Add properties</Button>
                 </Link>

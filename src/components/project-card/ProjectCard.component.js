@@ -5,6 +5,7 @@ import project from "../../assets/project.png";
 
 const ProjectCard = () => {
   const classes = useStyles();
+
   return (
     <Card className={classes.card}>
       <img src={project} alt="Project Name" className={classes.projectImage} />

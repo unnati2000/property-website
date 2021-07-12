@@ -18,14 +18,11 @@ export async function getUserDetailsByID(id) {
     .where("userId", "==", id)
     .get();
 
-  console.log(result);
-
   const user = result.docs.map((item) => ({
     ...item.data(),
     docId: item.id,
   }))[0];
 
-  console.log(user);
   return user;
 }
 

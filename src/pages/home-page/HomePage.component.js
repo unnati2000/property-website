@@ -1,24 +1,41 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useStyles from "./HomePage.styles";
 import { Typography, Button, Container, Grid } from "@material-ui/core";
 import { Link, useHistory } from "react-router-dom";
 import ProjectCard from "../../components/project-card/ProjectCard.component";
 import PropertyCard from "../../components/property-card/PropertyCard.component";
 import { useAuth } from "../../context/auth-context";
+import firebase from "../../firebase/firebase.utils";
 
 const HomePage = () => {
   const classes = useStyles();
   const { currentUser } = useAuth();
   const history = useHistory();
-  useEffect(() => {
+
+  const [flats, setFlats] = useState([]);
+  useEffect(async () => {
     if (currentUser?.name === "") {
       history.push("/onboarding");
     }
+
+    firebase
+      .firestore()
+      .collection("property")
+      .where("propertyType", "==", "flat")
+      .get()
+      .then((res) => {
+        const response = res.docs.map((item) => ({
+          ...item.data(),
+          docId: item.id,
+        }));
+        setFlats(response);
+      });
   }, [currentUser]);
 
+  console.log(flats);
+  console.log(flats.map((flat) => console.log(flat)));
   return (
     <div>
-      {console.log(currentUser)}
       <div className={classes.header}>
         <Container
           display="flex"
@@ -94,18 +111,12 @@ const HomePage = () => {
         </Typography>
         <Container>
           <Grid spacing={2} container>
-            <Grid item xs={12} md={3}>
-              <PropertyCard />
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <PropertyCard />
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <PropertyCard />
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <PropertyCard />
-            </Grid>
+            {flats &&
+              flats?.map((flat) => (
+                <Grid item xs={12} md={3}>
+                  <PropertyCard flat={flat} />
+                </Grid>
+              ))}
           </Grid>
         </Container>
       </div>
