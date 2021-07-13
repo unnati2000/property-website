@@ -41,8 +41,7 @@ export async function addProfileToAccount(id, name, address, pincode) {
 }
 
 export async function addPackage(id, packageName, packagePrice) {
-  console.log(id, packagePrice, packageName);
-  const res = await firebase
+  await firebase
     .firestore()
     .collection("users")
     .doc(id)
@@ -64,8 +63,7 @@ export async function addFlat(
   userId,
   userDocId
 ) {
-  console.log(propertyName, userId, userDocId);
-  const res = await firebase.firestore().collection("property").add({
+  await firebase.firestore().collection("property").add({
     propertyName: propertyName,
     address: address,
     roomType: roomType,
@@ -97,7 +95,7 @@ export async function addVilla(
   userId,
   userDocId
 ) {
-  const res = await firebase.firestore().collection("property").add({
+  await firebase.firestore().collection("property").add({
     address: villaAddress,
     price: villaPrice,
     value: villaValue,

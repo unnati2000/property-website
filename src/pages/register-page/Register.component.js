@@ -35,9 +35,7 @@ const RegisterPage = () => {
     } else {
       history.push("/");
     }
-  }, [currentUser]);
-
-  console.log(currentUser);
+  }, [currentUser, history]);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -66,6 +64,11 @@ const RegisterPage = () => {
                   phoneNumber: phoneNumber,
                   role: role,
                   dateCreated: Date.now(),
+                  name: "",
+                  address: "",
+                  pincode: "",
+                  packageName: "",
+                  packagePrice: "",
                 })
                 .then((res) => {
                   console.log(res);

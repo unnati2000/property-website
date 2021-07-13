@@ -24,7 +24,7 @@ const SelectProperty = () => {
               className={plan === "flat" && classes.button}
             >
               <Card className={classes.card}>
-                <img src={house} className={classes.cardImg} />
+                <img src={house} className={classes.cardImg} alt="house" />
                 <Typography variant="h6" color="primary">
                   Add a flat
                 </Typography>
@@ -36,7 +36,11 @@ const SelectProperty = () => {
               className={plan === "project" && classes.button}
             >
               <Card className={classes.card}>
-                <img src={building} className={classes.cardImg} />
+                <img
+                  src={building}
+                  className={classes.cardImg}
+                  alt="building"
+                />
                 <Typography variant="h6" color="primary">
                   Add a project
                 </Typography>
@@ -55,7 +59,7 @@ const SelectProperty = () => {
               className={plan === "flat" && classes.button}
             >
               <Card className={classes.card}>
-                <img src={house} className={classes.cardImg} />
+                <img src={house} className={classes.cardImg} alt="flat" />
                 <Typography variant="h6" color="primary">
                   Add a flat
                 </Typography>
@@ -67,7 +71,11 @@ const SelectProperty = () => {
               className={plan === "project" && classes.button}
             >
               <Card className={classes.card}>
-                <img src={building} className={classes.cardImg} />
+                <img
+                  src={building}
+                  className={classes.cardImg}
+                  alt="building"
+                />
                 <Typography variant="h6" color="primary">
                   Add a project
                 </Typography>
@@ -78,7 +86,7 @@ const SelectProperty = () => {
               className={plan === "villa" && classes.button}
             >
               <Card className={classes.card}>
-                <img src={proplan} className={classes.cardImg} />
+                <img src={proplan} className={classes.cardImg} alt="building" />
                 <Typography variant="h6" color="primary">
                   Add villa
                 </Typography>

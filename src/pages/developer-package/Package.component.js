@@ -17,7 +17,7 @@ const Package = () => {
     if (currentUser?.packageName) {
       history.push("/");
     }
-  }, [currentUser]);
+  }, [currentUser, history]);
   return (
     <div className={classes.packageDiv}>
       <Container className={classes.container}>

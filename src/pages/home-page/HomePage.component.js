@@ -15,7 +15,7 @@ const HomePage = () => {
 
   const [flats, setFlats] = useState([]);
   const [villas, setVillas] = useState([]);
-  useEffect(async () => {
+  useEffect(() => {
     if (currentUser?.name === "") {
       history.push("/onboarding");
     }
@@ -44,7 +44,7 @@ const HomePage = () => {
         }));
         setVillas(response);
       });
-  }, [currentUser]);
+  }, [currentUser, history]);
 
   return (
     <div>

@@ -1,6 +1,5 @@
 import React from "react";
 import { Card, Typography, Grid, Box, Button } from "@material-ui/core";
-import project from "../../assets/project.png";
 import useStyles from "./VillaCard.styles";
 
 const VillaCard = ({ villa }) => {
@@ -9,7 +8,7 @@ const VillaCard = ({ villa }) => {
     <Card>
       <Grid container>
         <Grid item md={5}>
-          <img src={villa?.images[0]} className={classes.image} />
+          <img src={villa?.images[0]} className={classes.image} alt="villa" />
         </Grid>
         <Grid item md={7} className={classes.villaDetail}>
           <Typography variant="h4">

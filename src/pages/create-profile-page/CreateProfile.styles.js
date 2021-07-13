@@ -1,5 +1,4 @@
 import { makeStyles } from "@material-ui/core";
-import flatImage from "../../assets/flat-img.jpg";
 
 export default makeStyles((theme) => ({
   profileDiv: {
@@ -14,7 +13,6 @@ export default makeStyles((theme) => ({
     color: "#fff",
   },
   form: {
-    background: "#fff",
     display: "flex",
     justifyContent: "center",
     flexDirection: "column",

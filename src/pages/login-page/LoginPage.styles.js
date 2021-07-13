@@ -27,14 +27,10 @@ export default makeStyles((theme) => ({
   header: {
     margin: "10px 0",
   },
-  text: {
-    // margin: "25px 0",
-    // width: "80%",
-  },
+
   button: {
     background: theme.palette.primary.main,
     color: "#fff",
-    width: "50%",
     width: "100%",
     "&:hover": {
       background: theme.palette.primary.main,

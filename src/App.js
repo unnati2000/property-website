@@ -1,9 +1,7 @@
-import { useEffect } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { ThemeProvider } from "@material-ui/core";
 import theme from "./theme";
 import { AuthProvider } from "./context/auth-context";
-import { useAuth } from "./context/auth-context";
 import HomePage from "./pages/home-page/HomePage.component";
 import Navbar from "./components/navbar/Navbar.component";
 import LoginPage from "./pages/login-page/LoginPage.component";

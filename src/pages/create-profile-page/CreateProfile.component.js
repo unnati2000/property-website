@@ -57,11 +57,7 @@ const CreateProfile = () => {
           className={classes.text}
         />
         <br />
-        {/* {currentUser?.role === "agent" && (
-          <div>
-            <input type="file" />
-          </div>
-        )} */}
+
         <Button variant="contained" type="submit" className={classes.submit}>
           Submit
         </Button>

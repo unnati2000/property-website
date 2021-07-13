@@ -1,7 +1,6 @@
 import React from "react";
 import useStyles from "./PropertyCard.styles";
 import { Card, Typography, Box, Button } from "@material-ui/core";
-import property from "../../assets/property.png";
 
 const PropertyCard = ({ flat }) => {
   const classes = useStyles();
