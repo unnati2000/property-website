@@ -4,6 +4,7 @@ import { Typography, Button, Container, Grid } from "@material-ui/core";
 import { Link, useHistory } from "react-router-dom";
 import ProjectCard from "../../components/project-card/ProjectCard.component";
 import PropertyCard from "../../components/property-card/PropertyCard.component";
+import VillaCard from "../../components/villa-card/VillaCard.component";
 import { useAuth } from "../../context/auth-context";
 import firebase from "../../firebase/firebase.utils";
 
@@ -117,6 +118,26 @@ const HomePage = () => {
                   <PropertyCard flat={flat} />
                 </Grid>
               ))}
+          </Grid>
+        </Container>
+      </div>
+
+      <div className={classes.property}>
+        <Typography
+          variant="h4"
+          color="primary"
+          className={classes.propertyHeader}
+        >
+          Personalized house
+        </Typography>
+        <Container>
+          <Grid container spacing={2}>
+            <Grid item md={6}>
+              <VillaCard />
+            </Grid>
+            <Grid item md={6}>
+              <VillaCard />
+            </Grid>
           </Grid>
         </Container>
       </div>

@@ -23,16 +23,17 @@ import { useHistory } from "react-router";
 const AddPropertyComponent = ({ plan }) => {
   const classes = useStyles();
   const { currentUser } = useAuth();
-  const [flatDetails, setFlatDetails] = useState([
+  const [flatVariety, setFlatVariety] = useState([
     {
       flatType: "",
-      flat: [
-        {
-          area: "",
-          price: "",
-          value: "",
-        },
-      ],
+      details: [],
+    },
+  ]);
+  const [flatVarietyDetails, setFlatVarietyDetails] = useState([
+    {
+      area: "",
+      price: "",
+      value: "",
     },
   ]);
   const [images, setImages] = useState([]);
@@ -129,16 +130,31 @@ const AddPropertyComponent = ({ plan }) => {
   const onVillaChange = (e) => {
     setVillaData({ ...villaData, [e.target.name]: e.target.value });
   };
-  function handleChange(i, event) {
-    const values = [...flatDetails];
-    values[i].value = event.target.value;
-    setFlatDetails(values);
+  function handleVarietyChange(i, event) {
+    const values = [...flatVariety];
+    values[i].flatType = event.target.value;
+    setFlatVariety(values);
+  }
+  function handleVarietyDetailsChange(i, event) {
+    const values = [...flatVariety];
+    if (event.target.value === "area") {
+      values[i].area = event.target.value;
+    }
+    if (event.target.value === "price") {
+      values[i].price = event.target.value;
+    }
+    if (event.target.value === "value") {
+      values[i].value = event.target.value;
+    }
+
+    setFlatVarietyDetails(values);
+    setFlatVariety(...flatVariety);
   }
 
-  function handleAdd() {
-    const values = [...flatDetails];
+  function handleVarietyAdd() {
+    const values = [...flatVariety];
     values.push({ value: null });
-    setFlatDetails(values);
+    setFlatVariety(values);
   }
 
   const handleImageChange = (e) => {
@@ -152,6 +168,7 @@ const AddPropertyComponent = ({ plan }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     console.log(ammenities);
+    console.log(flatVariety);
 
     if (images.length > 4) {
       console.log("Not allowed to upload more than 4 images");
@@ -554,12 +571,12 @@ const AddPropertyComponent = ({ plan }) => {
                 <Button
                   className={classes.button}
                   variant="contained"
-                  onClick={() => handleAdd()}
+                  // onClick={() => handleAdd()}
                 >
                   Add flat type
                 </Button>
 
-                {flatDetails.map((flatDetail, index) => (
+                {flatVariety.map((flatDetail, index) => (
                   <Box className={classes.flatDetails}>
                     <Box display="flex" justifyContent="space-evenly">
                       <TextField
@@ -567,73 +584,83 @@ const AddPropertyComponent = ({ plan }) => {
                         id="outlined-size-normal"
                         variant="outlined"
                         name="roomType"
-                        value={flatDetails.roomType}
+                        onChange={(event) => handleVarietyChange(index, event)}
+                        value={flatVariety.flatType}
                         className={classes.text}
                       />
                     </Box>
-
-                    <div className={classes.flatarea}>
-                      <TextField
-                        label="Area of the room"
-                        id="outlined-size-normal"
-                        variant="outlined"
-                        name="area"
-                        value={flatDetails.flat.area}
-                        className={classes.text}
-                      />
-                      <Box display="flex" justifyContent="space-evenly">
+                    {flatVarietyDetails.map((flatVarietyDetail, ind) => (
+                      <div className={classes.flatarea}>
                         <TextField
-                          label="Price of the room"
+                          label="Area of the room"
                           id="outlined-size-normal"
                           variant="outlined"
-                          name="price"
-                          value={flatDetails.flat.price}
+                          name="area"
+                          onChange={(event) =>
+                            handleVarietyDetailsChange(index, event)
+                          }
+                          value={flatVarietyDetail.area}
                           className={classes.text}
                         />
-                        <FormControl
-                          variant="outlined"
-                          className={classes.formControlRoom}
-                        >
-                          <InputLabel id="demo-simple-select-outlined-label">
-                            Furnished Status
-                          </InputLabel>
-                          <Select
-                            labelId="demo-simple-select-outlined-label"
-                            id="demo-simple-select-outlined"
-                            label="Furnished Status"
-                            className={classes.select}
-                            name="value"
-                            value={flatDetails.flat.value}
+                        <Box display="flex" justifyContent="space-evenly">
+                          <TextField
+                            label="Price of the room"
+                            id="outlined-size-normal"
+                            variant="outlined"
+                            name="price"
+                            onChange={(event) =>
+                              handleVarietyDetailsChange(index, event)
+                            }
+                            value={flatVarietyDetail.price}
                             className={classes.text}
-                            // onChange={onVillaChange}
+                          />
+                          <FormControl
+                            variant="outlined"
+                            className={classes.formControlRoom}
                           >
-                            <MenuItem value="">
-                              <em>None</em>
-                            </MenuItem>
+                            <InputLabel id="demo-simple-select-outlined-label">
+                              Furnished Status
+                            </InputLabel>
+                            <Select
+                              labelId="demo-simple-select-outlined-label"
+                              id="demo-simple-select-outlined"
+                              label="Furnished Status"
+                              className={classes.select}
+                              name="value"
+                              onChange={(event) =>
+                                handleVarietyDetailsChange(index, event)
+                              }
+                              value={flatVarietyDetail.value}
+                              className={classes.text}
+                            >
+                              <MenuItem value="">
+                                <em>None</em>
+                              </MenuItem>
 
-                            <MenuItem value="Lakh">Lakh</MenuItem>
-                            <MenuItem value="Crore">Crore</MenuItem>
-                          </Select>
-                        </FormControl>
-                      </Box>
+                              <MenuItem value="Lakh">Lakh</MenuItem>
+                              <MenuItem value="Crore">Crore</MenuItem>
+                            </Select>
+                          </FormControl>
+                        </Box>
 
-                      <Box display="flex" justifyContent="right">
-                        <Button
-                          variant="contained"
-                          // onClick={() => handleRemoveFlatAreas(ind)}
-                          className={classes.button}
-                        >
-                          Delete areas
-                        </Button>
-                        <Button
-                          variant="contained"
-                          // onClick={() => handleAddFlatAreas(ind)}
-                          className={classes.button}
-                        >
-                          Add more areas
-                        </Button>
-                      </Box>
-                    </div>
+                        <Box display="flex" justifyContent="right">
+                          <Button
+                            variant="contained"
+                            // onClick={() => handleRemoveFlatAreas(ind)}
+                            className={classes.button}
+                          >
+                            Delete areas
+                          </Button>
+                          <Button
+                            variant="contained"
+                            // onClick={() => handleAddFlatAreas(ind)}
+                            className={classes.button}
+                          >
+                            Add more areas
+                          </Button>
+                        </Box>
+                      </div>
+                    ))}
                   </Box>
                 ))}
               </Box>
