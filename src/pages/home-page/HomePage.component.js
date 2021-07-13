@@ -14,6 +14,7 @@ const HomePage = () => {
   const history = useHistory();
 
   const [flats, setFlats] = useState([]);
+  const [villas, setVillas] = useState([]);
   useEffect(async () => {
     if (currentUser?.name === "") {
       history.push("/onboarding");
@@ -31,10 +32,20 @@ const HomePage = () => {
         }));
         setFlats(response);
       });
+    firebase
+      .firestore()
+      .collection("property")
+      .where("propertyType", "==", "villa")
+      .get()
+      .then((res) => {
+        const response = res.docs.map((item) => ({
+          ...item.data(),
+          docId: item.id,
+        }));
+        setVillas(response);
+      });
   }, [currentUser]);
 
-  console.log(flats);
-  console.log(flats.map((flat) => console.log(flat)));
   return (
     <div>
       <div className={classes.header}>
@@ -132,12 +143,12 @@ const HomePage = () => {
         </Typography>
         <Container>
           <Grid container spacing={2}>
-            <Grid item md={6}>
-              <VillaCard />
-            </Grid>
-            <Grid item md={6}>
-              <VillaCard />
-            </Grid>
+            {villas &&
+              villas?.map((villa) => (
+                <Grid item md={6}>
+                  <VillaCard villa={villa} />
+                </Grid>
+              ))}
           </Grid>
         </Container>
       </div>

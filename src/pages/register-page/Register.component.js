@@ -58,9 +58,6 @@ const RegisterPage = () => {
 
             if (code === null) return;
             e.confirm(code).then(function (result) {
-              console.log(result.user.uid);
-              console.log(result.user.phoneNumber);
-              console.log(result.user);
               alert("Email verified");
               firestore
                 .collection("users")
@@ -69,11 +66,6 @@ const RegisterPage = () => {
                   phoneNumber: phoneNumber,
                   role: role,
                   dateCreated: Date.now(),
-                  name: "",
-                  address: "",
-                  pincode: "",
-                  packageName: "",
-                  packagePrice: "",
                 })
                 .then((res) => {
                   console.log(res);

@@ -3,24 +3,29 @@ import { Card, Typography, Grid, Box, Button } from "@material-ui/core";
 import project from "../../assets/project.png";
 import useStyles from "./VillaCard.styles";
 
-const VillaCard = () => {
+const VillaCard = ({ villa }) => {
   const classes = useStyles();
   return (
     <Card>
       <Grid container>
         <Grid item md={5}>
-          <img src={project} className={classes.image} />
+          <img src={villa?.images[0]} className={classes.image} />
         </Grid>
         <Grid item md={7} className={classes.villaDetail}>
-          <Typography variant="h4">11.5 Cr</Typography>
-          <Typography variant="h6">4 BHK Independent House</Typography>
-          <Typography className={classes.address}>
-            Sunder nagar, Kalina, Santacruz East, Mumbai
+          <Typography variant="h4">
+            {villa?.price}
+            {villa?.value}
           </Typography>
+          <Typography variant="h6">
+            {villa?.villaBedroom} BHK Independent House
+          </Typography>
+          <Typography className={classes.address}>{villa?.address}</Typography>
           <Box display="flex" justifyContent="left" mt={2} mb={1}>
             <Box>
               <Typography className={classes.grey}>Build Up Area</Typography>
-              <Typography className={classes.blackFont}>4000 sq ft</Typography>
+              <Typography className={classes.blackFont}>
+                {villa?.area} sq ft
+              </Typography>
             </Box>
             <Box ml={1}>
               <Typography className={classes.grey}>Avg. Price</Typography>
