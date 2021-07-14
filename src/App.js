@@ -9,6 +9,7 @@ import RegisterPage from "./pages/register-page/Register.component";
 import CreateProfile from "./pages/create-profile-page/CreateProfile.component";
 import Package from "./pages/developer-package/Package.component";
 import AddProperty from "./pages/add-property/AddProperty.component";
+import ProfilePage from "./pages/profile-page/ProfilePage.component";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route exact path="/onboarding" component={CreateProfile} />
             <Route exact path="/package" component={Package} />
             <Route exact path="/add" component={AddProperty} />
+            <Route exact path="/profile" component={ProfilePage} />
           </Switch>
         </AuthProvider>
       </BrowserRouter>

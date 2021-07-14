@@ -72,7 +72,7 @@ const Navbar = () => {
                 <Link to="/add" className={classes.link}>
                   <Button color="inherit">Add properties</Button>
                 </Link>
-                <Link to="/add" className={classes.link}>
+                <Link to="/profile" className={classes.link}>
                   <Button color="inherit">Profile</Button>
                 </Link>
                 <Link>
