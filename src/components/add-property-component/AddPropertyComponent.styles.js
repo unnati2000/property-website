@@ -41,9 +41,9 @@ export default makeStyles((theme) => ({
     },
   },
   flatDetails: {
-    background: "#eee",
     padding: "10px",
     marginTop: "10px",
+    border: "solid 1px black",
   },
   flatarea: {
     border: "solid 1px black",

@@ -23,19 +23,23 @@ import { useHistory } from "react-router";
 const AddPropertyComponent = ({ plan }) => {
   const classes = useStyles();
   const { currentUser } = useAuth();
-  const [flatVariety, setFlatVariety] = useState([
-    {
-      flatType: "",
-      details: [],
-    },
-  ]);
+
   const [flatVarietyDetails, setFlatVarietyDetails] = useState([
     {
+      roomType: "",
       area: "",
       price: "",
       value: "",
     },
   ]);
+
+  const oneRK = [];
+  const oneBHK = [];
+  const twoBHK = [];
+  const threeBHK = [];
+  const fourBHK = [];
+  const fiveBHK = [];
+
   const [images, setImages] = useState([]);
   const urls = [];
 
@@ -68,11 +72,11 @@ const AddPropertyComponent = ({ plan }) => {
   });
 
   const [projectData, setProjectData] = useState({
-    propertyName: "",
-    address: "",
+    projectPropertyName: "",
+    projectAddress: "",
     listOfBHK: "",
-    possessionStatus: "",
-    averagePrice: "",
+    projectPossessionStatus: "",
+    projectAveragePrice: "",
     minCarpetSize: "",
     maxCarpetSize: "",
   });
@@ -111,6 +115,16 @@ const AddPropertyComponent = ({ plan }) => {
   } = flatData;
 
   const {
+    projectPropertyName,
+    projectAddress,
+    listOfBHK,
+    projectPossessionStatus,
+    projectAveragePrice,
+    minCarpetSize,
+    maxCarpetSize,
+  } = projectData;
+
+  const {
     villaAddress,
     villaArea,
     villaAveragePrice,
@@ -130,32 +144,38 @@ const AddPropertyComponent = ({ plan }) => {
   const onVillaChange = (e) => {
     setVillaData({ ...villaData, [e.target.name]: e.target.value });
   };
-  function handleVarietyChange(i, event) {
-    const values = [...flatVariety];
-    values[i].flatType = event.target.value;
-    setFlatVariety(values);
-  }
+
   function handleVarietyDetailsChange(i, event) {
-    const values = [...flatVariety];
-    if (event.target.value === "area") {
+    const values = [...flatVarietyDetails];
+    console.log(event.target.name);
+    if (event.target.name === "roomType") {
+      values[i].roomType = event.target.value;
+    }
+    if (event.target.name === "area") {
       values[i].area = event.target.value;
     }
-    if (event.target.value === "price") {
+    if (event.target.name === "price") {
       values[i].price = event.target.value;
     }
-    if (event.target.value === "value") {
+    if (event.target.name === "value") {
       values[i].value = event.target.value;
     }
 
     setFlatVarietyDetails(values);
-    setFlatVariety(...flatVariety);
+    // setFlatVariety(...flatVariety);
   }
 
   function handleVarietyAdd() {
-    const values = [...flatVariety];
+    const values = [...flatVarietyDetails];
     values.push({ value: null });
-    setFlatVariety(values);
+    setFlatVarietyDetails(values);
   }
+
+  const handleVarietyRemove = (index) => {
+    const values = [...flatVarietyDetails];
+    values.splice(index, 1);
+    setFlatVarietyDetails(values);
+  };
 
   const handleImageChange = (e) => {
     for (let i = 0; i < e.target.files.length; i++) {
@@ -167,9 +187,30 @@ const AddPropertyComponent = ({ plan }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    console.log(ammenities);
-    console.log(flatVariety);
+    flatVarietyDetails.map((flatVarietyDetail) => {
+      switch (flatVarietyDetail.roomType) {
+        case "1 RK": {
+          oneRK.push(flatVarietyDetail);
+        }
+        case "1 BHK": {
+          oneBHK.push(flatVarietyDetail);
+        }
+        case "2 BHK": {
+          twoBHK.push(flatVarietyDetail);
+        }
+        case "3 BHK": {
+          threeBHK.push(flatVarietyDetail);
+        }
+        case "4 BHK": {
+          fourBHK.push(flatVarietyDetail);
+        }
+        case "5 BHK": {
+          fiveBHK.push(flatVarietyDetail);
+        }
+      }
+    });
 
+    console.log(oneBHK);
     if (images.length > 4) {
       console.log("Not allowed to upload more than 4 images");
     } else {
@@ -413,16 +454,16 @@ const AddPropertyComponent = ({ plan }) => {
                 label="Building/Property Name"
                 id="outlined-size-normal"
                 variant="outlined"
-                name="phoneNumber"
-                value={""}
+                name="projectPropertyName"
+                value={projectPropertyName}
                 className={classes.text}
               />
               <TextField
                 label="Address"
                 id="outlined-size-normal"
                 variant="outlined"
-                name="phoneNumber"
-                value={""}
+                name="projectAddress"
+                value={projectAddress}
                 className={classes.text}
               />
 
@@ -430,8 +471,8 @@ const AddPropertyComponent = ({ plan }) => {
                 label="Apartments"
                 id="outlined-size-normal"
                 variant="outlined"
-                name="phoneNumber"
-                value={""}
+                name="listOfBHK"
+                value={listOfBHK}
                 className={classes.text}
               />
               <Box display="flex" justifyContent="space-evenly">
@@ -439,16 +480,16 @@ const AddPropertyComponent = ({ plan }) => {
                   label="Possession"
                   id="outlined-size-normal"
                   variant="outlined"
-                  name="phoneNumber"
-                  value={""}
+                  name="projectPossessionStatus"
+                  value={projectPossessionStatus}
                   className={classes.text}
                 />
                 <TextField
                   label="Avg price"
                   id="outlined-size-normal"
                   variant="outlined"
-                  name="phoneNumber"
-                  value={""}
+                  name="projectAveragePrice"
+                  value={projectAveragePrice}
                   className={classes.text}
                 />
               </Box>
@@ -457,16 +498,16 @@ const AddPropertyComponent = ({ plan }) => {
                   label="Min carpet size"
                   id="outlined-size-normal"
                   variant="outlined"
-                  name="phoneNumber"
-                  value={""}
+                  name="minCarpetSize"
+                  value={minCarpetSize}
                   className={classes.text}
                 />
                 <TextField
                   label="Max carpet size"
                   id="outlined-size-normal"
                   variant="outlined"
-                  name="phoneNumber"
-                  value={""}
+                  name="maxCarpetSize"
+                  value={maxCarpetSize}
                   className={classes.text}
                 />
               </Box>
@@ -571,98 +612,109 @@ const AddPropertyComponent = ({ plan }) => {
                 <Button
                   className={classes.button}
                   variant="contained"
-                  // onClick={() => handleAdd()}
+                  onClick={() => handleVarietyAdd()}
                 >
                   Add flat type
                 </Button>
 
-                {flatVariety.map((flatDetail, index) => (
+                {flatVarietyDetails.map((flatVarietyDetail, index) => (
                   <Box className={classes.flatDetails}>
                     <Box display="flex" justifyContent="space-evenly">
-                      <TextField
-                        label="Room Type"
-                        id="outlined-size-normal"
+                      <FormControl
                         variant="outlined"
-                        name="roomType"
-                        onChange={(event) => handleVarietyChange(index, event)}
-                        value={flatVariety.flatType}
-                        className={classes.text}
-                      />
-                    </Box>
-                    {flatVarietyDetails.map((flatVarietyDetail, ind) => (
-                      <div className={classes.flatarea}>
-                        <TextField
-                          label="Area of the room"
-                          id="outlined-size-normal"
-                          variant="outlined"
-                          name="area"
+                        className={classes.formControlRoom}
+                      >
+                        <InputLabel id="demo-simple-select-outlined-label">
+                          Room Type
+                        </InputLabel>
+                        <Select
+                          labelId="demo-simple-select-outlined-label"
+                          id="demo-simple-select-outlined"
+                          label="Room type"
+                          className={classes.select}
+                          name="roomType"
+                          value={flatVarietyDetail.roomType}
                           onChange={(event) =>
                             handleVarietyDetailsChange(index, event)
                           }
-                          value={flatVarietyDetail.area}
                           className={classes.text}
-                        />
-                        <Box display="flex" justifyContent="space-evenly">
-                          <TextField
-                            label="Price of the room"
-                            id="outlined-size-normal"
-                            variant="outlined"
-                            name="price"
-                            onChange={(event) =>
-                              handleVarietyDetailsChange(index, event)
-                            }
-                            value={flatVarietyDetail.price}
-                            className={classes.text}
-                          />
-                          <FormControl
-                            variant="outlined"
-                            className={classes.formControlRoom}
-                          >
-                            <InputLabel id="demo-simple-select-outlined-label">
-                              Furnished Status
-                            </InputLabel>
-                            <Select
-                              labelId="demo-simple-select-outlined-label"
-                              id="demo-simple-select-outlined"
-                              label="Furnished Status"
-                              className={classes.select}
-                              name="value"
-                              onChange={(event) =>
-                                handleVarietyDetailsChange(index, event)
-                              }
-                              value={flatVarietyDetail.value}
-                              className={classes.text}
-                            >
-                              <MenuItem value="">
-                                <em>None</em>
-                              </MenuItem>
+                        >
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
 
-                              <MenuItem value="Lakh">Lakh</MenuItem>
-                              <MenuItem value="Crore">Crore</MenuItem>
-                            </Select>
-                          </FormControl>
-                        </Box>
+                          <MenuItem value="1 RK">1 RK</MenuItem>
+                          <MenuItem value="1 BHK">1 BHK</MenuItem>
+                          <MenuItem value="2 BHK">2 BHK</MenuItem>
+                          <MenuItem value="3 BHK">3 BHK</MenuItem>
+                          <MenuItem value="4 BHK">4 BHK</MenuItem>
+                        </Select>
+                      </FormControl>
+                      <TextField
+                        label="Area of the room"
+                        id="outlined-size-normal"
+                        variant="outlined"
+                        name="area"
+                        value={flatVarietyDetail.area}
+                        className={classes.text}
+                        onChange={(event) =>
+                          handleVarietyDetailsChange(index, event)
+                        }
+                      />
+                    </Box>
 
-                        <Box display="flex" justifyContent="right">
-                          <Button
-                            variant="contained"
-                            // onClick={() => handleRemoveFlatAreas(ind)}
-                            className={classes.button}
-                          >
-                            Delete areas
-                          </Button>
-                          <Button
-                            variant="contained"
-                            // onClick={() => handleAddFlatAreas(ind)}
-                            className={classes.button}
-                          >
-                            Add more areas
-                          </Button>
-                        </Box>
-                      </div>
-                    ))}
+                    <Box display="flex" justifyContent="space-evenly">
+                      <TextField
+                        label="Price of the room"
+                        id="outlined-size-normal"
+                        variant="outlined"
+                        name="price"
+                        value={flatVarietyDetail.price}
+                        onChange={(event) =>
+                          handleVarietyDetailsChange(index, event)
+                        }
+                        className={classes.text}
+                      />
+                      <FormControl
+                        variant="outlined"
+                        className={classes.formControlRoom}
+                      >
+                        <InputLabel id="demo-simple-select-outlined-label">
+                          Value
+                        </InputLabel>
+                        <Select
+                          labelId="demo-simple-select-outlined-label"
+                          id="demo-simple-select-outlined"
+                          label="Furnish Status"
+                          className={classes.select}
+                          name="value"
+                          value={flatVarietyDetail.value}
+                          onChange={(event) =>
+                            handleVarietyDetailsChange(index, event)
+                          }
+                          className={classes.text}
+                        >
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
+
+                          <MenuItem value="Lakh">Lakh</MenuItem>
+                          <MenuItem value="Crore">Crore</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Box>
+                    <Box
+                      display="flex"
+                      justifyContent="flex-end"
+                      onClick={(index) => handleVarietyRemove(index)}
+                    >
+                      <Button variant="contained">x</Button>
+                    </Box>
                   </Box>
                 ))}
+              </Box>
+              <Box mt={2} mb={2} textAlign="center">
+                <input type="file" multiple onChange={handleImageChange} />
               </Box>
               <Button
                 type="contained"
@@ -862,7 +914,10 @@ const AddPropertyComponent = ({ plan }) => {
                 className={classes.text}
                 onChange={onVillaChange}
               />
-              <input type="file" multiple onChange={handleImageChange} />
+              <Box mt={2} mb={2}>
+                <input type="file" multiple onChange={handleImageChange} />
+              </Box>
+
               <Button
                 type="contained"
                 className={classes.formbutton}
