@@ -111,3 +111,33 @@ export async function addVilla(
     userDocId: userDocId,
   });
 }
+
+export async function addProject(
+  projectPropertyName,
+  projectAddress,
+  listOfBHK,
+  projectPossessionStatus,
+  projectAveragePrice,
+  minCarpetSize,
+  maxCarpetSize,
+  urls,
+  ammenities,
+  roomTypeArray,
+  userId,
+  userDocId
+) {
+  await firebase.firestore().collection("property").add({
+    project: projectPropertyName,
+    address: projectAddress,
+    listOfBHK: listOfBHK,
+    possessionStatus: projectPossessionStatus,
+    averagePrice: projectAveragePrice,
+    minCarpetSize: minCarpetSize,
+    maxCarpetSize: maxCarpetSize,
+    images: urls,
+    rooms: roomTypeArray,
+    ammenities: ammenities,
+    userId: userId,
+    userDocId: userDocId,
+  });
+}

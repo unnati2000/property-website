@@ -16,7 +16,11 @@ import {
 import useStyles from "./AddPropertyComponent.styles";
 import { storage } from "../../firebase/firebase.utils";
 import { useAuth } from "../../context/auth-context";
-import { addFlat, addVilla } from "../../services/firebase.services";
+import {
+  addFlat,
+  addVilla,
+  addProject,
+} from "../../services/firebase.services";
 import firebase from "../../firebase/firebase.utils";
 import { useHistory } from "react-router";
 
@@ -33,12 +37,14 @@ const AddPropertyComponent = ({ plan }) => {
     },
   ]);
 
-  const oneRK = [];
-  const oneBHK = [];
-  const twoBHK = [];
-  const threeBHK = [];
-  const fourBHK = [];
-  const fiveBHK = [];
+  const roomTypeArray = {
+    oneRK: [],
+    oneBHK: [],
+    twoBHK: [],
+    threeBHK: [],
+    fourBHK: [],
+    fiveBHK: [],
+  };
 
   const [images, setImages] = useState([]);
   const urls = [];
@@ -145,6 +151,10 @@ const AddPropertyComponent = ({ plan }) => {
     setVillaData({ ...villaData, [e.target.name]: e.target.value });
   };
 
+  const onProjectChange = (e) => {
+    setProjectData({ ...projectData, [e.target.name]: e.target.value });
+  };
+
   function handleVarietyDetailsChange(i, event) {
     const values = [...flatVarietyDetails];
     console.log(event.target.name);
@@ -162,7 +172,6 @@ const AddPropertyComponent = ({ plan }) => {
     }
 
     setFlatVarietyDetails(values);
-    // setFlatVariety(...flatVariety);
   }
 
   function handleVarietyAdd() {
@@ -188,29 +197,9 @@ const AddPropertyComponent = ({ plan }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     flatVarietyDetails.map((flatVarietyDetail) => {
-      switch (flatVarietyDetail.roomType) {
-        case "1 RK": {
-          oneRK.push(flatVarietyDetail);
-        }
-        case "1 BHK": {
-          oneBHK.push(flatVarietyDetail);
-        }
-        case "2 BHK": {
-          twoBHK.push(flatVarietyDetail);
-        }
-        case "3 BHK": {
-          threeBHK.push(flatVarietyDetail);
-        }
-        case "4 BHK": {
-          fourBHK.push(flatVarietyDetail);
-        }
-        case "5 BHK": {
-          fiveBHK.push(flatVarietyDetail);
-        }
-      }
+      roomTypeArray[flatVarietyDetails.roomType].push(flatVarietyDetail);
     });
 
-    console.log(oneBHK);
     if (images.length > 4) {
       console.log("Not allowed to upload more than 4 images");
     } else {
@@ -248,7 +237,24 @@ const AddPropertyComponent = ({ plan }) => {
                 );
                 history.push("/");
               } else if (plan === "project") {
-                console.log("submit");
+                const roomTypeArray = [];
+
+                await addProject(
+                  projectPropertyName,
+                  projectAddress,
+                  listOfBHK,
+                  projectPossessionStatus,
+                  projectAveragePrice,
+                  minCarpetSize,
+                  maxCarpetSize,
+                  urls,
+                  roomTypeArray,
+                  ammenities,
+                  flatVarietyDetails,
+                  currentUser?.userId,
+                  currentUser?.docId
+                );
+
                 console.log(ammenities);
               } else if (plan === "villa") {
                 await addVilla(
@@ -456,6 +462,7 @@ const AddPropertyComponent = ({ plan }) => {
                 variant="outlined"
                 name="projectPropertyName"
                 value={projectPropertyName}
+                onChange={onProjectChange}
                 className={classes.text}
               />
               <TextField
@@ -464,6 +471,7 @@ const AddPropertyComponent = ({ plan }) => {
                 variant="outlined"
                 name="projectAddress"
                 value={projectAddress}
+                onChange={onProjectChange}
                 className={classes.text}
               />
 
@@ -473,6 +481,7 @@ const AddPropertyComponent = ({ plan }) => {
                 variant="outlined"
                 name="listOfBHK"
                 value={listOfBHK}
+                onChange={onProjectChange}
                 className={classes.text}
               />
               <Box display="flex" justifyContent="space-evenly">
@@ -482,6 +491,7 @@ const AddPropertyComponent = ({ plan }) => {
                   variant="outlined"
                   name="projectPossessionStatus"
                   value={projectPossessionStatus}
+                  onChange={onProjectChange}
                   className={classes.text}
                 />
                 <TextField
@@ -490,6 +500,7 @@ const AddPropertyComponent = ({ plan }) => {
                   variant="outlined"
                   name="projectAveragePrice"
                   value={projectAveragePrice}
+                  onChange={onProjectChange}
                   className={classes.text}
                 />
               </Box>
@@ -500,6 +511,7 @@ const AddPropertyComponent = ({ plan }) => {
                   variant="outlined"
                   name="minCarpetSize"
                   value={minCarpetSize}
+                  onChange={onProjectChange}
                   className={classes.text}
                 />
                 <TextField
@@ -508,6 +520,7 @@ const AddPropertyComponent = ({ plan }) => {
                   variant="outlined"
                   name="maxCarpetSize"
                   value={maxCarpetSize}
+                  onChange={onProjectChange}
                   className={classes.text}
                 />
               </Box>
