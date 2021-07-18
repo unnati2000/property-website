@@ -49,6 +49,7 @@ export async function addPackage(id, packageName, packagePrice) {
 }
 
 export async function addFlat(
+  plan,
   propertyName,
   address,
   roomType,
@@ -64,6 +65,7 @@ export async function addFlat(
   userDocId
 ) {
   await firebase.firestore().collection("property").add({
+    propertyType: plan,
     propertyName: propertyName,
     address: address,
     roomType: roomType,
@@ -81,6 +83,7 @@ export async function addFlat(
 }
 
 export async function addVilla(
+  plan,
   villaAddress,
   villaArea,
   villaAveragePrice,
@@ -96,6 +99,7 @@ export async function addVilla(
   userDocId
 ) {
   await firebase.firestore().collection("property").add({
+    propertyType: plan,
     address: villaAddress,
     price: villaPrice,
     value: villaValue,
@@ -113,6 +117,7 @@ export async function addVilla(
 }
 
 export async function addProject(
+  plan,
   projectPropertyName,
   projectAddress,
   listOfBHK,
@@ -121,12 +126,14 @@ export async function addProject(
   minCarpetSize,
   maxCarpetSize,
   urls,
-  ammenities,
   roomTypeArray,
+  ammenities,
   userId,
   userDocId
 ) {
+  console.log(roomTypeArray);
   await firebase.firestore().collection("property").add({
+    propertyType: plan,
     project: projectPropertyName,
     address: projectAddress,
     listOfBHK: listOfBHK,

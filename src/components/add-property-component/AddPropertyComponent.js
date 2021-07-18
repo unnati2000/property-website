@@ -152,6 +152,7 @@ const AddPropertyComponent = ({ plan }) => {
   };
 
   const onProjectChange = (e) => {
+    console.log(e.target.name, e.target.value);
     setProjectData({ ...projectData, [e.target.name]: e.target.value });
   };
 
@@ -196,8 +197,26 @@ const AddPropertyComponent = ({ plan }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
     flatVarietyDetails.map((flatVarietyDetail) => {
-      roomTypeArray[flatVarietyDetails.roomType].push(flatVarietyDetail);
+      if (flatVarietyDetail.roomType === "1 RK") {
+        roomTypeArray.oneRK.push(flatVarietyDetail);
+      }
+      if (flatVarietyDetail.roomType === "1 BHK") {
+        roomTypeArray.oneBHK.push(flatVarietyDetail);
+      }
+      if (flatVarietyDetail.roomType === "2 BHK") {
+        roomTypeArray.twoBHK.push(flatVarietyDetail);
+      }
+      if (flatVarietyDetail.roomType === "3 BHK") {
+        roomTypeArray.threeBHK.push(flatVarietyDetail);
+      }
+      if (flatVarietyDetail.roomType === "4 BHK") {
+        roomTypeArray.fourBHK.push(flatVarietyDetail);
+      }
+      if (flatVarietyDetail.roomType === "5 BHK") {
+        roomTypeArray.fiveBHK.push(flatVarietyDetail);
+      }
     });
 
     if (images.length > 4) {
@@ -221,6 +240,7 @@ const AddPropertyComponent = ({ plan }) => {
             if (urls.length === images.length) {
               if (plan === "flat") {
                 await addFlat(
+                  plan,
                   propertyName,
                   address,
                   roomType,
@@ -240,6 +260,7 @@ const AddPropertyComponent = ({ plan }) => {
                 const roomTypeArray = [];
 
                 await addProject(
+                  plan,
                   projectPropertyName,
                   projectAddress,
                   listOfBHK,
@@ -250,14 +271,13 @@ const AddPropertyComponent = ({ plan }) => {
                   urls,
                   roomTypeArray,
                   ammenities,
-                  flatVarietyDetails,
                   currentUser?.userId,
                   currentUser?.docId
                 );
-
-                console.log(ammenities);
+                history.push("/");
               } else if (plan === "villa") {
                 await addVilla(
+                  plan,
                   villaAddress,
                   villaArea,
                   villaAveragePrice,
@@ -486,9 +506,10 @@ const AddPropertyComponent = ({ plan }) => {
               />
               <Box display="flex" justifyContent="space-evenly">
                 <TextField
-                  label="Possession"
+                  // label="Possession"
                   id="outlined-size-normal"
                   variant="outlined"
+                  type="date"
                   name="projectPossessionStatus"
                   value={projectPossessionStatus}
                   onChange={onProjectChange}

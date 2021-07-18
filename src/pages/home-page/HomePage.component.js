@@ -15,6 +15,7 @@ const HomePage = () => {
 
   const [flats, setFlats] = useState([]);
   const [villas, setVillas] = useState([]);
+  const [projects, setProjects] = useState([]);
   useEffect(() => {
     if (currentUser?.name === "") {
       history.push("/onboarding");
@@ -43,6 +44,19 @@ const HomePage = () => {
           docId: item.id,
         }));
         setVillas(response);
+      });
+
+    firebase
+      .firestore()
+      .collection("property")
+      .where("propertyType", "==", "project")
+      .get()
+      .then((res) => {
+        const response = res.docs.map((item) => ({
+          ...item.data(),
+          docId: item.id,
+        }));
+        setProjects(response);
       });
   }, [currentUser, history]);
 
@@ -103,12 +117,12 @@ const HomePage = () => {
 
         <Container>
           <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
-              <ProjectCard />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <ProjectCard />
-            </Grid>
+            {projects &&
+              projects?.map((project) => (
+                <Grid item md={6}>
+                  <ProjectCard project={project} />
+                </Grid>
+              ))}
           </Grid>
         </Container>
       </div>
