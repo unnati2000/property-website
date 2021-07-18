@@ -126,12 +126,16 @@ export async function addProject(
   minCarpetSize,
   maxCarpetSize,
   urls,
-  roomTypeArray,
+  oneRK,
+  oneBHK,
+  twoBHK,
+  threeBHK,
+  fourBHK,
+  fiveBHK,
   ammenities,
   userId,
   userDocId
 ) {
-  console.log(roomTypeArray);
   await firebase.firestore().collection("property").add({
     propertyType: plan,
     project: projectPropertyName,
@@ -142,7 +146,12 @@ export async function addProject(
     minCarpetSize: minCarpetSize,
     maxCarpetSize: maxCarpetSize,
     images: urls,
-    rooms: roomTypeArray,
+    oneRK: oneRK,
+    oneBHK: oneBHK,
+    twoBHK: twoBHK,
+    threeBHK: threeBHK,
+    fourBHK: fourBHK,
+    fiveBHK: fiveBHK,
     ammenities: ammenities,
     userId: userId,
     userDocId: userDocId,

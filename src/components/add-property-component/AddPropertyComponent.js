@@ -37,14 +37,12 @@ const AddPropertyComponent = ({ plan }) => {
     },
   ]);
 
-  const roomTypeArray = {
-    oneRK: [],
-    oneBHK: [],
-    twoBHK: [],
-    threeBHK: [],
-    fourBHK: [],
-    fiveBHK: [],
-  };
+  let oneRK = [];
+  let oneBHK = [];
+  let twoBHK = [];
+  let threeBHK = [];
+  let fourBHK = [];
+  let fiveBHK = [];
 
   const [images, setImages] = useState([]);
   const urls = [];
@@ -200,22 +198,22 @@ const AddPropertyComponent = ({ plan }) => {
 
     flatVarietyDetails.map((flatVarietyDetail) => {
       if (flatVarietyDetail.roomType === "1 RK") {
-        roomTypeArray.oneRK.push(flatVarietyDetail);
+        oneRK.push(flatVarietyDetail);
       }
       if (flatVarietyDetail.roomType === "1 BHK") {
-        roomTypeArray.oneBHK.push(flatVarietyDetail);
+        oneBHK.push(flatVarietyDetail);
       }
       if (flatVarietyDetail.roomType === "2 BHK") {
-        roomTypeArray.twoBHK.push(flatVarietyDetail);
+        twoBHK.push(flatVarietyDetail);
       }
       if (flatVarietyDetail.roomType === "3 BHK") {
-        roomTypeArray.threeBHK.push(flatVarietyDetail);
+        threeBHK.push(flatVarietyDetail);
       }
       if (flatVarietyDetail.roomType === "4 BHK") {
-        roomTypeArray.fourBHK.push(flatVarietyDetail);
+        fourBHK.push(flatVarietyDetail);
       }
       if (flatVarietyDetail.roomType === "5 BHK") {
-        roomTypeArray.fiveBHK.push(flatVarietyDetail);
+        fiveBHK.push(flatVarietyDetail);
       }
     });
 
@@ -269,7 +267,12 @@ const AddPropertyComponent = ({ plan }) => {
                   minCarpetSize,
                   maxCarpetSize,
                   urls,
-                  roomTypeArray,
+                  oneRK,
+                  oneBHK,
+                  twoBHK,
+                  threeBHK,
+                  fourBHK,
+                  fiveBHK,
                   ammenities,
                   currentUser?.userId,
                   currentUser?.docId
