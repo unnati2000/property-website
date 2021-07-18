@@ -1,6 +1,7 @@
 import React from "react";
 import useStyles from "./PropertyCard.styles";
 import { Card, Typography, Box, Button } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 const PropertyCard = ({ flat }) => {
   const classes = useStyles();
@@ -18,9 +19,11 @@ const PropertyCard = ({ flat }) => {
           ₹{flat?.price} {flat?.value}
         </Typography>
       </Box>
-      <Button variant="contained" className={classes.button}>
-        View Details
-      </Button>
+      <Link to={"/flat/" + flat?.docId}>
+        <Button variant="contained" className={classes.button}>
+          View Details
+        </Button>
+      </Link>
     </Card>
   );
 };

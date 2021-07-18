@@ -5,7 +5,6 @@ import useStyles from "./ProjectCard.styles";
 const ProjectCard = ({ project }) => {
   const classes = useStyles();
 
-  console.log(project?.roomTypeArray);
   return (
     <Card className={classes.card}>
       <img
@@ -27,7 +26,7 @@ const ProjectCard = ({ project }) => {
 
       <Typography className={classes.location}>{project?.address}</Typography>
       <Typography variant="h4" className={classes.price}>
-        3.5Cr - 13Cr
+        3.5Cr-6Cr
       </Typography>
     </Card>
   );
