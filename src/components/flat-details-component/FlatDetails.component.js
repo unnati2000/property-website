@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Typography, Button, Grid, Container } from "@material-ui/core";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import useStyles from "./FlatDetails.styles";
 import Slider from "react-slick";
+import firebase from "../../firebase/firebase.utils";
 
 const FlatDetails = ({ id }) => {
   const classes = useStyles();
+
+  const [flatData, setFlatData] = useState({});
   const settings = {
     dots: true,
     infinite: true,
@@ -14,6 +17,17 @@ const FlatDetails = ({ id }) => {
     slidesToShow: 1,
     slidesToScroll: 1,
   };
+
+  useEffect(() => {
+    firebase
+      .firestore()
+      .collection("property")
+      .doc(id)
+      .get()
+      .then((res) => {
+        setFlatData(res.data());
+      });
+  }, []);
   return (
     <div>
       <Box
@@ -24,14 +38,16 @@ const FlatDetails = ({ id }) => {
       >
         <Box>
           <Typography variant="h4" color="primary">
-            1 BHK Independent House
+            {flatData?.propertyName}
           </Typography>
           <Typography className={classes.address}>
-            Pokharan Road Number 1, Vartak Nagar, Thane West, Thane
+            {flatData?.address}
           </Typography>
         </Box>
         <Box>
-          <Typography variant="h6">90L</Typography>
+          <Typography variant="h6">
+            {flatData?.price} {flatData?.value}
+          </Typography>
           <Button variant="contained" className={classes.button}>
             Contact Developer
           </Button>
@@ -39,42 +55,41 @@ const FlatDetails = ({ id }) => {
       </Box>
       <Container className={classes.container}>
         <Slider {...settings} className={classes.slidor}>
-          <div className={classes.imgDiv}>
-            <img
-              className={classes.img}
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png"
-            />
-          </div>
-          <div className={classes.imgDiv}>
-            <img
-              className={classes.img}
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png"
-            />
-          </div>
+          {flatData?.images.map((image) => (
+            <div className={classes.imgDiv}>
+              <img className={classes.img} src={image} />
+            </div>
+          ))}
         </Slider>
       </Container>
 
       <Box display="flex" justifyContent="space-evenly">
         <Box textAlign="center">
-          <Typography className={classes.grey}>350 sq.ft</Typography>
+          <Typography className={classes.grey}>
+            {flatData?.area} sq.ft
+          </Typography>
           <Typography>Build Up Area</Typography>
         </Box>
         <Box textAlign="center">
-          <Typography className={classes.grey}>₹20.00 K/sq.ft</Typography>
+          <Typography className={classes.grey}>
+            ₹{flatData?.averagePrice} K/sq.ft
+          </Typography>
           <Typography>Avg Price</Typography>
         </Box>
         <Box textAlign="center">
-          <Typography className={classes.grey}>350 sq.ft</Typography>
+          <Typography className={classes.grey}>{flatData?.facing}</Typography>
           <Typography>Facing</Typography>
         </Box>
         <Box textAlign="center">
-          <Typography className={classes.grey}>350 sq.ft</Typography>
+          <Typography className={classes.grey}>
+            {flatData?.furnishedStatus}
+          </Typography>
           <Typography>Furnishing</Typography>
         </Box>
       </Box>
       <Container>
         <Grid container>
-          <Grid item md={8}>
+          <Grid item md={8} className={classes.overviewDiv}>
             <Typography variant="h6" className={classes.overview}>
               Overview
             </Typography>
@@ -83,80 +98,60 @@ const FlatDetails = ({ id }) => {
                 display="flex"
                 mt={2}
                 mb={2}
-                justifyContent="space-around"
+                justifyContent="left"
                 alignItems="center"
+                className={classes.ammenities}
               >
-                <Box>
+                <Box mr={3}>
                   <Typography className={classes.overviewheader}>
                     Brokerage
                   </Typography>
-                  <Typography>No charge</Typography>
+                  <Typography>{flatData?.brokerage}</Typography>
                 </Box>
-                <Box>
+                <Box ml={3}>
                   <Typography className={classes.overviewheader}>
                     Price
                   </Typography>
-                  <Typography>70L</Typography>
+                  <Typography>
+                    {flatData?.price} {flatData?.value}
+                  </Typography>
+                </Box>
+              </Box>
+
+              <Box
+                display="flex"
+                mt={2}
+                mb={2}
+                justifyContent="left"
+                alignItems="center"
+                className={classes.ammenities}
+              >
+                <Box mr={3}>
+                  <Typography className={classes.overviewheader}>
+                    Bedroom
+                  </Typography>
+                  <Typography>{flatData?.roomType}</Typography>
+                </Box>
+                <Box ml={3}>
+                  <Typography className={classes.overviewheader}>
+                    Parking
+                  </Typography>
+                  <Typography>{flatData?.parking}</Typography>
                 </Box>
               </Box>
               <Box
                 display="flex"
                 mt={2}
                 mb={2}
-                justifyContent="space-around"
+                justifyContent="left"
                 alignItems="center"
+                className={classes.ammenities}
               >
-                <Box>
+                <Box mr={3}>
                   <Typography className={classes.overviewheader}>
-                    Brokerage
+                    Bathroom
                   </Typography>
-                  <Typography>No charge</Typography>
-                </Box>
-                <Box>
-                  <Typography className={classes.overviewheader}>
-                    Price
-                  </Typography>
-                  <Typography>70L</Typography>
-                </Box>
-              </Box>
-              <Box
-                display="flex"
-                mt={2}
-                mb={2}
-                justifyContent="space-around"
-                alignItems="center"
-              >
-                <Box>
-                  <Typography className={classes.overviewheader}>
-                    Brokerage
-                  </Typography>
-                  <Typography>No charge</Typography>
-                </Box>
-                <Box>
-                  <Typography className={classes.overviewheader}>
-                    Price
-                  </Typography>
-                  <Typography>70L</Typography>
-                </Box>
-              </Box>
-              <Box
-                display="flex"
-                mt={2}
-                mb={2}
-                justifyContent="space-around"
-                alignItems="center"
-              >
-                <Box>
-                  <Typography className={classes.overviewheader}>
-                    Brokerage
-                  </Typography>
-                  <Typography>No charge</Typography>
-                </Box>
-                <Box>
-                  <Typography className={classes.overviewheader}>
-                    Price
-                  </Typography>
-                  <Typography>70L</Typography>
+                  <Typography>{flatData?.bathroom}</Typography>
                 </Box>
               </Box>
             </div>
@@ -181,17 +176,7 @@ const FlatDetails = ({ id }) => {
             <Typography variant="h4" color="primary">
               About
             </Typography>
-            <Typography>
-              Property for sale in Mira Bhayandar, Mumbai. This 1 BHK
-              Independent House is located in Mumbai's most promising location.
-              This property is posted by owner and there is no brokerage
-              involved. This Independent House's price is Rs 70.0 L. Homebuyers
-              will also need to pay Rs 100 towards maintenance. The built-up
-              area is 350 Square feet. This unit enjoys a good view and is a
-              West facing property. Regular water supply is available. This
-              Independent House is strategically located within close distance
-              of famous
-            </Typography>
+            <Typography>{flatData?.description}</Typography>
           </Grid>
         </Grid>
       </Container>

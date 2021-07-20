@@ -18,8 +18,8 @@ export default makeStyles((theme) => ({
     fontSize: "13px",
   },
   overview: {
-    marginLeft: "100px",
-    marginTop: "30px",
+    marginLeft: "50px",
+    marginTop: "60px",
   },
   map: {
     marginTop: "60px",
@@ -39,5 +39,11 @@ export default makeStyles((theme) => ({
   },
   address: {
     color: "#979797",
+  },
+  ammenities: {
+    marginLeft: "50px",
+  },
+  overviewDiv: {
+    paddingLeft: "60px",
   },
 }));
