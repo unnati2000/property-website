@@ -24,4 +24,14 @@ export default makeStyles((theme) => ({
     fontWeight: "bold",
     padding: "10px",
   },
+  button: {
+    background: theme.palette.primary.main,
+    color: "#fff",
+    margin: "10px",
+
+    "&:hover": {
+      background: theme.palette.primary.main,
+      color: "#fff",
+    },
+  },
 }));

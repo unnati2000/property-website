@@ -1,5 +1,7 @@
 import React from "react";
-import { Card, Typography, Box } from "@material-ui/core";
+import { Card, Typography, Box, Button } from "@material-ui/core";
+import { Link } from "react-router-dom";
+
 import useStyles from "./ProjectCard.styles";
 
 const ProjectCard = ({ project }) => {
@@ -25,9 +27,16 @@ const ProjectCard = ({ project }) => {
       <Typography className={classes.bhk}>{project?.listOfBHK} BHK</Typography>
 
       <Typography className={classes.location}>{project?.address}</Typography>
-      <Typography variant="h4" className={classes.price}>
-        3.5Cr-6Cr
-      </Typography>
+      <Box display="flex" justifyContent="space-between">
+        <Typography variant="h4" className={classes.price}>
+          3.5Cr-6Cr
+        </Typography>
+        <Link to={"/project/" + project?.docId}>
+          <Button variant="contained" className={classes.button}>
+            View Details
+          </Button>
+        </Link>
+      </Box>
     </Card>
   );
 };
