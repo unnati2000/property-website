@@ -47,4 +47,9 @@ export default makeStyles((theme) => ({
     padding: "0 60px",
     marginTop: "50px",
   },
+  ammenityDiv: {
+    display: "flex",
+    justifyContent: "left",
+    margin: "20px 0",
+  },
 }));

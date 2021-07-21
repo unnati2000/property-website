@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SwipeableViews from "react-swipeable-views";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import {
   Box,
   Typography,
@@ -9,10 +11,10 @@ import {
   Tabs,
   Tab,
 } from "@material-ui/core";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import useStyles from "./ProjectDetails.styles";
 import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import firebase from "../../firebase/firebase.utils";
 import Ammenities from "../ammenities/Ammenities.component";
 
@@ -20,6 +22,7 @@ const FlatDetails = ({ id }) => {
   const classes = useStyles();
 
   const [projectData, setProjectData] = useState({});
+
   const settings = {
     dots: true,
     infinite: true,
@@ -86,12 +89,14 @@ const FlatDetails = ({ id }) => {
       >
         <Box>
           <Typography variant="h4" color="primary">
-            propertyName
+            {projectData?.project}
           </Typography>
-          <Typography className={classes.address}>Address</Typography>
+          <Typography className={classes.address}>
+            {projectData?.address}
+          </Typography>
         </Box>
         <Box>
-          <Typography variant="h6">By XYZ group</Typography>
+          <Typography variant="h6">{projectData?.builders}</Typography>
           <Button variant="contained" className={classes.button}>
             Contact Developer
           </Button>
@@ -99,25 +104,38 @@ const FlatDetails = ({ id }) => {
       </Box>
       <Container className={classes.container}>
         <Slider {...settings} className={classes.slidor}>
-          <div></div>
+          {projectData?.images?.map((image) => (
+            <div className={classes.imgDiv}>
+              <img className={classes.img} src={image} />
+            </div>
+          ))}
         </Slider>
       </Container>
 
       <Box display="flex" justifyContent="space-evenly">
         <Box textAlign="center">
-          <Typography className={classes.grey}>xyz sq.ft</Typography>
+          <Typography className={classes.grey}>
+            {projectData?.listOfBHK} BHK
+          </Typography>
           <Typography>Configurations</Typography>
         </Box>
         <Box textAlign="center">
-          <Typography className={classes.grey}>₹xyz K/sq.ft</Typography>
+          <Typography className={classes.grey}>
+            {projectData?.possessionStatus}
+          </Typography>
           <Typography>Possession Starts</Typography>
         </Box>
         <Box textAlign="center">
-          <Typography className={classes.grey}>xyz</Typography>
+          <Typography className={classes.grey}>
+            ₹ {projectData?.averagePrice} K/sq.ft
+          </Typography>
           <Typography>Average Price</Typography>
         </Box>
         <Box textAlign="center">
-          <Typography className={classes.grey}>xyz</Typography>
+          <Typography className={classes.grey}>
+            {projectData?.minCarpetSize} sq.ft - {projectData?.maxCarpetSize}
+            sq.ft
+          </Typography>
           <Typography>Carpet Size</Typography>
         </Box>
       </Box>
@@ -155,31 +173,169 @@ const FlatDetails = ({ id }) => {
           </Grid>
         </Grid>
       </Container>
+
+      {projectData?.oneRK?.length > 0 && (
+        <>
+          <Container>
+            {console.log("oneRK")}
+            <Tabs
+              value={value}
+              indicatorColor="primary"
+              textColor="primary"
+              onChange={handleChange}
+              aria-label="disabled tabs example"
+            >
+              {projectData?.oneRK?.map((data, index) => (
+                <Tab label={data?.area} {...a11yProps(index)} />
+              ))}
+            </Tabs>
+          </Container>
+          <Container>
+            {projectData?.oneRK.map((data, index) => (
+              <TabPanel value={value} index={0}>
+                {data?.price} {data?.value} {data?.roomType}
+              </TabPanel>
+            ))}
+          </Container>
+        </>
+      )}
+
+      {projectData?.oneBHK?.length > 0 && (
+        <>
+          <Container>
+            {console.log("oneBHK")}
+            <Tabs
+              value={value}
+              indicatorColor="primary"
+              textColor="primary"
+              onChange={handleChange}
+              aria-label="disabled tabs example"
+            >
+              {projectData?.oneBHK?.map((data, index) => (
+                <Tab label={data?.area} {...a11yProps(index)} />
+              ))}
+            </Tabs>
+          </Container>
+          <Container>
+            {projectData?.oneRK.map((data, index) => (
+              <TabPanel value={value} index={0}>
+                {data?.price} {data?.value} {data?.roomType}
+              </TabPanel>
+            ))}
+          </Container>
+        </>
+      )}
+
+      {projectData?.twoBHK?.length > 0 && (
+        <>
+          <Container>
+            {console.log("twoRK")}
+            <Tabs
+              value={value}
+              indicatorColor="primary"
+              textColor="primary"
+              onChange={handleChange}
+              aria-label="disabled tabs example"
+            >
+              {projectData?.oneRK?.map((data, index) => (
+                <Tab label={data?.area} {...a11yProps(index)} />
+              ))}
+            </Tabs>
+          </Container>
+          <Container>
+            {projectData?.oneRK.map((data, index) => (
+              <TabPanel value={value} index={0}>
+                {data?.price} {data?.value} {data?.roomType}
+              </TabPanel>
+            ))}
+          </Container>
+        </>
+      )}
+
+      {projectData?.threeBHK?.length > 0 && (
+        <>
+          <Container>
+            <Tabs
+              value={value}
+              indicatorColor="primary"
+              textColor="primary"
+              onChange={handleChange}
+              aria-label="disabled tabs example"
+            >
+              {projectData?.oneRK?.map((data, index) => (
+                <Tab label={data?.area} {...a11yProps(index)} />
+              ))}
+            </Tabs>
+          </Container>
+          <Container>
+            {projectData?.oneRK.map((data, index) => (
+              <TabPanel value={value} index={0}>
+                {data?.price} {data?.value} {data?.roomType}
+              </TabPanel>
+            ))}
+          </Container>
+        </>
+      )}
+      {projectData?.fourBHK?.length > 0 && (
+        <>
+          <Container>
+            <Tabs
+              value={value}
+              indicatorColor="primary"
+              textColor="primary"
+              onChange={handleChange}
+              aria-label="disabled tabs example"
+            >
+              {projectData?.oneRK?.map((data, index) => (
+                <Tab label={data?.area} {...a11yProps(index)} />
+              ))}
+            </Tabs>
+          </Container>
+          <Container>
+            {projectData?.oneRK.map((data, index) => (
+              <TabPanel value={value} index={0}>
+                {data?.price} {data?.value} {data?.roomType}
+              </TabPanel>
+            ))}
+          </Container>
+        </>
+      )}
+
+      {projectData?.fiveBHK?.length > 0 && (
+        <>
+          <Container>
+            <Tabs
+              value={value}
+              indicatorColor="primary"
+              textColor="primary"
+              onChange={handleChange}
+              aria-label="disabled tabs example"
+            >
+              {projectData?.oneRK?.map((data, index) => (
+                <Tab label={data?.area} {...a11yProps(index)} />
+              ))}
+            </Tabs>
+          </Container>
+          <Container>
+            {projectData?.oneRK.map((data, index) => (
+              <TabPanel value={value} index={0}>
+                {data?.price} {data?.value} {data?.roomType}
+              </TabPanel>
+            ))}
+          </Container>
+        </>
+      )}
+
       <Container>
-        <Tabs
-          value={value}
-          indicatorColor="primary"
-          textColor="primary"
-          onChange={handleChange}
-          aria-label="disabled tabs example"
-        >
-          <Tab label="Active" {...a11yProps(0)} />
-          <Tab label="Disabled" {...a11yProps(1)} />
-          <Tab label="Active" {...a11yProps(2)} />
-        </Tabs>
+        <Typography variant="h4" color="primary">
+          Ammenities
+        </Typography>
+        <div className={classes.ammenityDiv}>
+          {projectData?.ammenities?.map((ammenity) => (
+            <Ammenities ammenity={ammenity} />
+          ))}
+        </div>
       </Container>
-      <Container>
-        <TabPanel value={value} index={0}>
-          Item One
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          Item Two
-        </TabPanel>
-        <TabPanel value={value} index={2}>
-          Item Three
-        </TabPanel>
-      </Container>
-      {<Ammenities ammenity="Lift" />}
     </div>
   );
 };
