@@ -32,7 +32,7 @@ const VillaDetails = ({ id }) => {
   console.log(villaData);
   return (
     <div>
-      {/* <Box
+      <Box
         mt={3}
         display="flex"
         alignItems="center"
@@ -40,24 +40,24 @@ const VillaDetails = ({ id }) => {
       >
         <Box>
           <Typography variant="h4" color="primary">
-            {flatData?.propertyName}
+            {villaData?.villaBedroom} BHK Independent House
           </Typography>
           <Typography className={classes.address}>
-            {flatData?.address}
+            {villaData?.address}
           </Typography>
         </Box>
         <Box>
           <Typography variant="h6">
-            {flatData?.price} {flatData?.value}
+            ₹{villaData?.price} {villaData?.value}
           </Typography>
           <Button variant="contained" className={classes.button}>
-            Contact Developer
+            Contact Agent
           </Button>
         </Box>
       </Box>
       <Container className={classes.container}>
         <Slider {...settings} className={classes.slidor}>
-          {flatData?.images.map((image) => (
+          {villaData?.images?.map((image) => (
             <div className={classes.imgDiv}>
               <img className={classes.img} src={image} />
             </div>
@@ -68,23 +68,23 @@ const VillaDetails = ({ id }) => {
       <Box display="flex" justifyContent="space-evenly">
         <Box textAlign="center">
           <Typography className={classes.grey}>
-            {flatData?.area} sq.ft
+            {villaData?.area} sq.ft
           </Typography>
           <Typography>Build Up Area</Typography>
         </Box>
         <Box textAlign="center">
           <Typography className={classes.grey}>
-            ₹{flatData?.averagePrice} K/sq.ft
+            ₹{villaData?.averagePrice} K/sq.ft
           </Typography>
           <Typography>Avg Price</Typography>
         </Box>
         <Box textAlign="center">
-          <Typography className={classes.grey}>{flatData?.facing}</Typography>
+          <Typography className={classes.grey}>{villaData?.facing}</Typography>
           <Typography>Facing</Typography>
         </Box>
         <Box textAlign="center">
           <Typography className={classes.grey}>
-            {flatData?.furnishedStatus}
+            {villaData?.furnishedStatus}
           </Typography>
           <Typography>Furnishing</Typography>
         </Box>
@@ -108,14 +108,14 @@ const VillaDetails = ({ id }) => {
                   <Typography className={classes.overviewheader}>
                     Brokerage
                   </Typography>
-                  <Typography>{flatData?.brokerage}</Typography>
+                  <Typography>{villaData?.brokerage}</Typography>
                 </Box>
                 <Box ml={3}>
                   <Typography className={classes.overviewheader}>
                     Price
                   </Typography>
                   <Typography>
-                    {flatData?.price} {flatData?.value}
+                    {villaData?.price} {villaData?.value}
                   </Typography>
                 </Box>
               </Box>
@@ -132,13 +132,7 @@ const VillaDetails = ({ id }) => {
                   <Typography className={classes.overviewheader}>
                     Bedroom
                   </Typography>
-                  <Typography>{flatData?.roomType}</Typography>
-                </Box>
-                <Box ml={3}>
-                  <Typography className={classes.overviewheader}>
-                    Parking
-                  </Typography>
-                  <Typography>{flatData?.parking}</Typography>
+                  <Typography>{villaData?.roomType}</Typography>
                 </Box>
               </Box>
               <Box
@@ -153,7 +147,7 @@ const VillaDetails = ({ id }) => {
                   <Typography className={classes.overviewheader}>
                     Bathroom
                   </Typography>
-                  <Typography>{flatData?.bathroom}</Typography>
+                  <Typography>{villaData?.bathroom}</Typography>
                 </Box>
               </Box>
             </div>
@@ -178,10 +172,10 @@ const VillaDetails = ({ id }) => {
             <Typography variant="h4" color="primary">
               About
             </Typography>
-            <Typography>{flatData?.description}</Typography>
+            <Typography>{villaData?.description}</Typography>
           </Grid>
         </Grid>
-      </Container> */}
+      </Container>
     </div>
   );
 };
