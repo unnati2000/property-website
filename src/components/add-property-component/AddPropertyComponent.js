@@ -23,6 +23,8 @@ import {
 } from "../../services/firebase.services";
 import firebase from "../../firebase/firebase.utils";
 import { useHistory } from "react-router";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 const AddPropertyComponent = ({ plan }) => {
   const classes = useStyles();
@@ -59,8 +61,13 @@ const AddPropertyComponent = ({ plan }) => {
     parking: "",
     averagePrice: "",
     facing: "",
-    description: "",
+
+    flatFurnishedStatus: "",
   });
+
+  const [flatDescription, setflatDescription] = useState("");
+  const [projectDescription, setprojectDescription] = useState("");
+  const [villaDescription, setvillaDescription] = useState("");
 
   const [villaData, setVillaData] = useState({
     villaAddress: "",
@@ -72,7 +79,6 @@ const AddPropertyComponent = ({ plan }) => {
     villaValue: "",
     villaBedroom: "",
     villaBathroom: "",
-    villaDescription: "",
   });
 
   const [projectData, setProjectData] = useState({
@@ -83,6 +89,7 @@ const AddPropertyComponent = ({ plan }) => {
     projectAveragePrice: "",
     minCarpetSize: "",
     maxCarpetSize: "",
+    builderName: "",
   });
 
   const [ammenities, setAmmenities] = useState([]);
@@ -115,7 +122,7 @@ const AddPropertyComponent = ({ plan }) => {
     parking,
     averagePrice,
     facing,
-    description,
+    flatFurnishedStatus,
   } = flatData;
 
   const {
@@ -126,6 +133,7 @@ const AddPropertyComponent = ({ plan }) => {
     projectAveragePrice,
     minCarpetSize,
     maxCarpetSize,
+    builderName,
   } = projectData;
 
   const {
@@ -138,7 +146,6 @@ const AddPropertyComponent = ({ plan }) => {
     villaValue,
     villaBedroom,
     villaBathroom,
-    villaDescription,
   } = villaData;
 
   const onFlatChange = (e) => {
@@ -196,6 +203,7 @@ const AddPropertyComponent = ({ plan }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
 
+    console.log(flatDescription);
     flatVarietyDetails.map((flatVarietyDetail) => {
       if (flatVarietyDetail.roomType === "1 RK") {
         oneRK.push(flatVarietyDetail);
@@ -217,8 +225,12 @@ const AddPropertyComponent = ({ plan }) => {
       }
     });
 
-    if (images.length > 4) {
+    if (plan === "flat" && images.length > 4) {
       console.log("Not allowed to upload more than 4 images");
+    } else if (plan === "project" && images.length > 8) {
+      console.log("Not allowed to add more than 8 images");
+    } else if (plan === "villa" && images.length > 10) {
+      console.log("Not allowred to add more than 10 images");
     } else {
       const promises = [];
       images.forEach((image) => {
@@ -248,17 +260,17 @@ const AddPropertyComponent = ({ plan }) => {
                   parking,
                   averagePrice,
                   facing,
-                  description,
+                  flatDescription,
                   urls,
+                  flatFurnishedStatus,
                   currentUser?.userId,
                   currentUser?.docId
                 );
                 history.push("/");
               } else if (plan === "project") {
-                const roomTypeArray = [];
-
                 await addProject(
                   plan,
+                  builderName,
                   projectPropertyName,
                   projectAddress,
                   listOfBHK,
@@ -274,6 +286,7 @@ const AddPropertyComponent = ({ plan }) => {
                   fourBHK,
                   fiveBHK,
                   ammenities,
+                  projectDescription,
                   currentUser?.userId,
                   currentUser?.docId
                 );
@@ -328,33 +341,61 @@ const AddPropertyComponent = ({ plan }) => {
                 onChange={onFlatChange}
                 className={classes.text}
               />
-
-              <FormControl
-                variant="outlined"
-                className={classes.formControlRoom}
-              >
-                <InputLabel id="demo-simple-select-outlined-label">
-                  Room Type
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-outlined-label"
-                  id="demo-simple-select-outlined"
-                  name="roomType"
-                  value={roomType}
-                  onChange={onFlatChange}
-                  label="Room type"
-                  className={classes.select}
+              <Box display="flex" justifyContent="space-around">
+                <FormControl
+                  variant="outlined"
+                  className={classes.formControlRoom}
                 >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value="1 BHK">1 BHK</MenuItem>
-                  <MenuItem value="2 BHK">2 BHK</MenuItem>
-                  <MenuItem value="3 BHK">3 BHK</MenuItem>
-                  <MenuItem value="4 BHK">4 BHK</MenuItem>
-                  <MenuItem value="5 BHK">5 BHK</MenuItem>
-                </Select>
-              </FormControl>
+                  <InputLabel id="demo-simple-select-outlined-label">
+                    Room Type
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    name="roomType"
+                    value={roomType}
+                    onChange={onFlatChange}
+                    label="Room type"
+                    className={classes.select}
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value="1 RK">1 BHK</MenuItem>
+                    <MenuItem value="1 BHK">1 BHK</MenuItem>
+                    <MenuItem value="2 BHK">2 BHK</MenuItem>
+                    <MenuItem value="3 BHK">3 BHK</MenuItem>
+                    <MenuItem value="4 BHK">4 BHK</MenuItem>
+                    <MenuItem value="5 BHK">5 BHK</MenuItem>
+                  </Select>
+                </FormControl>
+
+                <FormControl
+                  variant="outlined"
+                  className={classes.formControlRoom}
+                >
+                  <InputLabel id="demo-simple-select-outlined-label">
+                    Furnished Status
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    name="flatFurnishedStatus"
+                    value={flatFurnishedStatus}
+                    onChange={onFlatChange}
+                    label="Furnished Status"
+                    className={classes.select}
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value="Semi furnished">Semi furnished</MenuItem>
+                    <MenuItem value="Fully furnished">Fully furnished</MenuItem>
+                    <MenuItem value="Not furnished">Not furnished</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+
               <Box mt={2} mb={2} ml={3} mr={3}>
                 <TextField
                   label="Price"
@@ -374,7 +415,6 @@ const AddPropertyComponent = ({ plan }) => {
                     labelId="demo-simple-select-outlined-label"
                     id="demo-simple-select-outlined"
                     name="value"
-                    // onChange={handleChange}
                     label="Value"
                     onChange={onFlatChange}
                     value={value}
@@ -454,16 +494,16 @@ const AddPropertyComponent = ({ plan }) => {
                       <MenuItem value="South">South</MenuItem>
                     </Select>
                   </FormControl>
-
-                  <TextField
-                    label="Description"
-                    id="outlined-size-normal"
-                    variant="outlined"
-                    name="description"
-                    value={description}
-                    onChange={onFlatChange}
-                    className={classes.text}
-                  />
+                  <Box mt={3} mb={3}>
+                    <CKEditor
+                      editor={ClassicEditor}
+                      data={flatDescription}
+                      onChange={(e, editor) => {
+                        const data = editor.getData();
+                        setflatDescription(data);
+                      }}
+                    />
+                  </Box>
                 </Box>
                 <input type="file" multiple onChange={handleImageChange} />
               </Box>
@@ -479,6 +519,15 @@ const AddPropertyComponent = ({ plan }) => {
 
           {plan === "project" && (
             <form onSubmit={onSubmit}>
+              <TextField
+                label="Builder's Name"
+                id="outlined-size-normal"
+                variant="outlined"
+                name="builderName"
+                value={builderName}
+                onChange={onProjectChange}
+                className={classes.text}
+              />
               <TextField
                 label="Building/Property Name"
                 id="outlined-size-normal"
@@ -646,6 +695,7 @@ const AddPropertyComponent = ({ plan }) => {
                 <Typography variant="h5" color="primary">
                   Flat Details
                 </Typography>
+
                 <Button
                   className={classes.button}
                   variant="contained"
@@ -749,6 +799,16 @@ const AddPropertyComponent = ({ plan }) => {
                     </Box>
                   </Box>
                 ))}
+              </Box>
+              <Box mt={3} mb={3}>
+                <CKEditor
+                  editor={ClassicEditor}
+                  data={projectDescription}
+                  onChange={(e, editor) => {
+                    const data = editor.getData();
+                    setprojectDescription(data);
+                  }}
+                />
               </Box>
               <Box mt={2} mb={2} textAlign="center">
                 <input type="file" multiple onChange={handleImageChange} />
@@ -942,15 +1002,17 @@ const AddPropertyComponent = ({ plan }) => {
                   </Select>
                 </FormControl>
               </Box>
-              <TextField
-                label="About this property"
-                id="outlined-size-normal"
-                variant="outlined"
-                name="villaDescription"
-                value={villaDescription}
-                className={classes.text}
-                onChange={onVillaChange}
-              />
+
+              <Box mt={3} mb={3}>
+                <CKEditor
+                  editor={ClassicEditor}
+                  data={villaDescription}
+                  onChange={(e, editor) => {
+                    const data = editor.getData();
+                    setvillaDescription(data);
+                  }}
+                />
+              </Box>
               <Box mt={2} mb={2}>
                 <input type="file" multiple onChange={handleImageChange} />
               </Box>

@@ -50,6 +50,7 @@ export async function addPackage(id, packageName, packagePrice) {
 
 export async function addFlat(
   plan,
+  builderName,
   propertyName,
   address,
   roomType,
@@ -59,12 +60,14 @@ export async function addFlat(
   parking,
   averagePrice,
   facing,
-  description,
+  flatDescription,
   urls,
+  flatFurnishedStatus,
   userId,
   userDocId
 ) {
   await firebase.firestore().collection("property").add({
+    builderName: builderName,
     propertyType: plan,
     propertyName: propertyName,
     address: address,
@@ -75,8 +78,9 @@ export async function addFlat(
     parking: parking,
     averagePrice: averagePrice,
     facing: facing,
-    description: description,
+    description: flatDescription,
     images: urls,
+    furnishedStatus: flatFurnishedStatus,
     userId: userId,
     userDocId: userDocId,
   });
@@ -133,6 +137,7 @@ export async function addProject(
   fourBHK,
   fiveBHK,
   ammenities,
+  projectDescription,
   userId,
   userDocId
 ) {
@@ -152,6 +157,7 @@ export async function addProject(
     threeBHK: threeBHK,
     fourBHK: fourBHK,
     fiveBHK: fiveBHK,
+    description: projectDescription,
     ammenities: ammenities,
     userId: userId,
     userDocId: userDocId,
