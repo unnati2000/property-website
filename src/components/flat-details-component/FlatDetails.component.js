@@ -55,7 +55,7 @@ const FlatDetails = ({ id }) => {
       </Box>
       <Container className={classes.container}>
         <Slider {...settings} className={classes.slidor}>
-          {flatData?.images.map((image) => (
+          {flatData?.images?.map((image) => (
             <div className={classes.imgDiv}>
               <img className={classes.img} src={image} />
             </div>

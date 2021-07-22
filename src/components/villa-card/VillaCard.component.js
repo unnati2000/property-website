@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, Typography, Grid, Box, Button } from "@material-ui/core";
+import { Link } from "react-router-dom";
 import useStyles from "./VillaCard.styles";
 
 const VillaCard = ({ villa }) => {
@@ -31,9 +32,11 @@ const VillaCard = ({ villa }) => {
               <Typography className={classes.blackFont}>28.75 sq ft</Typography>
             </Box>
           </Box>
-          <Button className={classes.button} variant="contained">
-            View Details
-          </Button>
+          <Link to={"/villa/" + villa?.docId}>
+            <Button className={classes.button} variant="contained">
+              View Details
+            </Button>
+          </Link>
         </Grid>
       </Grid>
     </Card>

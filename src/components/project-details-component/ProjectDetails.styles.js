@@ -52,4 +52,25 @@ export default makeStyles((theme) => ({
     justifyContent: "left",
     margin: "20px 0",
   },
+  ammenityContainer: {
+    marginTop: "50px",
+  },
+  tab: {
+    border: "solid 1px #B2B2B2",
+    boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
+  },
+  area: {
+    color: theme.palette.primary.main,
+  },
+  carpet: {
+    color: "#979797",
+    marginTop: "15px",
+  },
+  roomType: {
+    fontWeight: "bold",
+  },
+  price: {
+    fontWeight: "bold",
+    marginLeft: "40px",
+  },
 }));
