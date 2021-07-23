@@ -60,4 +60,8 @@ export default makeStyles((theme) => ({
       color: "white",
     },
   },
+  ammenitiesHeader: {
+    margin: "15px 10px",
+    textAlign: "left",
+  },
 }));

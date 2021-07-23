@@ -305,6 +305,7 @@ const AddPropertyComponent = ({ plan }) => {
                   villaBathroom,
                   villaDescription,
                   urls,
+                  ammenities,
                   currentUser?.userId,
                   currentUser?.docId
                 );
@@ -597,12 +598,20 @@ const AddPropertyComponent = ({ plan }) => {
                   className={classes.text}
                 />
               </Box>
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                flexDirection="column"
-              >
-                <Box>
+              <div>
+                <Typography
+                  variant="h5"
+                  color="primary"
+                  className={classes.ammenitiesHeader}
+                >
+                  {" "}
+                  Choose Ammenities
+                </Typography>
+                <Box
+                  display="flex"
+                  justifyContent="space-between"
+                  flexWrap="wrap"
+                >
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -623,8 +632,7 @@ const AddPropertyComponent = ({ plan }) => {
                     }
                     label="Gym"
                   />
-                </Box>
-                <Box>
+
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -633,7 +641,7 @@ const AddPropertyComponent = ({ plan }) => {
                         value="Lift"
                       />
                     }
-                    label="Lift"
+                    label="Elevator"
                   />
                   <FormControlLabel
                     control={
@@ -645,8 +653,7 @@ const AddPropertyComponent = ({ plan }) => {
                     }
                     label="Jogging Track"
                   />
-                </Box>
-                <Box>
+
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -667,8 +674,7 @@ const AddPropertyComponent = ({ plan }) => {
                     }
                     label="Badminton Court"
                   />
-                </Box>
-                <Box>
+
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -690,7 +696,8 @@ const AddPropertyComponent = ({ plan }) => {
                     label="Park"
                   />
                 </Box>
-              </Box>
+              </div>
+
               <Box mt={3}>
                 <Typography variant="h5" color="primary">
                   Flat Details
@@ -1002,6 +1009,105 @@ const AddPropertyComponent = ({ plan }) => {
                   </Select>
                 </FormControl>
               </Box>
+              <div>
+                <Typography
+                  variant="h5"
+                  color="primary"
+                  className={classes.ammenitiesHeader}
+                >
+                  {" "}
+                  Choose Ammenities
+                </Typography>
+                <Box
+                  display="flex"
+                  justifyContent="space-between"
+                  flexWrap="wrap"
+                >
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        onChange={onChangeAmmenitiesOn}
+                        color="primary"
+                        value="Swimming Pool"
+                      />
+                    }
+                    label="Swimming Pool"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        onChange={onChangeAmmenitiesOn}
+                        color="primary"
+                        value="Gym"
+                      />
+                    }
+                    label="Gym"
+                  />
+
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        onChange={onChangeAmmenitiesOn}
+                        color="primary"
+                        value="Lift"
+                      />
+                    }
+                    label="Elevator"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        onChange={onChangeAmmenitiesOn}
+                        color="primary"
+                        value="Jogging Track"
+                      />
+                    }
+                    label="Jogging Track"
+                  />
+
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        onChange={onChangeAmmenitiesOn}
+                        color="primary"
+                        value="Community Hall"
+                      />
+                    }
+                    label="Community Hall"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        onChange={onChangeAmmenitiesOn}
+                        color="primary"
+                        value="Badminton Court"
+                      />
+                    }
+                    label="Badminton Court"
+                  />
+
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        onChange={onChangeAmmenitiesOn}
+                        color="primary"
+                        value="Water 24 hours"
+                      />
+                    }
+                    label="Water 24 hours"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        onChange={onChangeAmmenitiesOn}
+                        color="primary"
+                        value="Park"
+                      />
+                    }
+                    label="Park"
+                  />
+                </Box>
+              </div>
 
               <Box mt={3} mb={3}>
                 <CKEditor

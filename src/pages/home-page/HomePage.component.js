@@ -12,7 +12,6 @@ const HomePage = () => {
   const classes = useStyles();
   const { currentUser } = useAuth();
   const history = useHistory();
-
   const [flats, setFlats] = useState([]);
   const [villas, setVillas] = useState([]);
   const [projects, setProjects] = useState([]);
@@ -118,7 +117,7 @@ const HomePage = () => {
         <Container>
           <Grid container spacing={2}>
             {projects &&
-              projects?.map((project) => (
+              projects?.slice(0, 2)?.map((project) => (
                 <Grid item md={6}>
                   <ProjectCard project={project} />
                 </Grid>
@@ -138,7 +137,7 @@ const HomePage = () => {
         <Container>
           <Grid spacing={2} container>
             {flats &&
-              flats?.map((flat) => (
+              flats?.slice(0, 4)?.map((flat) => (
                 <Grid item xs={12} md={3}>
                   <PropertyCard flat={flat} />
                 </Grid>
@@ -158,7 +157,7 @@ const HomePage = () => {
         <Container>
           <Grid container spacing={2}>
             {villas &&
-              villas?.map((villa) => (
+              villas?.slice(0, 2)?.map((villa) => (
                 <Grid item md={6}>
                   <VillaCard villa={villa} />
                 </Grid>

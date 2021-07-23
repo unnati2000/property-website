@@ -99,6 +99,7 @@ export async function addVilla(
   villaBathroom,
   villaDescription,
   urls,
+  ammenities,
   userId,
   userDocId
 ) {
@@ -111,6 +112,7 @@ export async function addVilla(
     averagePrice: villaAveragePrice,
     description: villaDescription,
     images: urls,
+    ammenities: ammenities,
     furnishedStatus: furnishedStatus,
     possessionStatus: possessionStatus,
     villaBedroom: villaBedroom,
