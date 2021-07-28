@@ -29,12 +29,12 @@ export default makeStyles((theme) => ({
   },
   text: {
     margin: "25px 0",
-    width: "80%",
+    width: "100%",
   },
   button: {
     background: theme.palette.primary.main,
     color: "#fff",
-    width: "50%",
+    width: "100%",
     "&:hover": {
       background: theme.palette.primary.main,
       color: "#fff",

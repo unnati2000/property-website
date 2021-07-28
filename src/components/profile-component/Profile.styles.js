@@ -8,7 +8,6 @@ export default makeStyles((theme) => ({
   },
   card: {
     padding: "20px 0",
-    // background: "#B5EAEA",
     borderRadius: "20px",
   },
   name: {
@@ -27,6 +26,10 @@ export default makeStyles((theme) => ({
     width: "80%",
     marginTop: "20px",
     marginLeft: "40px",
+    "&:hover": {
+      background: theme.palette.primary.main,
+      color: "white",
+    },
   },
   box: {
     background: "#eee",
@@ -48,5 +51,9 @@ export default makeStyles((theme) => ({
     color: "white",
     borderRadius: "20px",
     marginLeft: "40px",
+    "&:hover": {
+      background: theme.palette.primary.main,
+      color: "white",
+    },
   },
 }));

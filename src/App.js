@@ -11,6 +11,7 @@ import Package from "./pages/developer-package/Package.component";
 import AddProperty from "./pages/add-property/AddProperty.component";
 import ProfilePage from "./pages/profile-page/ProfilePage.component";
 import PropertyDetails from "./pages/property-details/PropertyDetails.component";
+import EnquiryForm from "./pages/enquiry-form/EnquiryForm.component";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
               path="/:propertyType/:id"
               component={PropertyDetails}
             />
+            <Route exact path="/:propertyId/enquiry" component={EnquiryForm} />
           </Switch>
         </AuthProvider>
       </BrowserRouter>

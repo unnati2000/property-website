@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 import {
   Card,
@@ -39,6 +40,23 @@ const AddPropertyComponent = ({ plan }) => {
     },
   ]);
 
+  const [address, setAddress] = useState({
+    areaName: "",
+    city: "",
+    district: "",
+  });
+
+  const { areaName, city, district } = address;
+
+  const onAddressChange = (e) => {
+    setAddress({ ...address, [e.target.name]: e.target.value });
+  };
+
+  const [coordinates, setCoordinates] = useState({
+    lat: "",
+    long: "",
+  });
+
   let oneRK = [];
   let oneBHK = [];
   let twoBHK = [];
@@ -53,7 +71,6 @@ const AddPropertyComponent = ({ plan }) => {
 
   const [flatData, setFlatData] = useState({
     propertyName: "",
-    address: "",
     roomType: "",
     price: "",
     value: "",
@@ -61,7 +78,6 @@ const AddPropertyComponent = ({ plan }) => {
     parking: "",
     averagePrice: "",
     facing: "",
-
     flatFurnishedStatus: "",
   });
 
@@ -70,7 +86,6 @@ const AddPropertyComponent = ({ plan }) => {
   const [villaDescription, setvillaDescription] = useState("");
 
   const [villaData, setVillaData] = useState({
-    villaAddress: "",
     villaArea: "",
     villaAveragePrice: "",
     furnishedStatus: "",
@@ -83,7 +98,6 @@ const AddPropertyComponent = ({ plan }) => {
 
   const [projectData, setProjectData] = useState({
     projectPropertyName: "",
-    projectAddress: "",
     listOfBHK: "",
     projectPossessionStatus: "",
     projectAveragePrice: "",
@@ -111,10 +125,8 @@ const AddPropertyComponent = ({ plan }) => {
       removeAmmenities(e.target.value);
     }
   };
-
   const {
     propertyName,
-    address,
     roomType,
     price,
     value,
@@ -127,7 +139,6 @@ const AddPropertyComponent = ({ plan }) => {
 
   const {
     projectPropertyName,
-    projectAddress,
     listOfBHK,
     projectPossessionStatus,
     projectAveragePrice,
@@ -137,7 +148,6 @@ const AddPropertyComponent = ({ plan }) => {
   } = projectData;
 
   const {
-    villaAddress,
     villaArea,
     villaAveragePrice,
     furnishedStatus,
@@ -157,13 +167,12 @@ const AddPropertyComponent = ({ plan }) => {
   };
 
   const onProjectChange = (e) => {
-    console.log(e.target.name, e.target.value);
     setProjectData({ ...projectData, [e.target.name]: e.target.value });
   };
 
   function handleVarietyDetailsChange(i, event) {
     const values = [...flatVarietyDetails];
-    console.log(event.target.name);
+
     if (event.target.name === "roomType") {
       values[i].roomType = event.target.value;
     }
@@ -203,7 +212,6 @@ const AddPropertyComponent = ({ plan }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(flatDescription);
     flatVarietyDetails.map((flatVarietyDetail) => {
       if (flatVarietyDetail.roomType === "1 RK") {
         oneRK.push(flatVarietyDetail);
@@ -233,6 +241,7 @@ const AddPropertyComponent = ({ plan }) => {
       console.log("Not allowred to add more than 10 images");
     } else {
       const promises = [];
+
       images.forEach((image) => {
         const uploadTask = storage
           .ref()
@@ -244,15 +253,23 @@ const AddPropertyComponent = ({ plan }) => {
           (snapshot) => {},
           (error) => console.log(error.code),
           async () => {
+            const { data } = await axios.get(
+              `http://api.positionstack.com/v1/forward?access_key=${process.env.REACT_APP_API_KEY}&query=${city} ${district}`
+            );
+
+            setCoordinates({
+              lat: data?.data[0].latitude,
+              long: data?.data[0].longitude,
+            });
             const downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
             urls.push(downloadURL);
-
             if (urls.length === images.length) {
               if (plan === "flat") {
                 await addFlat(
                   plan,
                   propertyName,
                   address,
+                  coordinates,
                   roomType,
                   price,
                   value,
@@ -272,7 +289,8 @@ const AddPropertyComponent = ({ plan }) => {
                   plan,
                   builderName,
                   projectPropertyName,
-                  projectAddress,
+                  address,
+                  coordinates,
                   listOfBHK,
                   projectPossessionStatus,
                   projectAveragePrice,
@@ -294,7 +312,8 @@ const AddPropertyComponent = ({ plan }) => {
               } else if (plan === "villa") {
                 await addVilla(
                   plan,
-                  villaAddress,
+                  address,
+                  coordinates,
                   villaArea,
                   villaAveragePrice,
                   furnishedStatus,
@@ -333,15 +352,37 @@ const AddPropertyComponent = ({ plan }) => {
                 onChange={onFlatChange}
                 className={classes.text}
               />
+
               <TextField
-                label="Address"
+                label="Area Name"
                 id="outlined-size-normal"
                 variant="outlined"
-                name="address"
-                value={address}
-                onChange={onFlatChange}
+                name="areaName"
+                value={areaName}
+                onChange={onAddressChange}
                 className={classes.text}
               />
+              <Box display="flex" justifyContent="space-around">
+                <TextField
+                  label="City"
+                  id="outlined-size-normal"
+                  variant="outlined"
+                  name="city"
+                  value={city}
+                  onChange={onAddressChange}
+                  className={classes.text}
+                />
+                <TextField
+                  label="District"
+                  id="outlined-size-normal"
+                  variant="outlined"
+                  name="district"
+                  value={district}
+                  onChange={onAddressChange}
+                  className={classes.text}
+                />
+              </Box>
+
               <Box display="flex" justifyContent="space-around">
                 <FormControl
                   variant="outlined"
@@ -498,6 +539,7 @@ const AddPropertyComponent = ({ plan }) => {
                   <Box mt={3} mb={3}>
                     <CKEditor
                       editor={ClassicEditor}
+                      className={classes.ckeditor}
                       data={flatDescription}
                       onChange={(e, editor) => {
                         const data = editor.getData();
@@ -539,14 +581,35 @@ const AddPropertyComponent = ({ plan }) => {
                 className={classes.text}
               />
               <TextField
-                label="Address"
+                label="Area Name"
                 id="outlined-size-normal"
                 variant="outlined"
-                name="projectAddress"
-                value={projectAddress}
-                onChange={onProjectChange}
+                name="areaName"
+                value={areaName}
+                onChange={onAddressChange}
                 className={classes.text}
               />
+
+              <Box display="flex" justifyContent="space-around">
+                <TextField
+                  label="City"
+                  id="outlined-size-normal"
+                  variant="outlined"
+                  name="city"
+                  value={city}
+                  onChange={onAddressChange}
+                  className={classes.text}
+                />
+                <TextField
+                  label="District"
+                  id="outlined-size-normal"
+                  variant="outlined"
+                  name="district"
+                  value={district}
+                  onChange={onAddressChange}
+                  className={classes.text}
+                />
+              </Box>
 
               <TextField
                 label="Apartments"
@@ -559,7 +622,6 @@ const AddPropertyComponent = ({ plan }) => {
               />
               <Box display="flex" justifyContent="space-evenly">
                 <TextField
-                  // label="Possession"
                   id="outlined-size-normal"
                   variant="outlined"
                   type="date"
@@ -736,7 +798,6 @@ const AddPropertyComponent = ({ plan }) => {
                           <MenuItem value="">
                             <em>None</em>
                           </MenuItem>
-
                           <MenuItem value="1 RK">1 RK</MenuItem>
                           <MenuItem value="1 BHK">1 BHK</MenuItem>
                           <MenuItem value="2 BHK">2 BHK</MenuItem>
@@ -833,15 +894,35 @@ const AddPropertyComponent = ({ plan }) => {
           {plan === "villa" && (
             <form onSubmit={onSubmit}>
               <TextField
-                label="Address"
+                label="Area Name"
                 id="outlined-size-normal"
                 variant="outlined"
-                name="villaAddress"
-                value={villaAddress}
-                onChange={onVillaChange}
+                name="areaName"
+                value={areaName}
+                onChange={onAddressChange}
                 className={classes.text}
               />
 
+              <Box display="flex" justifyContent="space-around">
+                <TextField
+                  label="City"
+                  id="outlined-size-normal"
+                  variant="outlined"
+                  name="city"
+                  value={city}
+                  onChange={onAddressChange}
+                  className={classes.text}
+                />
+                <TextField
+                  label="District"
+                  id="outlined-size-normal"
+                  variant="outlined"
+                  name="district"
+                  value={district}
+                  onChange={onAddressChange}
+                  className={classes.text}
+                />
+              </Box>
               <Box display="flex" justifyContent="space-evenly">
                 <TextField
                   label="Area"

@@ -15,52 +15,53 @@ const Ammenities = ({ ammenity }) => {
     <div>
       {ammenity === "Swimming Pool" && (
         <>
-          <img className={classes.img} src={swimmingPool} />
+          <img className={classes.img} alt={ammenity} src={swimmingPool} />
           <p className={classes.span}>{ammenity}</p>
         </>
       )}
       {ammenity === "Gym" && (
         <>
-          <img className={classes.img} src={gym} />{" "}
+          <img className={classes.img} alt={ammenity} src={gym} />{" "}
           <p className={classes.span}>{ammenity}</p>
         </>
       )}
-      {ammenity === "Lift" && <img className={classes.img} src={lift} />}
+      {ammenity === "Lift" && (
+        <img className={classes.img} alt={ammenity} src={lift} />
+      )}
       {ammenity === "Jogging Track" && (
         <>
-          <img className={classes.img} src={track} />{" "}
+          <img className={classes.img} alt={ammenity} src={track} />{" "}
           <p className={classes.span}>{ammenity}</p>
         </>
       )}
       {ammenity === "Swimming Pool" && (
         <>
-          <img className={classes.img} src={swimmingPool} />{" "}
+          <img className={classes.img} alt={ammenity} src={swimmingPool} />{" "}
           <p className={classes.span}>{ammenity}</p>{" "}
         </>
       )}
       {ammenity === "Community Hall" && (
         <>
-          <img className={classes.img} src={hall} />{" "}
+          <img className={classes.img} alt={ammenity} src={hall} />{" "}
           <p className={classes.span}>{ammenity}</p>
         </>
       )}
       {ammenity === "Badminton Court" && (
         <>
-          <img className={classes.img} src={badminton} />{" "}
+          <img className={classes.img} alt={ammenity} src={badminton} />{" "}
           <p className={classes.span}>{ammenity}</p>
         </>
       )}
       {ammenity === "Water 24 hours" && (
         <>
-          <img className={classes.img} src={water} />{" "}
+          <img className={classes.img} alt={ammenity} src={water} />
           <p className={classes.span}>{ammenity}</p>
         </>
       )}
       {ammenity === "Park" && (
         <>
-          {" "}
-          <img className={classes.img} src={park} />{" "}
-          <p className={classes.span}>{ammenity}</p>{" "}
+          <img className={classes.img} alt={ammenity} src={park} />
+          <p className={classes.span}>{ammenity}</p>
         </>
       )}
     </div>

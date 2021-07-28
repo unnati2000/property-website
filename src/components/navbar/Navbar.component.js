@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   AppBar,
   Toolbar,
@@ -7,26 +7,25 @@ import {
   Button,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import useStyles from "./Navbar.styles";
 import { useHistory } from "react-router";
+import useStyles from "./Navbar.styles";
 import { useAuth } from "../../context/auth-context";
 import firebase from "../../firebase/firebase.utils";
 
 const Navbar = () => {
   const classes = useStyles();
   const { currentUser } = useAuth();
+
   const history = useHistory();
 
+  useEffect(() => {
+    if (!currentUser) {
+      history.push("/login");
+    }
+  }, [history, currentUser]);
+
   const Logout = () => {
-    firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        history.push("/login");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    firebase.auth().signOut();
   };
 
   return (

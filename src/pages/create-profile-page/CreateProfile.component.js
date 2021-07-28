@@ -14,6 +14,9 @@ const CreateProfile = () => {
   const history = useHistory();
 
   useEffect(() => {
+    if (!currentUser) {
+      history.push("/login");
+    }
     if (currentUser?.name) {
       history.push("/");
     }

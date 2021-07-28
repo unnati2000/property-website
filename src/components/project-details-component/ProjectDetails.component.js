@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import SwipeableViews from "react-swipeable-views";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import {
@@ -17,8 +16,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import firebase from "../../firebase/firebase.utils";
 import Ammenities from "../ammenities/Ammenities.component";
+import ReactMapGL from "react-map-gl";
 
-const FlatDetails = ({ id }) => {
+const ProjectDetails = ({ id }) => {
   const classes = useStyles();
 
   const [projectData, setProjectData] = useState({});
@@ -30,6 +30,12 @@ const FlatDetails = ({ id }) => {
     slidesToShow: 1,
     slidesToScroll: 1,
   };
+
+  const [viewport, setViewport] = React.useState({
+    latitude: 37.7577,
+    longitude: -122.4376,
+    zoom: 10,
+  });
 
   useEffect(() => {
     firebase
@@ -46,10 +52,6 @@ const FlatDetails = ({ id }) => {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-  };
-
-  const handleChangeIndex = (index) => {
-    setValue(index);
   };
 
   function TabPanel(props) {
@@ -160,16 +162,14 @@ const FlatDetails = ({ id }) => {
             </Container>
           </Grid>
           <Grid item md={4} className={classes.map}>
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.521260322283!2d106.8195613507864!3d-6.194741395493371!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f5390917b759%3A0x6b45e67356080477!2sPT%20Kulkul%20Teknologi%20Internasional!5e0!3m2!1sen!2sid!4v1601138221085!5m2!1sen!2sid"
-              width="300"
-              height="250"
-              frameBorder="0"
-              style={{ border: 0 }}
-              allowFullScreen=""
-              aria-hidden="false"
-              tabIndex="0"
+            <ReactMapGL
+              {...viewport}
+              width="100%"
+              height="100%"
+              onViewportChange={(viewport) => setViewport(viewport)}
+              mapboxApiAccessToken={process.env.REACT_APP_MAP_BOX_API}
             />
+            {console.log(process.env.REACT_APP_MAP_BOX_API)}
           </Grid>
         </Grid>
       </Container>
@@ -385,4 +385,4 @@ const FlatDetails = ({ id }) => {
   );
 };
 
-export default FlatDetails;
+export default ProjectDetails;

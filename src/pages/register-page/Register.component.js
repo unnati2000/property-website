@@ -16,6 +16,7 @@ import { firestore } from "../../firebase/firebase.utils";
 import firebase from "../../firebase/firebase.utils";
 import { doesPhoneNumberExist } from "../../services/firebase.services";
 import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const RegisterPage = () => {
   const classes = useStyles();
@@ -144,6 +145,11 @@ const RegisterPage = () => {
             </Button>
             <div id="recaptcha"></div>
           </form>
+          <Box mt={3}>
+            <p>
+              Already have an account? <Link to="/login">Login</Link>
+            </p>
+          </Box>
         </div>
       </Modal>
     </div>

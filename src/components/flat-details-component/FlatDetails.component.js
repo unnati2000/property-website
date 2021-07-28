@@ -4,7 +4,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import useStyles from "./FlatDetails.styles";
 import Slider from "react-slick";
+import { Link } from "react-router-dom";
 import firebase from "../../firebase/firebase.utils";
+import parse from "html-react-parser";
 
 const FlatDetails = ({ id }) => {
   const classes = useStyles();
@@ -26,8 +28,11 @@ const FlatDetails = ({ id }) => {
       .get()
       .then((res) => {
         setFlatData(res.data());
-      });
+      })
+      .catch((err) => console.log(err));
   }, []);
+
+  const description = flatData?.description || "";
   return (
     <div>
       <Box
@@ -41,16 +46,18 @@ const FlatDetails = ({ id }) => {
             {flatData?.propertyName}
           </Typography>
           <Typography className={classes.address}>
-            {flatData?.address}
+            {/* {flatData?.address} */}
           </Typography>
         </Box>
         <Box>
           <Typography variant="h6">
             {flatData?.price} {flatData?.value}
           </Typography>
-          <Button variant="contained" className={classes.button}>
-            Contact Developer
-          </Button>
+          <Link to={"/" + id + "/enquiry"}>
+            <Button variant="contained" className={classes.button}>
+              Contact Developer
+            </Button>
+          </Link>
         </Box>
       </Box>
       <Container className={classes.container}>
@@ -176,7 +183,8 @@ const FlatDetails = ({ id }) => {
             <Typography variant="h4" color="primary">
               About
             </Typography>
-            <Typography>{flatData?.description}</Typography>
+
+            <Typography>{parse(description)}</Typography>
           </Grid>
         </Grid>
       </Container>

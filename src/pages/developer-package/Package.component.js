@@ -14,6 +14,9 @@ const Package = () => {
   const history = useHistory();
 
   useEffect(() => {
+    if (!currentUser) {
+      history.push("/login");
+    }
     if (currentUser?.packageName) {
       history.push("/");
     }

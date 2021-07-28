@@ -5,6 +5,7 @@ import { useAuth } from "../../context/auth-context";
 import firebase from "../../firebase/firebase.utils";
 import { useHistory } from "react-router";
 import { doesPhoneNumberExist } from "../../services/firebase.services";
+import { Link } from "react-router-dom";
 import useStyles from "./LoginPage.styles";
 
 const SignInPage = () => {
@@ -96,6 +97,9 @@ const SignInPage = () => {
             </Box>
           </form>
           <div id="recaptcha"></div>
+          <p>
+            Don't have an account? <Link to="/register">Register</Link>
+          </p>
         </div>
       </Modal>
     </div>

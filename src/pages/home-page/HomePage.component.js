@@ -16,6 +16,9 @@ const HomePage = () => {
   const [villas, setVillas] = useState([]);
   const [projects, setProjects] = useState([]);
   useEffect(() => {
+    if (!currentUser) {
+      history.push("/login");
+    }
     if (currentUser?.name === "") {
       history.push("/onboarding");
     }
