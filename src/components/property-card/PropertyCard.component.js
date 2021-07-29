@@ -12,7 +12,7 @@ const PropertyCard = ({ flat }) => {
       <Typography variant="h5" color="primary" className={classes.propertyName}>
         {flat?.propertyName}
       </Typography>
-      <Typography className={classes.address}>Andheri East</Typography>
+      <Typography className={classes.address}>{flat?.address?.city}</Typography>
       <Box display="flex" justifyContent="space-between">
         <Typography className={classes.type}>{flat?.roomType}</Typography>
         <Typography className={classes.price}>

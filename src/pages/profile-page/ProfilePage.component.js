@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import useStyles from "./ProfilePage.styles";
 import { useHistory } from "react-router";
 import { useAuth } from "../../context/auth-context";
-import { Card, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import Profile from "../../components/profile-component/Profile.component";
 
 const ProfilePage = () => {

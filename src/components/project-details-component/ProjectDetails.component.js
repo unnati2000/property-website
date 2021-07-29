@@ -32,10 +32,12 @@ const ProjectDetails = ({ id }) => {
   };
 
   const [viewport, setViewport] = React.useState({
-    latitude: 37.7577,
-    longitude: -122.4376,
+    latitude: projectData?.latitude,
+    longitude: projectData?.longitude,
     zoom: 10,
   });
+
+  const description = projectData?.description || "";
 
   useEffect(() => {
     firebase
@@ -94,7 +96,8 @@ const ProjectDetails = ({ id }) => {
             {projectData?.project}
           </Typography>
           <Typography className={classes.address}>
-            {projectData?.address}
+            {projectData?.address?.area}
+            {projectData?.address?.city} {projectData?.address?.district}
           </Typography>
         </Box>
         <Box>
@@ -169,7 +172,6 @@ const ProjectDetails = ({ id }) => {
               onViewportChange={(viewport) => setViewport(viewport)}
               mapboxApiAccessToken={process.env.REACT_APP_MAP_BOX_API}
             />
-            {console.log(process.env.REACT_APP_MAP_BOX_API)}
           </Grid>
         </Grid>
       </Container>
@@ -187,7 +189,6 @@ const ProjectDetails = ({ id }) => {
               <Typography variant="h5" color="primary">
                 1 RK
               </Typography>
-              {console.log("oneRK")}
               <Tabs
                 value={value}
                 indicatorColor="primary"
@@ -264,7 +265,7 @@ const ProjectDetails = ({ id }) => {
               <Typography variant="h5" color="primary">
                 2 BHK
               </Typography>
-              {console.log("twoRK")}
+
               <Tabs
                 value={value}
                 indicatorColor="primary"

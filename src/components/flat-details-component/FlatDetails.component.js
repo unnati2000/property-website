@@ -7,6 +7,7 @@ import Slider from "react-slick";
 import { Link } from "react-router-dom";
 import firebase from "../../firebase/firebase.utils";
 import parse from "html-react-parser";
+import ReactMapGL from "react-map-gl";
 
 const FlatDetails = ({ id }) => {
   const classes = useStyles();
@@ -31,6 +32,12 @@ const FlatDetails = ({ id }) => {
       })
       .catch((err) => console.log(err));
   }, []);
+
+  const [viewport, setViewport] = React.useState({
+    latitude: 37.7577,
+    longitude: -122.4376,
+    zoom: 10,
+  });
 
   const description = flatData?.description || "";
   return (
@@ -164,15 +171,12 @@ const FlatDetails = ({ id }) => {
             </div>
           </Grid>
           <Grid item md={4} className={classes.map}>
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.521260322283!2d106.8195613507864!3d-6.194741395493371!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f5390917b759%3A0x6b45e67356080477!2sPT%20Kulkul%20Teknologi%20Internasional!5e0!3m2!1sen!2sid!4v1601138221085!5m2!1sen!2sid"
-              width="300"
-              height="250"
-              frameBorder="0"
-              style={{ border: 0 }}
-              allowFullScreen=""
-              aria-hidden="false"
-              tabIndex="0"
+            <ReactMapGL
+              {...viewport}
+              width="100%"
+              height="100%"
+              onViewportChange={(viewport) => setViewport(viewport)}
+              mapboxApiAccessToken={process.env.REACT_APP_MAP_BOX_API}
             />
           </Grid>
         </Grid>

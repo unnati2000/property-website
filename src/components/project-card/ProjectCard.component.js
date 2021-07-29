@@ -26,7 +26,9 @@ const ProjectCard = ({ project }) => {
       </Box>
       <Typography className={classes.bhk}>{project?.listOfBHK} BHK</Typography>
 
-      <Typography className={classes.location}>{project?.address}</Typography>
+      <Typography className={classes.location}>
+        {project?.address?.city}
+      </Typography>
       <Box display="flex" justifyContent="space-between">
         <Typography variant="h4" className={classes.price}>
           3.5Cr-6Cr

@@ -5,6 +5,8 @@ import "slick-carousel/slick/slick-theme.css";
 import useStyles from "./VillaDetails.styles";
 import Slider from "react-slick";
 import firebase from "../../firebase/firebase.utils";
+import ReactMapGL, { Marker } from "react-map-gl";
+import parse from "html-react-parser";
 
 const VillaDetails = ({ id }) => {
   const classes = useStyles();
@@ -18,6 +20,13 @@ const VillaDetails = ({ id }) => {
     slidesToScroll: 1,
   };
 
+  const [viewport, setViewport] = React.useState({
+    latitude: 37.7577,
+    longitude: -122.4376,
+    zoom: 10,
+  });
+
+  const description = villaData?.description || "";
   useEffect(() => {
     firebase
       .firestore()
@@ -26,10 +35,14 @@ const VillaDetails = ({ id }) => {
       .get()
       .then((res) => {
         setVillaData(res.data());
+        setViewport({
+          latitude: res.data().latitude,
+          longitude: res.data().longitude,
+          zoom: 15,
+        });
       });
   }, []);
 
-  console.log(villaData);
   return (
     <div>
       <Box
@@ -43,7 +56,7 @@ const VillaDetails = ({ id }) => {
             {villaData?.villaBedroom} BHK Independent House
           </Typography>
           <Typography className={classes.address}>
-            {villaData?.address}
+            {villaData?.address?.city}
           </Typography>
         </Box>
         <Box>
@@ -153,16 +166,22 @@ const VillaDetails = ({ id }) => {
             </div>
           </Grid>
           <Grid item md={4} className={classes.map}>
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.521260322283!2d106.8195613507864!3d-6.194741395493371!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f5390917b759%3A0x6b45e67356080477!2sPT%20Kulkul%20Teknologi%20Internasional!5e0!3m2!1sen!2sid!4v1601138221085!5m2!1sen!2sid"
-              width="300"
-              height="250"
-              frameBorder="0"
-              style={{ border: 0 }}
-              allowFullScreen=""
-              aria-hidden="false"
-              tabIndex="0"
-            />
+            <ReactMapGL
+              {...viewport}
+              width="100%"
+              height="100%"
+              onViewportChange={setViewport}
+              mapboxApiAccessToken={process.env.REACT_APP_MAP_BOX_API}
+            >
+              <Marker
+                latitude={viewport.latitude}
+                longitude={viewport.longitude}
+              >
+                <div className="marker temporary-marker">
+                  <span></span>
+                </div>
+              </Marker>
+            </ReactMapGL>
           </Grid>
         </Grid>
       </Container>
@@ -172,7 +191,7 @@ const VillaDetails = ({ id }) => {
             <Typography variant="h4" color="primary">
               About
             </Typography>
-            <Typography>{villaData?.description}</Typography>
+            <Typography>{parse(description)}</Typography>
           </Grid>
         </Grid>
       </Container>

@@ -19,7 +19,9 @@ const VillaCard = ({ villa }) => {
           <Typography variant="h6">
             {villa?.villaBedroom} BHK Independent House
           </Typography>
-          <Typography className={classes.address}>{villa?.address}</Typography>
+          <Typography className={classes.address}>
+            {villa?.address?.city}
+          </Typography>
           <Box display="flex" justifyContent="left" mt={2} mb={1}>
             <Box>
               <Typography className={classes.grey}>Build Up Area</Typography>

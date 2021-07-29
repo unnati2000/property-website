@@ -52,11 +52,6 @@ const AddPropertyComponent = ({ plan }) => {
     setAddress({ ...address, [e.target.name]: e.target.value });
   };
 
-  const [coordinates, setCoordinates] = useState({
-    lat: "",
-    long: "",
-  });
-
   let oneRK = [];
   let oneBHK = [];
   let twoBHK = [];
@@ -257,10 +252,11 @@ const AddPropertyComponent = ({ plan }) => {
               `http://api.positionstack.com/v1/forward?access_key=${process.env.REACT_APP_API_KEY}&query=${city} ${district}`
             );
 
-            setCoordinates({
-              lat: data?.data[0].latitude,
-              long: data?.data[0].longitude,
-            });
+            console.log(data?.data[0]);
+
+            const latitude = data?.data[0].latitude;
+            const longitude = data?.data[0].longitude;
+
             const downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
             urls.push(downloadURL);
             if (urls.length === images.length) {
@@ -269,7 +265,8 @@ const AddPropertyComponent = ({ plan }) => {
                   plan,
                   propertyName,
                   address,
-                  coordinates,
+                  latitude,
+                  longitude,
                   roomType,
                   price,
                   value,
@@ -290,7 +287,8 @@ const AddPropertyComponent = ({ plan }) => {
                   builderName,
                   projectPropertyName,
                   address,
-                  coordinates,
+                  latitude,
+                  longitude,
                   listOfBHK,
                   projectPossessionStatus,
                   projectAveragePrice,
@@ -313,7 +311,8 @@ const AddPropertyComponent = ({ plan }) => {
                 await addVilla(
                   plan,
                   address,
-                  coordinates,
+                  latitude,
+                  longitude,
                   villaArea,
                   villaAveragePrice,
                   furnishedStatus,
@@ -403,7 +402,7 @@ const AddPropertyComponent = ({ plan }) => {
                     <MenuItem value="">
                       <em>None</em>
                     </MenuItem>
-                    <MenuItem value="1 RK">1 BHK</MenuItem>
+                    <MenuItem value="1 RK">1 RK</MenuItem>
                     <MenuItem value="1 BHK">1 BHK</MenuItem>
                     <MenuItem value="2 BHK">2 BHK</MenuItem>
                     <MenuItem value="3 BHK">3 BHK</MenuItem>
