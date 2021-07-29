@@ -56,7 +56,8 @@ const VillaDetails = ({ id }) => {
             {villaData?.villaBedroom} BHK Independent House
           </Typography>
           <Typography className={classes.address}>
-            {villaData?.address?.city}
+            {villaData?.address?.areaName}, {villaData?.address?.city},
+            {villaData?.address?.district}
           </Typography>
         </Box>
         <Box>
@@ -145,22 +146,13 @@ const VillaDetails = ({ id }) => {
                   <Typography className={classes.overviewheader}>
                     Bedroom
                   </Typography>
-                  <Typography>{villaData?.roomType}</Typography>
+                  <Typography>{villaData?.villaBedroom} Bedroom</Typography>
                 </Box>
-              </Box>
-              <Box
-                display="flex"
-                mt={2}
-                mb={2}
-                justifyContent="left"
-                alignItems="center"
-                className={classes.ammenities}
-              >
                 <Box mr={3}>
                   <Typography className={classes.overviewheader}>
                     Bathroom
                   </Typography>
-                  <Typography>{villaData?.bathroom}</Typography>
+                  <Typography>{villaData?.villaBathroom} Bathroom</Typography>
                 </Box>
               </Box>
             </div>

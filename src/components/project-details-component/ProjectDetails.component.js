@@ -16,7 +16,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import firebase from "../../firebase/firebase.utils";
 import Ammenities from "../ammenities/Ammenities.component";
-import ReactMapGL from "react-map-gl";
+import ReactMapGL, { Marker } from "react-map-gl";
+import parse from "html-react-parser";
 
 const ProjectDetails = ({ id }) => {
   const classes = useStyles();
@@ -32,8 +33,8 @@ const ProjectDetails = ({ id }) => {
   };
 
   const [viewport, setViewport] = React.useState({
-    latitude: projectData?.latitude,
-    longitude: projectData?.longitude,
+    latitude: 37.7577,
+    longitude: -122.4376,
     zoom: 10,
   });
 
@@ -47,6 +48,11 @@ const ProjectDetails = ({ id }) => {
       .get()
       .then((res) => {
         setProjectData(res.data());
+        setViewport({
+          latitude: res.data().latitude,
+          longitude: res.data().longitude,
+          zoom: 15,
+        });
       });
   }, []);
 
@@ -151,17 +157,7 @@ const ProjectDetails = ({ id }) => {
               <Typography variant="h5" color="primary">
                 About
               </Typography>
-              <Typography>
-                Property for sale in Mira Bhayandar, Mumbai. This 1 BHK
-                Independent House is located in Mumbai's most promising
-                location. This property is posted by owner and there is no
-                brokerage involved. This Independent House's price is Rs 70.0 L.
-                Homebuyers will also need to pay Rs 100 towards maintenance. The
-                built-up area is 350 Square feet. This unit enjoys a good view
-                and is a West facing property. Regular water supply is
-                available. This Independent House is strategically located
-                within close distance of famous
-              </Typography>
+              <Typography>{parse(description)}</Typography>
             </Container>
           </Grid>
           <Grid item md={4} className={classes.map}>
@@ -169,9 +165,18 @@ const ProjectDetails = ({ id }) => {
               {...viewport}
               width="100%"
               height="100%"
-              onViewportChange={(viewport) => setViewport(viewport)}
+              onViewportChange={setViewport}
               mapboxApiAccessToken={process.env.REACT_APP_MAP_BOX_API}
-            />
+            >
+              <Marker
+                latitude={viewport.latitude}
+                longitude={viewport.longitude}
+              >
+                <div className="marker temporary-marker">
+                  <span></span>
+                </div>
+              </Marker>
+            </ReactMapGL>
           </Grid>
         </Grid>
       </Container>

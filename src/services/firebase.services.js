@@ -64,6 +64,8 @@ export async function addFlat(
   flatDescription,
   urls,
   flatFurnishedStatus,
+  flatBathroom,
+  flatBrokerage,
   userId,
   userDocId
 ) {
@@ -83,6 +85,8 @@ export async function addFlat(
     description: flatDescription,
     images: urls,
     furnishedStatus: flatFurnishedStatus,
+    bathroom: flatBathroom,
+    flatBrokerage: flatBrokerage,
     userId: userId,
     userDocId: userDocId,
   });
@@ -102,6 +106,8 @@ export async function addVilla(
   villaBedroom,
   villaBathroom,
   villaDescription,
+  villaFacing,
+  brokerage,
   urls,
   ammenities,
   userId,
@@ -123,6 +129,8 @@ export async function addVilla(
     possessionStatus: possessionStatus,
     villaBedroom: villaBedroom,
     villaBathroom: villaBathroom,
+    facing: villaFacing,
+    brokerage: brokerage,
     userId: userId,
     userDocId: userDocId,
   });

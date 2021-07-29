@@ -74,6 +74,8 @@ const AddPropertyComponent = ({ plan }) => {
     averagePrice: "",
     facing: "",
     flatFurnishedStatus: "",
+    flatBathroom: "",
+    flatBrokerage: "",
   });
 
   const [flatDescription, setflatDescription] = useState("");
@@ -89,6 +91,8 @@ const AddPropertyComponent = ({ plan }) => {
     villaValue: "",
     villaBedroom: "",
     villaBathroom: "",
+    brokerage: "",
+    villaFacing: "",
   });
 
   const [projectData, setProjectData] = useState({
@@ -130,6 +134,8 @@ const AddPropertyComponent = ({ plan }) => {
     averagePrice,
     facing,
     flatFurnishedStatus,
+    flatBathroom,
+    flatBrokerage,
   } = flatData;
 
   const {
@@ -151,6 +157,8 @@ const AddPropertyComponent = ({ plan }) => {
     villaValue,
     villaBedroom,
     villaBathroom,
+    villaFacing,
+    brokerage,
   } = villaData;
 
   const onFlatChange = (e) => {
@@ -277,6 +285,8 @@ const AddPropertyComponent = ({ plan }) => {
                   flatDescription,
                   urls,
                   flatFurnishedStatus,
+                  flatBathroom,
+                  flatBrokerage,
                   currentUser?.userId,
                   currentUser?.docId
                 );
@@ -322,6 +332,8 @@ const AddPropertyComponent = ({ plan }) => {
                   villaBedroom,
                   villaBathroom,
                   villaDescription,
+                  villaFacing,
+                  brokerage,
                   urls,
                   ammenities,
                   currentUser?.userId,
@@ -437,6 +449,43 @@ const AddPropertyComponent = ({ plan }) => {
                 </FormControl>
               </Box>
 
+              <Box display="flex" justifyContent="space-around">
+                <FormControl
+                  variant="outlined"
+                  className={classes.formControlRoom}
+                >
+                  <InputLabel id="demo-simple-select-outlined-label">
+                    Bathroom
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    name="flatBathroom"
+                    value={flatBathroom}
+                    label="Bathroom"
+                    onChange={onVillaChange}
+                    className={classes.select}
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value="1">1</MenuItem>
+                    <MenuItem value="2">2</MenuItem>
+                    <MenuItem value="3">3</MenuItem>
+                    <MenuItem value="4">4</MenuItem>
+                    <MenuItem value="5">5</MenuItem>
+                  </Select>
+                </FormControl>
+                <TextField
+                  label="Flat brokerage"
+                  id="outlined-size-normal"
+                  variant="outlined"
+                  name="flatBrokerage"
+                  value={flatBrokerage}
+                  onChange={onFlatChange}
+                  className={classes.text}
+                />
+              </Box>
               <Box mt={2} mb={2} ml={3} mr={3}>
                 <TextField
                   label="Price"
@@ -1089,13 +1138,48 @@ const AddPropertyComponent = ({ plan }) => {
                   </Select>
                 </FormControl>
               </Box>
+              <Box display="flex" justifyContent="space-evenly">
+                <FormControl
+                  variant="outlined"
+                  className={classes.formControlRoom}
+                >
+                  <InputLabel id="demo-simple-select-outlined-label">
+                    Facing
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    name="villaFacing"
+                    value={villaFacing}
+                    label="Bathroom"
+                    onChange={onVillaChange}
+                    className={classes.select}
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value="North">North</MenuItem>
+                    <MenuItem value="East">East</MenuItem>
+                    <MenuItem value="West">West</MenuItem>
+                    <MenuItem value="South">South</MenuItem>
+                  </Select>
+                </FormControl>
+                <TextField
+                  label="Brokerage in percentage"
+                  id="outlined-size-normal"
+                  variant="outlined"
+                  name="brokerage"
+                  value={brokerage}
+                  className={classes.text}
+                  onChange={onVillaChange}
+                />
+              </Box>
               <div>
                 <Typography
                   variant="h5"
                   color="primary"
                   className={classes.ammenitiesHeader}
                 >
-                  {" "}
                   Choose Ammenities
                 </Typography>
                 <Box
