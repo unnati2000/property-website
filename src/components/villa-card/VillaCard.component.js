@@ -31,7 +31,9 @@ const VillaCard = ({ villa }) => {
             </Box>
             <Box ml={1}>
               <Typography className={classes.grey}>Avg. Price</Typography>
-              <Typography className={classes.blackFont}>28.75 sq ft</Typography>
+              <Typography className={classes.blackFont}>
+                {villa?.averagePrice} k/sq ft
+              </Typography>
             </Box>
           </Box>
           <Link to={"/villa/" + villa?.docId}>

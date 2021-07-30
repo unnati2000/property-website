@@ -27,12 +27,12 @@ function App() {
             <Route exact path="/package" component={Package} />
             <Route exact path="/add" component={AddProperty} />
             <Route exact path="/profile" component={ProfilePage} />
+            <Route exact path="/:propertyId/enquiry" component={EnquiryForm} />
             <Route
               exact
               path="/:propertyType/:id"
               component={PropertyDetails}
             />
-            <Route exact path="/:propertyId/enquiry" component={EnquiryForm} />
           </Switch>
         </AuthProvider>
       </BrowserRouter>

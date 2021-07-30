@@ -1,7 +1,6 @@
 import React from "react";
 import { Card, Typography, Box, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
-
 import useStyles from "./ProjectCard.styles";
 
 const ProjectCard = ({ project }) => {
