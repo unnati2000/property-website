@@ -41,7 +41,7 @@ const VillaDetails = ({ id }) => {
           zoom: 15,
         });
       });
-  }, []);
+  }, [id]);
 
   return (
     <div>
@@ -73,7 +73,7 @@ const VillaDetails = ({ id }) => {
         <Slider {...settings} className={classes.slidor}>
           {villaData?.images?.map((image) => (
             <div className={classes.imgDiv}>
-              <img className={classes.img} src={image} />
+              <img className={classes.img} alt={image} src={image} />
             </div>
           ))}
         </Slider>
@@ -106,7 +106,11 @@ const VillaDetails = ({ id }) => {
       <Container>
         <Grid container>
           <Grid item md={8} className={classes.overviewDiv}>
-            <Typography variant="h6" className={classes.overview}>
+            <Typography
+              variant="h4"
+              color="primary"
+              className={classes.overview}
+            >
               Overview
             </Typography>
             <div>
@@ -179,7 +183,7 @@ const VillaDetails = ({ id }) => {
       </Container>
       <Container>
         <Grid container>
-          <Grid md={8} item>
+          <Grid md={8} item className={classes.overviewDiv}>
             <Typography variant="h4" color="primary">
               About
             </Typography>

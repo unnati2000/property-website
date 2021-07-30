@@ -7,7 +7,7 @@ import Slider from "react-slick";
 import { Link } from "react-router-dom";
 import firebase from "../../firebase/firebase.utils";
 import parse from "html-react-parser";
-import ReactMapGL from "react-map-gl";
+import ReactMapGL, { Marker } from "react-map-gl";
 
 const FlatDetails = ({ id }) => {
   const classes = useStyles();
@@ -21,6 +21,12 @@ const FlatDetails = ({ id }) => {
     slidesToScroll: 1,
   };
 
+  const [viewport, setViewport] = React.useState({
+    latitude: 37.7577,
+    longitude: -122.4376,
+    zoom: 10,
+  });
+
   useEffect(() => {
     firebase
       .firestore()
@@ -29,15 +35,14 @@ const FlatDetails = ({ id }) => {
       .get()
       .then((res) => {
         setFlatData(res.data());
+        setViewport({
+          latitude: res.data().latitude,
+          longitude: res.data().longitude,
+          zoom: 15,
+        });
       })
       .catch((err) => console.log(err));
-  }, []);
-
-  const [viewport, setViewport] = React.useState({
-    latitude: 37.7577,
-    longitude: -122.4376,
-    zoom: 10,
-  });
+  }, [id]);
 
   const description = flatData?.description || "";
   return (
@@ -53,7 +58,8 @@ const FlatDetails = ({ id }) => {
             {flatData?.propertyName}
           </Typography>
           <Typography className={classes.address}>
-            {/* {flatData?.address} */}
+            {flatData?.address?.areaName}, {flatData?.address?.city},{" "}
+            {flatData?.address?.district}
           </Typography>
         </Box>
         <Box>
@@ -71,7 +77,7 @@ const FlatDetails = ({ id }) => {
         <Slider {...settings} className={classes.slidor}>
           {flatData?.images?.map((image) => (
             <div className={classes.imgDiv}>
-              <img className={classes.img} src={image} />
+              <img className={classes.img} src={image} alt={image} />
             </div>
           ))}
         </Slider>
@@ -104,7 +110,11 @@ const FlatDetails = ({ id }) => {
       <Container>
         <Grid container>
           <Grid item md={8} className={classes.overviewDiv}>
-            <Typography variant="h6" className={classes.overview}>
+            <Typography
+              variant="h4"
+              color="primary"
+              className={classes.overview}
+            >
               Overview
             </Typography>
             <div>
@@ -120,7 +130,7 @@ const FlatDetails = ({ id }) => {
                   <Typography className={classes.overviewheader}>
                     Brokerage
                   </Typography>
-                  <Typography>{flatData?.brokerage}</Typography>
+                  <Typography>{flatData?.flatBrokerage}</Typography>
                 </Box>
                 <Box ml={3}>
                   <Typography className={classes.overviewheader}>
@@ -165,7 +175,7 @@ const FlatDetails = ({ id }) => {
                   <Typography className={classes.overviewheader}>
                     Bathroom
                   </Typography>
-                  <Typography>{flatData?.bathroom}</Typography>
+                  <Typography>{flatData?.bathroom} </Typography>
                 </Box>
               </Box>
             </div>
@@ -175,15 +185,24 @@ const FlatDetails = ({ id }) => {
               {...viewport}
               width="100%"
               height="100%"
-              onViewportChange={(viewport) => setViewport(viewport)}
+              onViewportChange={setViewport}
               mapboxApiAccessToken={process.env.REACT_APP_MAP_BOX_API}
-            />
+            >
+              <Marker
+                latitude={viewport.latitude}
+                longitude={viewport.longitude}
+              >
+                <div className="marker temporary-marker">
+                  <span></span>
+                </div>
+              </Marker>
+            </ReactMapGL>
           </Grid>
         </Grid>
       </Container>
       <Container>
         <Grid container>
-          <Grid md={8} item>
+          <Grid md={8} item className={classes.overviewDiv}>
             <Typography variant="h4" color="primary">
               About
             </Typography>

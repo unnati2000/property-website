@@ -54,7 +54,7 @@ const ProjectDetails = ({ id }) => {
           zoom: 15,
         });
       });
-  }, []);
+  }, [id]);
 
   const [value, setValue] = useState(2);
 
@@ -102,8 +102,8 @@ const ProjectDetails = ({ id }) => {
             {projectData?.project}
           </Typography>
           <Typography className={classes.address}>
-            {projectData?.address?.area}
-            {projectData?.address?.city} {projectData?.address?.district}
+            {projectData?.address?.areaName}, {projectData?.address?.city}{" "}
+            {projectData?.address?.district}
           </Typography>
         </Box>
         <Box>
@@ -117,7 +117,7 @@ const ProjectDetails = ({ id }) => {
         <Slider {...settings} className={classes.slidor}>
           {projectData?.images?.map((image) => (
             <div className={classes.imgDiv}>
-              <img className={classes.img} src={image} />
+              <img className={classes.img} src={image} alt={image} />
             </div>
           ))}
         </Slider>
@@ -202,7 +202,7 @@ const ProjectDetails = ({ id }) => {
                 aria-label="disabled tabs example"
               >
                 {projectData?.oneRK?.map((data, index) => (
-                  <Tab label={data?.area} {...a11yProps(index)} />
+                  <Tab label={data?.area + " sq. ft"} {...a11yProps(index)} />
                 ))}
               </Tabs>
             </Container>
@@ -279,14 +279,30 @@ const ProjectDetails = ({ id }) => {
                 aria-label="disabled tabs example"
               >
                 {projectData?.twoBHK?.map((data, index) => (
-                  <Tab label={data?.area} {...a11yProps(index)} />
+                  <Tab label={data?.area + " sq. ft"} {...a11yProps(index)} />
                 ))}
               </Tabs>
             </Container>
             <Container>
               {projectData?.twoBHK?.map((data, index) => (
                 <TabPanel value={value} index={index}>
-                  {data?.price} {data?.value} {data?.roomType}
+                  <Box display="flex" justifyContent="left">
+                    <div>
+                      <Typography className={classes.roomType}>
+                        {data?.roomType}
+                      </Typography>
+                      <Typography className={classes.carpet}>
+                        Carpet area{" "}
+                        <span className={classes.area}>
+                          {data?.area} sq. ft
+                        </span>
+                      </Typography>
+                    </div>
+                    <Typography className={classes.price}>
+                      ₹ {data?.price}
+                      {data?.value}
+                    </Typography>
+                  </Box>
                 </TabPanel>
               ))}
             </Container>
@@ -307,14 +323,30 @@ const ProjectDetails = ({ id }) => {
                 aria-label="disabled tabs example"
               >
                 {projectData?.threeBHK?.map((data, index) => (
-                  <Tab label={data?.area} {...a11yProps(index)} />
+                  <Tab label={data?.area + " sq. ft"} {...a11yProps(index)} />
                 ))}
               </Tabs>
             </Container>
             <Container>
               {projectData?.threeBHK.map((data, index) => (
                 <TabPanel value={value} index={index}>
-                  {data?.price} {data?.value} {data?.roomType}
+                  <Box display="flex" justifyContent="left">
+                    <div>
+                      <Typography className={classes.roomType}>
+                        {data?.roomType}
+                      </Typography>
+                      <Typography className={classes.carpet}>
+                        Carpet area{" "}
+                        <span className={classes.area}>
+                          {data?.area} sq. ft
+                        </span>
+                      </Typography>
+                    </div>
+                    <Typography className={classes.price}>
+                      ₹ {data?.price}
+                      {data?.value}
+                    </Typography>
+                  </Box>
                 </TabPanel>
               ))}
             </Container>
@@ -334,14 +366,30 @@ const ProjectDetails = ({ id }) => {
                 aria-label="disabled tabs example"
               >
                 {projectData?.fourBHK?.map((data, index) => (
-                  <Tab label={data?.area} {...a11yProps(index)} />
+                  <Tab label={data?.area + " sq. ft"} {...a11yProps(index)} />
                 ))}
               </Tabs>
             </Container>
             <Container>
               {projectData?.fourBHK?.map((data, index) => (
                 <TabPanel value={value} index={index}>
-                  {data?.price} {data?.value} {data?.roomType}
+                  <Box display="flex" justifyContent="left">
+                    <div>
+                      <Typography className={classes.roomType}>
+                        {data?.roomType}
+                      </Typography>
+                      <Typography className={classes.carpet}>
+                        Carpet area{" "}
+                        <span className={classes.area}>
+                          {data?.area} sq. ft
+                        </span>
+                      </Typography>
+                    </div>
+                    <Typography className={classes.price}>
+                      ₹ {data?.price}
+                      {data?.value}
+                    </Typography>
+                  </Box>
                 </TabPanel>
               ))}
             </Container>
@@ -362,14 +410,30 @@ const ProjectDetails = ({ id }) => {
                 aria-label="disabled tabs example"
               >
                 {projectData?.fiveBHK?.map((data, index) => (
-                  <Tab label={data?.area} {...a11yProps(index)} />
+                  <Tab label={data?.area + " sq. ft"} {...a11yProps(index)} />
                 ))}
               </Tabs>
             </Container>
             <Container>
               {projectData?.fiveBHK?.map((data, index) => (
                 <TabPanel value={value} index={index}>
-                  {data?.price} {data?.value} {data?.roomType}
+                  <Box display="flex" justifyContent="left">
+                    <div>
+                      <Typography className={classes.roomType}>
+                        {data?.roomType}
+                      </Typography>
+                      <Typography className={classes.carpet}>
+                        Carpet area{" "}
+                        <span className={classes.area}>
+                          {data?.area} sq. ft
+                        </span>
+                      </Typography>
+                    </div>
+                    <Typography className={classes.price}>
+                      ₹ {data?.price}
+                      {data?.value}
+                    </Typography>
+                  </Box>
                 </TabPanel>
               ))}
             </Container>

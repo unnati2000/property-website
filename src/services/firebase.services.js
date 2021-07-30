@@ -138,6 +138,7 @@ export async function addVilla(
 
 export async function addProject(
   plan,
+  builderName,
   projectPropertyName,
   address,
   latitude,
@@ -161,6 +162,7 @@ export async function addProject(
 ) {
   await firebase.firestore().collection("property").add({
     propertyType: plan,
+    builderName: builderName,
     project: projectPropertyName,
     address: address,
     latitude: latitude,

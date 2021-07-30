@@ -260,8 +260,6 @@ const AddPropertyComponent = ({ plan }) => {
               `http://api.positionstack.com/v1/forward?access_key=${process.env.REACT_APP_API_KEY}&query=${city} ${district}`
             );
 
-            console.log(data?.data[0]);
-
             const latitude = data?.data[0].latitude;
             const longitude = data?.data[0].longitude;
 
@@ -463,7 +461,7 @@ const AddPropertyComponent = ({ plan }) => {
                     name="flatBathroom"
                     value={flatBathroom}
                     label="Bathroom"
-                    onChange={onVillaChange}
+                    onChange={onFlatChange}
                     className={classes.select}
                   >
                     <MenuItem value="">
@@ -851,6 +849,7 @@ const AddPropertyComponent = ({ plan }) => {
                           <MenuItem value="2 BHK">2 BHK</MenuItem>
                           <MenuItem value="3 BHK">3 BHK</MenuItem>
                           <MenuItem value="4 BHK">4 BHK</MenuItem>
+                          <MenuItem value="5 BHK">5 BHK</MenuItem>
                         </Select>
                       </FormControl>
                       <TextField

@@ -22,7 +22,9 @@ const ProjectCard = ({ project }) => {
         >
           {project?.project}
         </Typography>
-        <Typography className={classes.builders}>by xyz builders</Typography>
+        <Typography className={classes.builders}>
+          {project?.builderName}
+        </Typography>
       </Box>
       <Typography className={classes.bhk}>{project?.listOfBHK} BHK</Typography>
 

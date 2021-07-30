@@ -1,14 +1,12 @@
 import React from "react";
 import useStyles from "./Profile.styles";
 import { useAuth } from "../../context/auth-context";
-import { FaBirthdayCake, FaToolbox } from "react-icons/fa";
-import { FiPhone } from "react-icons/fi";
 import { Card, Typography, Button, Grid, Box } from "@material-ui/core";
 
 const Profile = () => {
   const classes = useStyles();
   const { currentUser } = useAuth();
-  console.log(currentUser);
+
   return (
     <Card className={classes.card}>
       <Grid container>
