@@ -41,4 +41,13 @@ export default makeStyles((theme) => ({
     background: "#eee",
     padding: "10px",
   },
+  img: {
+    height: "50px",
+    width: "50px",
+    borderRadius: "50%",
+  },
+  agentBox: {
+    background: "#eee",
+    padding: "10px 20px",
+  },
 }));

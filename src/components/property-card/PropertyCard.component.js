@@ -19,7 +19,6 @@ const PropertyCard = ({ flat }) => {
           ₹{flat?.price} {flat?.value}
         </Typography>
       </Box>
-
       <Link to={"/flat/" + flat?.docId}>
         <Button variant="contained" className={classes.button}>
           View Details

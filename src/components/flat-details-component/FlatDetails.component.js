@@ -66,7 +66,7 @@ const FlatDetails = ({ id }) => {
           <Typography variant="h6">
             {flatData?.price} {flatData?.value}
           </Typography>
-          <Link to={"/" + id + "/enquiry"}>
+          <Link to={"/enquiry/" + id + "/" + flatData?.userDocId}>
             <Button variant="contained" className={classes.button}>
               Contact Developer
             </Button>

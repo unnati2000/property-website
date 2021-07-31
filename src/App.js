@@ -24,10 +24,10 @@ function App() {
             <Route exact path="/login" component={LoginPage} />
             <Route exact path="/register" component={RegisterPage} />
             <Route exact path="/onboarding" component={CreateProfile} />
+            <Route exact path="/enquiry/:id/:userId" component={EnquiryForm} />
             <Route exact path="/package" component={Package} />
             <Route exact path="/add" component={AddProperty} />
             <Route exact path="/profile" component={ProfilePage} />
-            <Route exact path="/:propertyId/enquiry" component={EnquiryForm} />
             <Route
               exact
               path="/:propertyType/:id"

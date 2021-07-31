@@ -230,11 +230,7 @@ const ProjectDetails = ({ id }) => {
                 aria-label="disabled tabs example"
               >
                 {projectData?.oneBHK?.map((data, index) => (
-                  <Tab
-                    className={classes.tab}
-                    label={data?.area + " sq. ft"}
-                    {...a11yProps(index)}
-                  />
+                  <Tab label={data?.area + " sq. ft"} {...a11yProps(index)} />
                 ))}
               </Tabs>
             </Container>
