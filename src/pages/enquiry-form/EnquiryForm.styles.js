@@ -50,4 +50,7 @@ export default makeStyles((theme) => ({
     background: "#eee",
     padding: "10px 20px",
   },
+  button: {
+    margin: "10px 20px",
+  },
 }));

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Typography, Box, TextField, Button } from "@material-ui/core";
+import { useHistory } from "react-router";
+import { addEnquiry } from "../../services/firebase.services";
 import firebase from "../../firebase/firebase.utils";
 import useStyles from "./EnquiryForm.styles";
 
@@ -7,8 +9,16 @@ const EnquiryForm = ({ match }) => {
   const classes = useStyles();
 
   const [agent, setAgent] = useState({});
+  const [property, setProperty] = useState({});
+  const [formData, setFormData] = useState({
+    phoneNumber: "",
+    name: "",
+    email: "",
+  });
 
-  console.log(match.params.userId);
+  const { phoneNumber, name, email } = formData;
+
+  const history = useHistory();
   useEffect(() => {
     firebase
       .firestore()
@@ -16,6 +26,13 @@ const EnquiryForm = ({ match }) => {
       .doc(match.params.userId)
       .get()
       .then((res) => setAgent(res.data()));
+
+    firebase
+      .firestore()
+      .collection("property")
+      .doc(match.params.id)
+      .get()
+      .then((res) => setProperty(res.data()));
   }, [match]);
 
   const [availableOn, setAvailableOn] = useState([]);
@@ -40,6 +57,26 @@ const EnquiryForm = ({ match }) => {
     return availableOn.includes(value);
   };
 
+  const onChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
+    const res = await addEnquiry(
+      phoneNumber,
+      name,
+      email,
+      availableOn,
+      agent?.userId,
+      match.params.userId,
+      match.params.id
+    );
+
+    history.push("/");
+  };
+
   return (
     <div>
       <Modal
@@ -59,6 +96,7 @@ const EnquiryForm = ({ match }) => {
           <Box
             display="flex"
             justifyContent="left"
+            alignItems="center"
             mt={3}
             className={classes.agentBox}
           >
@@ -76,7 +114,7 @@ const EnquiryForm = ({ match }) => {
               <Typography>{agent?.phoneNumber}</Typography>
             </Box>
           </Box>
-          <form>
+          <form onSubmit={onSubmit}>
             <Box
               display="flex"
               justifyContent="center"
@@ -89,99 +127,124 @@ const EnquiryForm = ({ match }) => {
                 variant="outlined"
                 name="phoneNumber"
                 className={classes.text}
+                value={phoneNumber}
+                onChange={onChange}
               />
               <TextField
                 label="Name"
                 id="outlined-size-normal"
                 variant="outlined"
-                name="phoneNumber"
+                name="name"
+                value={name}
                 className={classes.text}
+                onChange={onChange}
               />
               <TextField
                 label="Email"
                 id="outlined-size-normal"
                 variant="outlined"
-                name="phoneNumber"
+                name="email"
+                value={email}
                 className={classes.text}
+                onChange={onChange}
               />
 
-              <Box mt={2} className={classes.rooms}>
-                <Typography variant="h6">Select your room type</Typography>
-                <Box
-                  display="flex"
-                  justifyContent="space-evenly"
-                  flexWrap="wrap"
-                  mt={1}
-                  mb={2}
-                >
-                  <Button
-                    variant={
-                      checkAvailability("1 RK") ? "contained" : "outlined"
-                    }
-                    value="1 RK"
-                    onClick={onChangeAvailableOn}
-                    color="primary"
-                    className={classes.submit}
+              {property?.propertyType === "project" && (
+                <Box mt={2} className={classes.rooms}>
+                  <Typography variant="h6">Select your room type</Typography>
+                  <Box
+                    display="flex"
+                    justifyContent="space-evenly"
+                    flexWrap="wrap"
+                    mt={1}
+                    mb={2}
                   >
-                    1 RK
-                  </Button>
-                  <Button
-                    variant={
-                      checkAvailability("1 BHK") ? "contained" : "outlined"
-                    }
-                    value="1 BHK"
-                    onClick={onChangeAvailableOn}
-                    color="primary"
-                    className={classes.submit}
-                  >
-                    1 BHK
-                  </Button>
-                  <Button
-                    variant={
-                      checkAvailability("2 BHK") ? "contained" : "outlined"
-                    }
-                    value="2 BHK"
-                    onClick={onChangeAvailableOn}
-                    color="primary"
-                    className={classes.submit}
-                  >
-                    2 BHK
-                  </Button>
-                  <Button
-                    variant={
-                      checkAvailability("3 BHK") ? "contained" : "outlined"
-                    }
-                    value="3 BHK"
-                    onClick={onChangeAvailableOn}
-                    color="primary"
-                    className={classes.submit}
-                  >
-                    3 BHK
-                  </Button>
-                  <Button
-                    variant={
-                      checkAvailability("4 BHK") ? "contained" : "outlined"
-                    }
-                    value="4 BHK"
-                    onClick={onChangeAvailableOn}
-                    color="primary"
-                    className={classes.submit}
-                  >
-                    4 BHK
-                  </Button>
-                  <Button
-                    value="5 BHK"
-                    variant={
-                      checkAvailability("5 BHK") ? "contained" : "outlined"
-                    }
-                    onClick={onChangeAvailableOn}
-                    color="primary"
-                    className={classes.submit}
-                  >
-                    5 BHK
-                  </Button>
+                    {property?.oneRK.length > 0 && (
+                      <Button
+                        variant={
+                          checkAvailability("1 RK") ? "contained" : "outlined"
+                        }
+                        value="1 RK"
+                        onClick={onChangeAvailableOn}
+                        color="primary"
+                        className={classes.button}
+                      >
+                        1 RK
+                      </Button>
+                    )}
+
+                    {property?.oneBHK.length > 0 && (
+                      <Button
+                        variant={
+                          checkAvailability("1 BHK") ? "contained" : "outlined"
+                        }
+                        value="1 BHK"
+                        onClick={onChangeAvailableOn}
+                        color="primary"
+                        className={classes.button}
+                      >
+                        1 BHK
+                      </Button>
+                    )}
+
+                    {property?.twoBHK.length > 0 && (
+                      <Button
+                        variant={
+                          checkAvailability("2 BHK") ? "contained" : "outlined"
+                        }
+                        value="2 BHK"
+                        onClick={onChangeAvailableOn}
+                        color="primary"
+                        className={classes.button}
+                      >
+                        2 BHK
+                      </Button>
+                    )}
+
+                    {property?.threeBHK.length > 0 && (
+                      <Button
+                        variant={
+                          checkAvailability("3 BHK") ? "contained" : "outlined"
+                        }
+                        value="3 BHK"
+                        onClick={onChangeAvailableOn}
+                        color="primary"
+                        className={classes.button}
+                      >
+                        3 BHK
+                      </Button>
+                    )}
+
+                    {property?.fourBHK > 0 && (
+                      <Button
+                        variant={
+                          checkAvailability("4 BHK") ? "contained" : "outlined"
+                        }
+                        value="4 BHK"
+                        onClick={onChangeAvailableOn}
+                        color="primary"
+                        className={classes.button}
+                      >
+                        4 BHK
+                      </Button>
+                    )}
+
+                    {property?.fiveBHK > 0 && (
+                      <Button
+                        value="5 BHK"
+                        variant={
+                          checkAvailability("5 BHK") ? "contained" : "outlined"
+                        }
+                        onClick={onChangeAvailableOn}
+                        color="primary"
+                        className={classes.button}
+                      >
+                        5 BHK
+                      </Button>
+                    )}
+                  </Box>
                 </Box>
-              </Box>
+              )}
 
               <br />
               <Button

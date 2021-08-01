@@ -7,6 +7,7 @@ import Slider from "react-slick";
 import firebase from "../../firebase/firebase.utils";
 import ReactMapGL, { Marker } from "react-map-gl";
 import parse from "html-react-parser";
+import { Link } from "react-router-dom";
 
 const VillaDetails = ({ id }) => {
   const classes = useStyles();
@@ -64,9 +65,11 @@ const VillaDetails = ({ id }) => {
           <Typography variant="h6">
             ₹{villaData?.price} {villaData?.value}
           </Typography>
-          <Button variant="contained" className={classes.button}>
-            Contact Agent
-          </Button>
+          <Link to={"/enquiry/" + id + "/" + villaData?.userDocId}>
+            <Button variant="contained" className={classes.button}>
+              Contact Agent
+            </Button>
+          </Link>
         </Box>
       </Box>
       <Container className={classes.container}>

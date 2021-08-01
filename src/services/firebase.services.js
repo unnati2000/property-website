@@ -185,3 +185,23 @@ export async function addProject(
     userDocId: userDocId,
   });
 }
+
+export async function addEnquiry(
+  phoneNumber,
+  name,
+  email,
+  availableOn,
+  agentUserId,
+  agentUserDocId,
+  propertyDocId
+) {
+  await firebase.firestore().collection("enquiry").add({
+    phoneNumber: phoneNumber,
+    name: name,
+    email: email,
+    roomType: availableOn,
+    agentUserId: agentUserDocId,
+    agentUserDocId: agentUserDocId,
+    propertyDocId: propertyDocId,
+  });
+}

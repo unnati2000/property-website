@@ -18,6 +18,7 @@ import firebase from "../../firebase/firebase.utils";
 import Ammenities from "../ammenities/Ammenities.component";
 import ReactMapGL, { Marker } from "react-map-gl";
 import parse from "html-react-parser";
+import { Link } from "react-router-dom";
 
 const ProjectDetails = ({ id }) => {
   const classes = useStyles();
@@ -108,9 +109,11 @@ const ProjectDetails = ({ id }) => {
         </Box>
         <Box>
           <Typography variant="h6">{projectData?.builders}</Typography>
-          <Button variant="contained" className={classes.button}>
-            Contact Developer
-          </Button>
+          <Link to={"/enquiry/" + id + "/" + projectData?.userDocId}>
+            <Button variant="contained" className={classes.button}>
+              Contact Developer
+            </Button>
+          </Link>
         </Box>
       </Box>
       <Container className={classes.container}>

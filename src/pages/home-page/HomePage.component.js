@@ -45,7 +45,6 @@ const HomePage = () => {
           ...item.data(),
           docId: item.id,
         }));
-        console.log(response);
         setVillas(response);
       });
 
