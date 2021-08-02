@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import firebase from "../../firebase/firebase.utils";
 import parse from "html-react-parser";
 import ReactMapGL, { Marker } from "react-map-gl";
+import { useAuth } from "../../context/auth-context";
 
 const FlatDetails = ({ id }) => {
   const classes = useStyles();
@@ -21,6 +22,7 @@ const FlatDetails = ({ id }) => {
     slidesToScroll: 1,
   };
 
+  const { currentUser } = useAuth();
   const [viewport, setViewport] = React.useState({
     latitude: 37.7577,
     longitude: -122.4376,
@@ -66,11 +68,13 @@ const FlatDetails = ({ id }) => {
           <Typography variant="h6">
             {flatData?.price} {flatData?.value}
           </Typography>
-          <Link to={"/enquiry/" + id + "/" + flatData?.userDocId}>
-            <Button variant="contained" className={classes.button}>
-              Contact Developer
-            </Button>
-          </Link>
+          {currentUser?.userId !== flatData?.userId && (
+            <Link to={"/enquiry/" + id + "/" + flatData?.userDocId}>
+              <Button variant="contained" className={classes.button}>
+                Contact Developer
+              </Button>
+            </Link>
+          )}
         </Box>
       </Box>
       <Container className={classes.container}>

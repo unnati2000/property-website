@@ -19,6 +19,7 @@ import Ammenities from "../ammenities/Ammenities.component";
 import ReactMapGL, { Marker } from "react-map-gl";
 import parse from "html-react-parser";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/auth-context";
 
 const ProjectDetails = ({ id }) => {
   const classes = useStyles();
@@ -33,6 +34,7 @@ const ProjectDetails = ({ id }) => {
     slidesToScroll: 1,
   };
 
+  const { currentUser } = useAuth();
   const [viewport, setViewport] = React.useState({
     latitude: 37.7577,
     longitude: -122.4376,
@@ -108,12 +110,15 @@ const ProjectDetails = ({ id }) => {
           </Typography>
         </Box>
         <Box>
+          <Typography variant="h5">{projectData?.builderName}</Typography>
           <Typography variant="h6">{projectData?.builders}</Typography>
-          <Link to={"/enquiry/" + id + "/" + projectData?.userDocId}>
-            <Button variant="contained" className={classes.button}>
-              Contact Developer
-            </Button>
-          </Link>
+          {currentUser?.userId !== projectData?.userId && (
+            <Link to={"/enquiry/" + id + "/" + projectData?.userDocId}>
+              <Button variant="contained" className={classes.button}>
+                Contact Developer
+              </Button>
+            </Link>
+          )}
         </Box>
       </Box>
       <Container className={classes.container}>

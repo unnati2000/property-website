@@ -200,7 +200,7 @@ export async function addEnquiry(
     name: name,
     email: email,
     roomType: availableOn,
-    agentUserId: agentUserDocId,
+    agentUserId: agentUserId,
     agentUserDocId: agentUserDocId,
     propertyDocId: propertyDocId,
   });
