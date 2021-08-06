@@ -17,4 +17,10 @@ export default makeStyles((theme) => ({
   header: {
     margin: "10px 0",
   },
+  button: {
+    background: theme.palette.primary.main,
+    color: "white",
+    width: "100%",
+    marginTop: "20px",
+  },
 }));
