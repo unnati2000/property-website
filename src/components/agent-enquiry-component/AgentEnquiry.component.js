@@ -1,9 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Grid, Typography, Box, Button } from "@material-ui/core";
+import { useAuth } from "../../context/auth-context";
 import useStyles from "./AgentEnquiry.styles";
+import firebase from "../../firebase/firebase.utils";
 
 const AgentEnquiry = () => {
   const classes = useStyles();
+
+  const [enquiries, setEnquiries] = useState([]);
+  const { currentUser } = useAuth();
+  useEffect(() => {
+    // firebase
+    //   .firestore()
+    //   .collection("enquiry")
+    //   .where("agentUserId", "==", currentUser?.userId)
+    //   .get()
+    //   .then((res) => console.log(res.docs.map((item) => console.log(item))))
+    //   .catch((err) => console.log(err));
+  }, [currentUser]);
   return (
     <Card className={classes.card}>
       <Grid container>

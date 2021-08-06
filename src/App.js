@@ -12,6 +12,7 @@ import AddProperty from "./pages/add-property/AddProperty.component";
 import ProfilePage from "./pages/profile-page/ProfilePage.component";
 import PropertyDetails from "./pages/property-details/PropertyDetails.component";
 import EnquiryForm from "./pages/enquiry-form/EnquiryForm.component";
+import AdvancedSearch from "./pages/advanced-search/AdvancedSearch.component";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
               path="/:propertyType/:id"
               component={PropertyDetails}
             />
+            <Route exact path="/advanced-search" component={AdvancedSearch} />
           </Switch>
         </AuthProvider>
       </BrowserRouter>

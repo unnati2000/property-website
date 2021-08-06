@@ -101,7 +101,7 @@ const HomePage = () => {
             </Button>
             <br />
             <br />
-            <Link to="/" className={classes.link}>
+            <Link to="/advanced-search" className={classes.link}>
               Advanced Search
             </Link>
           </div>

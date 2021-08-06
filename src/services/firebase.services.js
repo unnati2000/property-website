@@ -11,7 +11,6 @@ export async function doesPhoneNumberExist(phoneNumber) {
 }
 
 export async function getUserDetailsByID(id) {
-  console.log(id);
   const result = await firebase
     .firestore()
     .collection("users")
