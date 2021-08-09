@@ -13,6 +13,7 @@ import ProfilePage from "./pages/profile-page/ProfilePage.component";
 import PropertyDetails from "./pages/property-details/PropertyDetails.component";
 import EnquiryForm from "./pages/enquiry-form/EnquiryForm.component";
 import AdvancedSearch from "./pages/advanced-search/AdvancedSearch.component";
+import SearchPage from "./pages/search-pages/SearchPage.component";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
               component={PropertyDetails}
             />
             <Route exact path="/advanced-search" component={AdvancedSearch} />
+            <Route exact path="/:location" component={SearchPage} />
           </Switch>
         </AuthProvider>
       </BrowserRouter>

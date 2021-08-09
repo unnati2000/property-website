@@ -15,6 +15,8 @@ const HomePage = () => {
   const [flats, setFlats] = useState([]);
   const [villas, setVillas] = useState([]);
   const [projects, setProjects] = useState([]);
+  const [location, setLocation] = useState("");
+
   useEffect(() => {
     if (!currentUser) {
       history.push("/login");
@@ -94,11 +96,17 @@ const HomePage = () => {
             <input
               type="text"
               className={classes.input}
+              name="location"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
               placeholder="Enter location or postal code"
             />
-            <Button variant="contained" className={classes.searchButton}>
-              Search
-            </Button>
+            <Link to={"/" + location}>
+              <Button variant="contained" className={classes.searchButton}>
+                Search
+              </Button>
+            </Link>
+
             <br />
             <br />
             <Link to="/advanced-search" className={classes.link}>

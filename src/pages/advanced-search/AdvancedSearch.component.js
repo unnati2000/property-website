@@ -30,7 +30,7 @@ const AdvancedSearch = () => {
           Advanced Search
         </Typography>
         <form>
-          <Box mt={2} display="flex" justifyContent="space-evenly">
+          <Box mt={2} mb={2} display="flex" justifyContent="space-evenly">
             <Box>
               <FormControl component="fieldset">
                 <FormLabel component="legend">City</FormLabel>
