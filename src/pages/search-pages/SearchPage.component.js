@@ -1,10 +1,12 @@
+import { Grid } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
+import SearchProperty from "../../components/search-property/SearchProperty.component";
 import firebase from "../../firebase/firebase.utils";
 
 const SearchPage = ({ match }) => {
   const [properties, setProperties] = useState([]);
   useEffect(() => {
-    const res = firebase
+    firebase
       .firestore()
       .collection("property")
       .where("propertyType", "==", "flat")
@@ -31,7 +33,14 @@ const SearchPage = ({ match }) => {
   console.log(properties);
   return (
     <div>
-      <h1>Search</h1>
+      <Grid container spacing={2}>
+        {properties &&
+          properties.map((property) => (
+            <Grid md={6} item>
+              <SearchProperty property={property} />
+            </Grid>
+          ))}
+      </Grid>
     </div>
   );
 };
