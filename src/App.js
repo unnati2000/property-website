@@ -36,7 +36,11 @@ function App() {
               component={PropertyDetails}
             />
             <Route exact path="/advanced-search" component={AdvancedSearch} />
-            <Route exact path="/:location" component={SearchPage} />
+            <Route
+              exact
+              path="/:location/:type/:rooms"
+              component={SearchPage}
+            />
           </Switch>
         </AuthProvider>
       </BrowserRouter>

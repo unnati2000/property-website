@@ -22,5 +22,12 @@ export default makeStyles((theme) => ({
     color: "white",
     width: "100%",
     marginTop: "20px",
+    "&:hover": {
+      background: theme.palette.primary.main,
+      color: "white",
+    },
+  },
+  link: {
+    textDecoration: "none",
   },
 }));
