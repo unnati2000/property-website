@@ -68,27 +68,33 @@ export async function addFlat(
   userId,
   userDocId
 ) {
-  await firebase.firestore().collection("property").add({
-    propertyType: plan,
-    propertyName: propertyName,
-    address: address,
-    latitude: latitude,
-    longitude: longitude,
-    roomType: roomType,
-    price: price,
-    value: value,
-    area: area,
-    parking: parking,
-    averagePrice: averagePrice,
-    facing: facing,
-    description: flatDescription,
-    images: urls,
-    furnishedStatus: flatFurnishedStatus,
-    bathroom: flatBathroom,
-    flatBrokerage: flatBrokerage,
-    userId: userId,
-    userDocId: userDocId,
-  });
+  await firebase
+    .firestore()
+    .collection("property")
+    .add({
+      propertyType: plan,
+      propertyName: propertyName,
+      address: {
+        ...address,
+        formattedAddress: [address.areaName, address.city, address.district],
+      },
+      latitude: latitude,
+      longitude: longitude,
+      roomType: roomType,
+      price: price,
+      value: value,
+      area: area,
+      parking: parking,
+      averagePrice: averagePrice,
+      facing: facing,
+      description: flatDescription,
+      images: urls,
+      furnishedStatus: flatFurnishedStatus,
+      bathroom: flatBathroom,
+      flatBrokerage: flatBrokerage,
+      userId: userId,
+      userDocId: userDocId,
+    });
 }
 
 export async function addVilla(

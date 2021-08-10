@@ -1,0 +1,76 @@
+import { Grid } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import firebase from "../../firebase/firebase.utils";
+
+const AdvancedSearchProperty = ({ match }) => {
+  const [properties, setProperties] = useState([]);
+
+  useEffect(() => {
+    if (match.params.type === "villa") {
+      firebase
+        .firestore()
+        .collection("property")
+        .where("propertyType", "==", match.params.type)
+        .where(
+          "address.city",
+          "==",
+          match.params.location,
+          "||",
+          "address.district",
+          "==",
+          match.params.location
+        )
+        .get()
+        .then((res) => {
+          const response = res.docs.map((item) => ({
+            ...item.data(),
+            docId: item.id,
+          }));
+          setProperties(response);
+        })
+        .catch((err) => console.log(err));
+    } else {
+      console.log("yes");
+      console.log(match.params.type, match.params.rooms, match.params.location);
+      firebase
+        .firestore()
+        .collection("property")
+        .where("propertyType", "==", match.params.type)
+        .where(
+          "address.city",
+          "==",
+          match.params.location,
+          "||",
+          "address.district",
+          "==",
+          match.params.location
+        )
+        .where("roomType", "==", match.params.rooms)
+        .get()
+        .then((res) => {
+          const response = res.docs.map((item) => ({
+            ...item.data(),
+            docId: item.id,
+          }));
+          setProperties(response);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [match]);
+
+  console.log(properties);
+  return (
+    <div>
+      <Grid container spacing={2}>
+        {properties &&
+          properties.map((property) => (
+            <Grid md={6} item>
+              {/* <SearchProperty property={property} /> */}
+            </Grid>
+          ))}
+      </Grid>
+    </div>
+  );
+};
+
+export default AdvancedSearchProperty;

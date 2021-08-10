@@ -14,6 +14,7 @@ import PropertyDetails from "./pages/property-details/PropertyDetails.component"
 import EnquiryForm from "./pages/enquiry-form/EnquiryForm.component";
 import AdvancedSearch from "./pages/advanced-search/AdvancedSearch.component";
 import SearchPage from "./pages/search-pages/SearchPage.component";
+import AdvancedSearchProperty from "./pages/advanced-search-property-page/AdvancedSearchProperty.component";
 
 function App() {
   return (
@@ -39,8 +40,9 @@ function App() {
             <Route
               exact
               path="/:location/:type/:rooms"
-              component={SearchPage}
+              component={AdvancedSearchProperty}
             />
+            <Route exact path="/:location" component={SearchPage} />
           </Switch>
         </AuthProvider>
       </BrowserRouter>
