@@ -99,7 +99,7 @@ const HomePage = () => {
               name="location"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
-              placeholder="Enter location or postal code"
+              placeholder="Enter location"
             />
             <Link to={"/" + location}>
               <Button variant="contained" className={classes.searchButton}>

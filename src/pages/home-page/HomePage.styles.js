@@ -35,6 +35,10 @@ export default makeStyles((theme) => ({
     padding: "9px 20px",
     background: theme.palette.primary.main,
     color: "#fff",
+    "&:hover": {
+      background: theme.palette.primary.main,
+      color: "#fff",
+    },
   },
   featuredProjects: {
     margin: "0 150px",

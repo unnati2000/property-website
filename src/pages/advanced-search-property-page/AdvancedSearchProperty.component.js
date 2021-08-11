@@ -6,18 +6,14 @@ const AdvancedSearchProperty = ({ match }) => {
   const [properties, setProperties] = useState([]);
 
   useEffect(() => {
-    if (match.params.type === "villa") {
+    if (match.params.type === "project") {
       firebase
         .firestore()
         .collection("property")
         .where("propertyType", "==", match.params.type)
         .where(
-          "address.city",
-          "==",
-          match.params.location,
-          "||",
-          "address.district",
-          "==",
+          "address.formattedAddress",
+          "array-contains",
           match.params.location
         )
         .get()
@@ -37,12 +33,8 @@ const AdvancedSearchProperty = ({ match }) => {
         .collection("property")
         .where("propertyType", "==", match.params.type)
         .where(
-          "address.city",
-          "==",
-          match.params.location,
-          "||",
-          "address.district",
-          "==",
+          "address.formattedAddress",
+          "array-contains",
           match.params.location
         )
         .where("roomType", "==", match.params.rooms)
