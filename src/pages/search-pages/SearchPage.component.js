@@ -34,7 +34,7 @@ const SearchPage = ({ match }) => {
         {properties &&
           properties.map((property) => (
             <Grid md={6} item>
-              {/* <SearchProperty property={property} /> */}
+              <SearchProperty property={property} />
             </Grid>
           ))}
       </Grid>

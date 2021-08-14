@@ -1,5 +1,6 @@
 import { Grid } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
+import SearchProperty from "../../components/search-property/SearchProperty.component";
 import firebase from "../../firebase/firebase.utils";
 
 const AdvancedSearchProperty = ({ match }) => {
@@ -26,8 +27,6 @@ const AdvancedSearchProperty = ({ match }) => {
         })
         .catch((err) => console.log(err));
     } else {
-      console.log("yes");
-      console.log(match.params.type, match.params.rooms, match.params.location);
       firebase
         .firestore()
         .collection("property")
@@ -50,14 +49,13 @@ const AdvancedSearchProperty = ({ match }) => {
     }
   }, [match]);
 
-  console.log(properties);
   return (
     <div>
       <Grid container spacing={2}>
         {properties &&
           properties.map((property) => (
             <Grid md={6} item>
-              {/* <SearchProperty property={property} /> */}
+              <SearchProperty property={property} />
             </Grid>
           ))}
       </Grid>

@@ -8,10 +8,15 @@ const SearchProperty = ({ property }) => {
   return (
     <Card className={classes.card}>
       <Grid container>
-        <Grid md={5} item>
+        <Grid md={4} item>
           <img src={property?.images[0]} alt="villa" className={classes.img} />
+          <Box ml={1} mt={1}>
+            <Typography className={classes.grey}>
+              Property Type: {property?.propertyType}
+            </Typography>
+          </Box>
         </Grid>
-        <Grid md={7} item>
+        <Grid md={8} item>
           <Typography
             variant="h4"
             color="primary"

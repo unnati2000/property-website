@@ -1,8 +1,8 @@
 import { makeStyles } from "@material-ui/core";
 export default makeStyles((theme) => ({
   img: {
-    height: "200px",
-    width: "200px",
+    height: "150px",
+    width: "150px",
   },
   card: {
     margin: "20px 30px",
