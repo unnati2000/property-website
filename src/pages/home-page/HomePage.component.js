@@ -17,6 +17,36 @@ const HomePage = () => {
   const [projects, setProjects] = useState([]);
   const [location, setLocation] = useState("");
 
+  function filterProp(response) {
+    return (
+      getDistanceFromLatLonInKm(
+        response.latitude,
+        response.longitude,
+        currentUser?.lat,
+        currentUser?.long
+      ) <= 50
+    );
+  }
+
+  function deg2rad(deg) {
+    return deg * (Math.PI / 180);
+  }
+
+  function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+    var R = 6371; // Radius of the earth in km
+    var dLat = deg2rad(lat2 - lat1); // deg2rad below
+    var dLon = deg2rad(lon2 - lon1);
+    var a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(deg2rad(lat1)) *
+        Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c; // Distance in km
+    return d;
+  }
+
   useEffect(() => {
     if (!currentUser) {
       history.push("/login");
@@ -31,10 +61,11 @@ const HomePage = () => {
       .where("propertyType", "==", "flat")
       .get()
       .then((res) => {
-        const response = res.docs.map((item) => ({
+        let response = res.docs.map((item) => ({
           ...item.data(),
           docId: item.id,
         }));
+        response = response.filter(filterProp);
         setFlats(response);
       });
     firebase
@@ -43,10 +74,11 @@ const HomePage = () => {
       .where("propertyType", "==", "villa")
       .get()
       .then((res) => {
-        const response = res.docs.map((item) => ({
+        let response = res.docs.map((item) => ({
           ...item.data(),
           docId: item.id,
         }));
+        response = response.filter(filterProp);
         setVillas(response);
       });
 
@@ -56,14 +88,16 @@ const HomePage = () => {
       .where("propertyType", "==", "project")
       .get()
       .then((res) => {
-        const response = res.docs.map((item) => ({
+        let response = res.docs.map((item) => ({
           ...item.data(),
           docId: item.id,
         }));
+        response = response.filter(filterProp);
         setProjects(response);
       });
   }, [currentUser, history]);
 
+  console.log(flats);
   return (
     <div>
       <div className={classes.header}>
@@ -181,3 +215,5 @@ const HomePage = () => {
 };
 
 export default HomePage;
+
+// console.log(CoordDistance(19.19, 72.97, 19.186719, 72.848588))
