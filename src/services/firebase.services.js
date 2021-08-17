@@ -1,4 +1,5 @@
 import firebase from "../firebase/firebase.utils";
+import axios from "axios";
 
 export async function doesPhoneNumberExist(phoneNumber) {
   const result = await firebase
@@ -26,15 +27,23 @@ export async function getUserDetailsByID(id) {
 }
 
 export async function addProfileToAccount(id, name, address, pincode) {
-  console.log(id);
-  const res = await firebase
-    .firestore()
-    .collection("users")
-    .doc(id)
-    .update(
-      { name: name, address: address, pincode: pincode },
-      { merge: true }
-    );
+  const { data } = await axios.get(
+    `http://api.positionstack.com/v1/forward?access_key=${process.env.REACT_APP_API_KEY}&query=${address.city} ${address.district}`
+  );
+
+  const latitude = data?.data[0].latitude;
+  const longitude = data?.data[0].longitude;
+
+  const res = await firebase.firestore().collection("users").doc(id).update(
+    {
+      name: name,
+      address: address,
+      pincode: pincode,
+      latitude: latitude,
+      longitude: longitude,
+    },
+    { merge: true }
+  );
 
   console.log(res);
 }

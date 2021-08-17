@@ -2,16 +2,27 @@ import React, { useEffect, useState } from "react";
 import useStyles from "./CreateProfile.styles";
 import { useHistory } from "react-router";
 import { useAuth } from "../../context/auth-context";
-import { Typography, TextField, Button } from "@material-ui/core";
+import { Typography, TextField, Button, Box } from "@material-ui/core";
 import { addProfileToAccount } from "../../services/firebase.services";
 
 const CreateProfile = () => {
   const classes = useStyles();
   const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
   const [pincode, setPincode] = useState("");
   const { currentUser } = useAuth();
   const history = useHistory();
+
+  const [address, setAddress] = useState({
+    areaName: "",
+    city: "",
+    district: "",
+  });
+
+  const { areaName, city, district } = address;
+
+  const onAddressChange = (e) => {
+    setAddress({ ...address, [e.target.name]: e.target.value });
+  };
 
   useEffect(() => {
     if (!currentUser) {
@@ -42,14 +53,34 @@ const CreateProfile = () => {
           className={classes.text}
         />
         <TextField
-          label="Address"
+          label="Area Name"
           id="outlined-size-normal"
           variant="outlined"
-          name="address"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
+          name="areaName"
+          value={areaName}
+          onChange={onAddressChange}
           className={classes.text}
         />
+        <Box display="flex" justifyContent="space-around">
+          <TextField
+            label="City"
+            id="outlined-size-normal"
+            variant="outlined"
+            name="city"
+            value={city}
+            onChange={onAddressChange}
+            className={classes.text}
+          />
+          <TextField
+            label="District"
+            id="outlined-size-normal"
+            variant="outlined"
+            name="district"
+            value={district}
+            onChange={onAddressChange}
+            className={classes.text}
+          />
+        </Box>
         <TextField
           label="Pincode"
           id="outlined-size-normal"
