@@ -10,11 +10,10 @@ import { Link } from "react-router-dom";
 import { useHistory } from "react-router";
 import useStyles from "./Navbar.styles";
 import { useAuth } from "../../context/auth-context";
-import firebase from "../../firebase/firebase.utils";
 
 const Navbar = () => {
   const classes = useStyles();
-  const { currentUser } = useAuth();
+  const { currentUser, Logout } = useAuth();
 
   const history = useHistory();
 
@@ -24,8 +23,9 @@ const Navbar = () => {
     }
   }, [history, currentUser]);
 
-  const Logout = () => {
-    firebase.auth().signOut();
+  const handleLogout = async () => {
+    await Logout();
+    history.push("/login");
   };
 
   return (
@@ -43,11 +43,12 @@ const Navbar = () => {
             className={classes.menuButton}
             color="inherit"
             aria-label="menu"
-          >
-            {/* <MenuIcon /> */}
-          </IconButton>
+          ></IconButton>
+
           <Typography variant="h6" color="primary" className={classes.title}>
-            PROPERTY WEBSITE
+            <Link to="/" className={classes.link}>
+              PROPERTY WEBSITE
+            </Link>
           </Typography>
 
           {currentUser ? (
@@ -60,7 +61,7 @@ const Navbar = () => {
                   <Button color="inherit">Profile</Button>
                 </Link>
                 <Link>
-                  <Button onClick={Logout}>Logout</Button>
+                  <Button onClick={handleLogout}>Logout</Button>
                 </Link>
               </div>
             ) : (
@@ -74,7 +75,7 @@ const Navbar = () => {
                 <Link to="/profile" className={classes.link}>
                   <Button color="inherit">Profile</Button>
                 </Link>
-                <Link>
+                <Link className={classes.link}>
                   <Button onClick={Logout}>Logout</Button>
                 </Link>
               </div>

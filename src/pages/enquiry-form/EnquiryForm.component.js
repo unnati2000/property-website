@@ -64,7 +64,7 @@ const EnquiryForm = ({ match }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await addEnquiry(
+    await addEnquiry(
       phoneNumber,
       name,
       email,
@@ -87,7 +87,6 @@ const EnquiryForm = ({ match }) => {
         aria-labelledby="server-modal-title"
         aria-describedby="server-modal-description"
         className={classes.modal}
-        // container={() => rootRef.current}
       >
         <div className={classes.paper}>
           <Typography variant="h4" color="primary">
@@ -104,6 +103,7 @@ const EnquiryForm = ({ match }) => {
               <img
                 src="https://solangvalleyresorts.com/wp-content/uploads/2019/03/gravatar-60-grey.jpg"
                 className={classes.img}
+                alt="agent info"
               />
               <Typography>Agent Info</Typography>
             </Box>

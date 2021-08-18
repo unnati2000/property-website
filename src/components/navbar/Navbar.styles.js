@@ -14,5 +14,6 @@ export default makeStyles((theme) => ({
   },
   link: {
     textDecoration: "none",
+    color: theme.palette.primary.main,
   },
 }));

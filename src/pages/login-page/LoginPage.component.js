@@ -11,7 +11,7 @@ import useStyles from "./LoginPage.styles";
 const SignInPage = () => {
   const classes = useStyles();
   const history = useHistory();
-  const { currentUser } = useAuth();
+  const { currentUser, Login } = useAuth();
 
   useEffect(() => {
     if (!currentUser) {
@@ -23,7 +23,6 @@ const SignInPage = () => {
 
   const [phoneNumber, setPhoneNumber] = useState("");
   const [error, setError] = useState("");
-  // const [loading, setLoading] = useState(false);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -33,23 +32,10 @@ const SignInPage = () => {
     if (phoneNumberExists) {
       try {
         setError("");
-        // setLoading(true);
-        await firebase
-          .auth()
-          .signInWithPhoneNumber("+91" + phoneNumber, recaptcha)
-          .then((e) => {
-            let code = prompt("Enter OTP ", "");
 
-            if (code === null) return;
-            e.confirm(code).then(function (result) {
-              alert("Login successful");
-              history.push("/");
-            });
-          })
-          .catch((err) => console.log(err));
+        await Login(phoneNumber, recaptcha);
       } catch (error) {
         setError("");
-        // setLoading(false);
       }
     } else {
       setError("You don't have an account. Please register");

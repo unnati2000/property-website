@@ -28,7 +28,6 @@ const RegisterPage = () => {
   const [role, setRole] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!currentUser) {
@@ -48,7 +47,7 @@ const RegisterPage = () => {
       let recaptcha = new firebase.auth.RecaptchaVerifier("recaptcha");
       try {
         setError("");
-        setLoading(true);
+
         await firebase
           .auth()
           .signInWithPhoneNumber("+91" + phoneNumber, recaptcha)
@@ -82,7 +81,6 @@ const RegisterPage = () => {
       } catch (error) {
         console.log(error);
         setError("Failed to create an account");
-        setLoading(false);
       }
     } else {
       setError("User already exists");
