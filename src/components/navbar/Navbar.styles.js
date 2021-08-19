@@ -16,4 +16,7 @@ export default makeStyles((theme) => ({
     textDecoration: "none",
     color: theme.palette.primary.main,
   },
+  icon: {
+    fontSize: "25px",
+  },
 }));

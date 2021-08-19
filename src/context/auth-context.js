@@ -1,5 +1,5 @@
 import React, { useContext, createContext, useState, useEffect } from "react";
-import { Box, CircularProgress } from "@material-ui/core";
+import { Box, CircularProgress, Container } from "@material-ui/core";
 import { auth } from "../firebase/firebase.utils";
 import { getUserDetailsByID } from "../services/firebase.services";
 import { useHistory } from "react-router";
@@ -63,9 +63,16 @@ export function AuthProvider({ children }) {
   return (
     <AuthContext.Provider value={value}>
       {loading ? (
-        <Box display="flex" justifyContent="center" mt={5} alignItems="center">
-          <CircularProgress />
-        </Box>
+        <Container>
+          <Box
+            display="flex"
+            justifyContent="center"
+            mt={5}
+            alignItems="center"
+          >
+            <CircularProgress />
+          </Box>
+        </Container>
       ) : (
         children
       )}
