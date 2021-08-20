@@ -10,9 +10,11 @@ import {
   Typography,
   Divider,
   TextField,
+  Button,
 } from "@material-ui/core";
 import useStyles from "./Chat.styles";
 import PersonChat from "../../components/person-chat-component/PersonChat.component";
+import Message from "../../components/message-component/Message.component";
 
 const ChatComponent = () => {
   const classes = useStyles();
@@ -20,7 +22,7 @@ const ChatComponent = () => {
     <div className={classes.mainDiv}>
       <Container>
         <Box p={2}>
-          <Grid container className={classes.grid}>
+          <Grid container spacing={2} className={classes.grid}>
             <Grid md={3} item>
               <Box m={2}>
                 <Typography color="textSecondary" variant="h5">
@@ -49,10 +51,24 @@ const ChatComponent = () => {
               <Box className={classes.chatBox}>
                 <PersonChat />
                 <PersonChat />
+                <PersonChat />
               </Box>
             </Grid>
-            <Grid md={9}>
-              <Typography variant="h5">HHH</Typography>
+            <Grid md={9} item>
+              <Message />
+              <Box
+                className={classes.searchBoxDiv}
+                display="flex"
+                justifyContent="space-evenly"
+              >
+                <TextField
+                  id="outlined-basic"
+                  label="Type your text"
+                  variant="outlined"
+                  className={classes.type}
+                />
+                <Button className={classes.send}>Send</Button>
+              </Box>
             </Grid>
           </Grid>
         </Box>

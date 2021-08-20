@@ -1,15 +1,10 @@
 import React from "react";
 import {
-  Container,
-  Box,
-  Grid,
   ListItem,
   ListItemIcon,
   ListItemText,
   Avatar,
-  Typography,
   Divider,
-  TextField,
 } from "@material-ui/core";
 
 const PersonChat = () => {
