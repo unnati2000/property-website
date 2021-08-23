@@ -1,6 +1,6 @@
 import { Typography } from "@material-ui/core";
 import React from "react";
-import useStyles from "./ReceiverMessage.styles";
+import useStyles from "./AgentMessage.styles";
 
 const ReceiverMessage = () => {
   const classes = useStyles();

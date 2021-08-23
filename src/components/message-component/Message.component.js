@@ -1,6 +1,6 @@
 import React from "react";
-import SenderMessage from "../sender-message-component/SenderMessage.component";
-import ReceiverMessage from "../receiver-message-component/ReceiverMessage.component";
+import SenderMessage from "../customer-message-component/CustomerMessage.component";
+import ReceiverMessage from "../agent-message-component/AgentMessage.component";
 import { Box } from "@material-ui/core";
 
 const Message = () => {

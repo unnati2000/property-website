@@ -1,5 +1,5 @@
 import { Typography } from "@material-ui/core";
-import useStyles from "./SenderMessage.styles";
+import useStyles from "./CustomerMessage.styles";
 import React from "react";
 
 const SenderMessage = () => {

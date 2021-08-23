@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Box,
@@ -15,9 +15,36 @@ import {
 import useStyles from "./Chat.styles";
 import PersonChat from "../../components/person-chat-component/PersonChat.component";
 import Message from "../../components/message-component/Message.component";
+import firebase from "../../firebase/firebase.utils";
+import { useAuth } from "../../context/auth-context";
 
 const ChatComponent = () => {
   const classes = useStyles();
+
+  const [users, setUsers] = useState([]);
+  const { currentUser } = useAuth();
+
+  const filterChats = (response) => {
+    return currentUser?.messageIds?.includes(response?.docId);
+  };
+
+  useEffect(() => {
+    firebase
+      .firestore()
+      .collection("messages")
+      .get()
+      .then((res) => {
+        let response = res.docs.map((item) => ({
+          ...item.data(),
+          docId: item.id,
+        }));
+
+        response = response.filter(filterChats);
+        setUsers(response);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <div className={classes.mainDiv}>
       <Container>
