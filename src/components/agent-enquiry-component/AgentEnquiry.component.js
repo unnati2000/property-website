@@ -1,7 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Card, Grid, Typography, Box, Button } from "@material-ui/core";
+import {
+  Card,
+  Grid,
+  Typography,
+  Box,
+  Button,
+  Divider,
+} from "@material-ui/core";
 import { useAuth } from "../../context/auth-context";
 import useStyles from "./AgentEnquiry.styles";
+import { Link } from "react-router-dom";
+import { BiBed } from "react-icons/bi";
+import { FaShower, FaParking } from "react-icons/fa";
 import firebase from "../../firebase/firebase.utils";
 
 const AgentEnquiry = () => {
@@ -21,74 +31,43 @@ const AgentEnquiry = () => {
   return (
     <Card className={classes.card}>
       <Grid container>
-        <Grid md={3}>
+        <Grid md={8}>
+          <Box m={1}>
+            <Typography className={classes.name} color="primary">
+              Name
+            </Typography>
+            <Typography className={classes.phone}>Phone Number</Typography>
+          </Box>
+          <Divider />
+          <Box m={1}>
+            <Link className={classes.link}>
+              <Typography color="primary" className={classes.propertyName}>
+                PropertyName
+              </Typography>
+            </Link>
+            <Typography className={classes.address}>Address</Typography>
+            <Box display="flex" justifyContent="space-between" m={2}>
+              <div className={classes.icon}>
+                <BiBed />
+                <Typography className={classes.gray}>2 BHK</Typography>
+              </div>
+              <div className={classes.icon}>
+                <FaShower />
+                <Typography className={classes.gray}>1 Bathroom</Typography>
+              </div>
+              <div className={classes.icon}>
+                <FaParking />
+                <Typography className={classes.gray}>Parking</Typography>
+              </div>
+            </Box>
+          </Box>
+        </Grid>
+        <Grid md={4}>
           <img
-            src="https://image.shutterstock.com/image-photo/mountains-under-mist-morning-amazing-260nw-1725825019.jpg"
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png"
+            alt="image"
             className={classes.img}
           />
-        </Grid>
-        <Grid md={9}>
-          <Box mr={2} ml={2} mt={2}>
-            <Typography variant="h4" color="primary">
-              Property Name
-            </Typography>
-          </Box>
-
-          <Box
-            display="flex"
-            justifyContent="space-around"
-            mt={2}
-            mr={2}
-            ml={2}
-          >
-            <Box>
-              <Typography variant="h6" className={classes.grey}>
-                Property Type
-              </Typography>
-              <Typography>Flat</Typography>
-            </Box>
-            <Box>
-              {" "}
-              <Typography variant="h6" className={classes.grey}>
-                Price
-              </Typography>
-              <Typography>Flat</Typography>
-            </Box>
-            <Box>
-              <Typography variant="h6" className={classes.grey}>
-                City
-              </Typography>
-              <Typography>Flat</Typography>
-            </Box>
-          </Box>
-
-          <Box m={2} className={classes.greyBox}>
-            <Typography variant="h5" color="primary">
-              Enquiry Details
-            </Typography>
-            <Box display="flex" justifyContent="space-between" mr={5}>
-              <Box>
-                <Typography className={classes.name}>Name</Typography>
-                <Typography></Typography>
-              </Box>
-              <Box>
-                <Typography className={classes.name}>Phone Number</Typography>
-                <Typography></Typography>
-              </Box>
-              <Box>
-                <Typography className={classes.name}>Email</Typography>
-                <Typography></Typography>
-              </Box>
-            </Box>
-            <Box>
-              <Typography className={classes.roomType} color="primary">
-                Room Type
-              </Typography>
-              <Box display="flex" justifyContent="space-between">
-                <Button className={classes.roomButton}> 1 BHK </Button>
-              </Box>
-            </Box>
-          </Box>
         </Grid>
       </Grid>
     </Card>

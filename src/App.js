@@ -15,7 +15,6 @@ import EnquiryForm from "./pages/enquiry-form/EnquiryForm.component";
 import AdvancedSearch from "./pages/advanced-search/AdvancedSearch.component";
 import SearchPage from "./pages/search-pages/SearchPage.component";
 import AdvancedSearchProperty from "./pages/advanced-search-property-page/AdvancedSearchProperty.component";
-import ChatComponent from "./pages/chat/Chat.component";
 
 function App() {
   return (
@@ -32,7 +31,6 @@ function App() {
             <Route exact path="/package" component={Package} />
             <Route exact path="/add" component={AddProperty} />
             <Route exact path="/profile" component={ProfilePage} />
-            <Route exact path="/chat" component={ChatComponent} />
             <Route
               exact
               path="/:propertyType/:id"

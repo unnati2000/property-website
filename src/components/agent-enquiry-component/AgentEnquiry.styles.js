@@ -2,10 +2,10 @@ import { makeStyles } from "@material-ui/core";
 export default makeStyles((theme) => ({
   card: {
     margin: "0 20px",
-    borderRadius: "20px",
+    borderRadius: "5px",
   },
   img: {
-    height: "200px",
+    height: "100%",
     width: "200px",
   },
   grey: {
@@ -26,8 +26,27 @@ export default makeStyles((theme) => ({
     marginTop: "5px",
   },
   name: {
-    fontSize: "15px",
-    margin: "10px",
-    color: "#696969",
+    fontSize: "17px",
+    fontWeight: "600",
+  },
+  phone: {
+    fontSize: "14px",
+    color: "#7E7474",
+  },
+  propertyName: {},
+  address: {
+    fontSize: "13px",
+    color: "#808080",
+  },
+  gray: {
+    fontSize: "10px",
+    color: "#7E7474",
+    textAlign: "center",
+  },
+  icon: {
+    textAlign: "center",
+  },
+  link: {
+    textDecoration: "none",
   },
 }));

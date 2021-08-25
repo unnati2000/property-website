@@ -85,11 +85,6 @@ const Navbar = () => {
                     <BsPersonFill className={classes.icon} />{" "}
                   </Button>
                 </Link>
-                <Link to="/chat" className={classes.link}>
-                  <Button color="inherit">
-                    <BsFillChatQuoteFill className={classes.icon} />
-                  </Button>
-                </Link>
                 <Link className={classes.link}>
                   <Button onClick={Logout} color="inherit">
                     <HiLogout className={classes.icon} />
