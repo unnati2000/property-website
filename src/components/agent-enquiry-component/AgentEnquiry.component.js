@@ -1,73 +1,64 @@
-import React, { useEffect, useState } from "react";
-import {
-  Card,
-  Grid,
-  Typography,
-  Box,
-  Button,
-  Divider,
-} from "@material-ui/core";
-import { useAuth } from "../../context/auth-context";
+import React from "react";
+import { Card, Grid, Typography, Box, Divider } from "@material-ui/core";
 import useStyles from "./AgentEnquiry.styles";
 import { Link } from "react-router-dom";
 import { BiBed } from "react-icons/bi";
 import { FaShower, FaParking } from "react-icons/fa";
-import firebase from "../../firebase/firebase.utils";
 
-const AgentEnquiry = () => {
+const AgentEnquiry = ({ enquiry }) => {
   const classes = useStyles();
 
-  const [enquiries, setEnquiries] = useState([]);
-  const { currentUser } = useAuth();
-  useEffect(() => {
-    // firebase
-    //   .firestore()
-    //   .collection("enquiry")
-    //   .where("agentUserId", "==", currentUser?.userId)
-    //   .get()
-    //   .then((res) => console.log(res.docs.map((item) => console.log(item))))
-    //   .catch((err) => console.log(err));
-  }, [currentUser]);
+  console.log(enquiry);
   return (
     <Card className={classes.card}>
       <Grid container>
-        <Grid md={8}>
+        <Grid md={8} item>
           <Box m={1}>
             <Typography className={classes.name} color="primary">
-              Name
+              {enquiry?.name}
             </Typography>
-            <Typography className={classes.phone}>Phone Number</Typography>
+            <Typography className={classes.phone}>
+              {enquiry?.phoneNumber}
+            </Typography>
           </Box>
           <Divider />
           <Box m={1}>
-            <Link className={classes.link}>
+            <Link
+              className={classes.link}
+              to={"/" + enquiry?.propertyType + "/" + enquiry?.propertyDocId}
+            >
               <Typography color="primary" className={classes.propertyName}>
-                PropertyName
+                {enquiry?.propertyName}
               </Typography>
             </Link>
-            <Typography className={classes.address}>Address</Typography>
+            <Typography className={classes.address}>
+              {enquiry?.address?.areaName}, {enquiry?.address?.city},
+              {enquiry?.address?.district}
+            </Typography>
             <Box display="flex" justifyContent="space-between" m={2}>
               <div className={classes.icon}>
                 <BiBed />
-                <Typography className={classes.gray}>2 BHK</Typography>
+                <Typography className={classes.gray}>
+                  {enquiry?.bedroom}
+                </Typography>
               </div>
               <div className={classes.icon}>
                 <FaShower />
-                <Typography className={classes.gray}>1 Bathroom</Typography>
+                <Typography className={classes.gray}>
+                  {enquiry?.bathroom}
+                </Typography>
               </div>
               <div className={classes.icon}>
                 <FaParking />
-                <Typography className={classes.gray}>Parking</Typography>
+                <Typography className={classes.gray}>
+                  {enquiry?.parking}
+                </Typography>
               </div>
             </Box>
           </Box>
         </Grid>
-        <Grid md={4}>
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png"
-            alt="image"
-            className={classes.img}
-          />
+        <Grid md={4} item>
+          <img src={enquiry?.image} alt="image" className={classes.img} />
         </Grid>
       </Grid>
     </Card>
