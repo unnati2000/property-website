@@ -10,6 +10,7 @@ const EnquiryForm = ({ match }) => {
 
   const [agent, setAgent] = useState({});
   const [property, setProperty] = useState({});
+
   const [formData, setFormData] = useState({
     phoneNumber: "",
     name: "",
@@ -71,7 +72,14 @@ const EnquiryForm = ({ match }) => {
       availableOn,
       agent?.userId,
       match.params.userId,
-      match.params.id
+      match.params.id,
+      property?.bathroom,
+      property?.bedroom,
+      property?.parking,
+      property?.propertyType,
+      property?.propertyName,
+      property?.images[0],
+      property?.address
     );
 
     history.push("/");

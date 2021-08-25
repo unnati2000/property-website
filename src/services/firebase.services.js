@@ -207,7 +207,14 @@ export async function addEnquiry(
   availableOn,
   agentUserId,
   agentUserDocId,
-  propertyDocId
+  propertyDocId,
+  bathroom,
+  bedroom,
+  parking,
+  propertyType,
+  propertyName,
+  image,
+  address
 ) {
   await firebase.firestore().collection("enquiry").add({
     phoneNumber: phoneNumber,
@@ -217,5 +224,12 @@ export async function addEnquiry(
     agentUserId: agentUserId,
     agentUserDocId: agentUserDocId,
     propertyDocId: propertyDocId,
+    bathroom: bathroom,
+    bedroom: bedroom,
+    parking: parking,
+    propertyType: propertyType,
+    propertyName: propertyName,
+    image: image,
+    address: address,
   });
 }
