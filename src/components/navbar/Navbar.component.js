@@ -1,22 +1,36 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AppBar,
   Toolbar,
   IconButton,
   Typography,
   Button,
+  Box,
+  Menu,
+  MenuItem,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router";
 import useStyles from "./Navbar.styles";
 import { useAuth } from "../../context/auth-context";
-import { BsFillChatQuoteFill, BsPersonFill } from "react-icons/bs";
+import { BsPersonFill } from "react-icons/bs";
+import { FaHouseDamage } from "react-icons/fa";
 import { AiFillHome } from "react-icons/ai";
 import { MdLibraryAdd } from "react-icons/md";
 import { HiLogout } from "react-icons/hi";
 
 const Navbar = () => {
   const classes = useStyles();
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   const { currentUser, Logout } = useAuth();
 
   const history = useHistory();
@@ -51,7 +65,12 @@ const Navbar = () => {
 
           <Typography variant="h6" color="primary" className={classes.title}>
             <Link to="/" className={classes.link}>
-              PROPERTY WEBSITE
+              <Box display="flex" justifyContent="left">
+                <FaHouseDamage className={classes.icon} />
+                <Typography variant="h5" color="primary">
+                  Homely
+                </Typography>
+              </Box>
             </Link>
           </Typography>
 
@@ -67,6 +86,7 @@ const Navbar = () => {
                 <Link>
                   <Button onClick={handleLogout}>Logout</Button>
                 </Link>
+                <img src="https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg" />
               </div>
             ) : (
               <div>
@@ -85,11 +105,29 @@ const Navbar = () => {
                     <BsPersonFill className={classes.icon} />{" "}
                   </Button>
                 </Link>
-                <Link className={classes.link}>
-                  <Button onClick={Logout} color="inherit">
-                    <HiLogout className={classes.icon} />
-                  </Button>
-                </Link>
+
+                <Button
+                  aria-controls="simple-menu"
+                  aria-haspopup="true"
+                  onClick={handleClick}
+                >
+                  <img
+                    src="https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg"
+                    className={classes.img}
+                  />
+                </Button>
+                <Menu
+                  id="simple-menu"
+                  anchorEl={anchorEl}
+                  keepMounted
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                >
+                  <Link to="/edit" className={classes.link}>
+                    <MenuItem> Edit Profile</MenuItem>
+                  </Link>
+                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                </Menu>
               </div>
             )
           ) : (
