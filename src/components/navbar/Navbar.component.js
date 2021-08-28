@@ -17,7 +17,6 @@ import { BsPersonFill } from "react-icons/bs";
 import { FaHouseDamage } from "react-icons/fa";
 import { AiFillHome } from "react-icons/ai";
 import { MdLibraryAdd } from "react-icons/md";
-import { HiLogout } from "react-icons/hi";
 
 const Navbar = () => {
   const classes = useStyles();
@@ -80,13 +79,26 @@ const Navbar = () => {
                 <Link to="/package" className={classes.link}>
                   <Button color="inherit">Package</Button>
                 </Link>
-                <Link to="/add" className={classes.link}>
-                  <Button color="inherit">Profile</Button>
-                </Link>
-                <Link>
-                  <Button onClick={handleLogout}>Logout</Button>
-                </Link>
-                <img src="https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg" />
+
+                <Button
+                  aria-controls="simple-menu"
+                  aria-haspopup="true"
+                  onClick={handleClick}
+                >
+                  <img
+                    src="https://www.gravatar.com/avatar/4f28f38e798f29c5d75b85c883327d09?d=mm&r=g&s=190"
+                    className={classes.profileImage}
+                  />
+                </Button>
+                <Menu
+                  id="simple-menu"
+                  anchorEl={anchorEl}
+                  keepMounted
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                >
+                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                </Menu>
               </div>
             ) : (
               <div>
@@ -112,8 +124,8 @@ const Navbar = () => {
                   onClick={handleClick}
                 >
                   <img
-                    src="https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg"
-                    className={classes.img}
+                    src="https://www.gravatar.com/avatar/4f28f38e798f29c5d75b85c883327d09?d=mm&r=g&s=190"
+                    className={classes.profileImage}
                   />
                 </Button>
                 <Menu

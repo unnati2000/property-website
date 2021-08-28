@@ -32,7 +32,6 @@ const SignInPage = () => {
     if (phoneNumberExists) {
       try {
         setError("");
-
         await Login(phoneNumber, recaptcha);
       } catch (error) {
         setError("");

@@ -3,12 +3,15 @@ import useStyles from "./CreateProfile.styles";
 import { useHistory } from "react-router";
 import { useAuth } from "../../context/auth-context";
 import { Typography, TextField, Button, Box } from "@material-ui/core";
+import { storage } from "../../firebase/firebase.utils";
 import { addProfileToAccount } from "../../services/firebase.services";
 
 const CreateProfile = () => {
   const classes = useStyles();
   const [name, setName] = useState("");
   const [pincode, setPincode] = useState("");
+  const [profilePic, setProfilePic] = useState("");
+  const [imageUrl, setURL] = useState("");
   const { currentUser } = useAuth();
   const history = useHistory();
 
@@ -24,6 +27,10 @@ const CreateProfile = () => {
     setAddress({ ...address, [e.target.name]: e.target.value });
   };
 
+  const onImageChange = (e) => {
+    setProfilePic(e.target.files[0]);
+  };
+
   useEffect(() => {
     if (!currentUser) {
       history.push("/login");
@@ -35,7 +42,24 @@ const CreateProfile = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await addProfileToAccount(currentUser?.docId, name, address, pincode);
+
+    const ref = storage.ref(`/profilePic/${profilePic.name}`);
+
+    const uploadImage = ref.put(profilePic);
+    await uploadImage.on("state_changed", console.log, console.error, () => {
+      ref.getDownloadURL().then((url) => {
+        setURL(url);
+      });
+    });
+
+    await addProfileToAccount(
+      currentUser?.docId,
+      name,
+      address,
+      pincode,
+      imageUrl
+    );
+    history.push("/package");
   };
   return (
     <div className={classes.profileDiv}>
@@ -91,6 +115,8 @@ const CreateProfile = () => {
           className={classes.text}
         />
         <br />
+
+        <input type="file" onChange={onImageChange} />
 
         <Button variant="contained" type="submit" className={classes.submit}>
           Submit

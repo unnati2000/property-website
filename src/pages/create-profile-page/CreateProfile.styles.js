@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core";
 
 export default makeStyles((theme) => ({
   profileDiv: {
-    background: theme.palette.primary.main,
+    background: "#B5EAEA",
     height: "100vh",
     textAlign: "center",
     display: "flex",
@@ -10,13 +10,13 @@ export default makeStyles((theme) => ({
     paddingTop: "40px",
   },
   profileHeader: {
-    color: "#fff",
+    color: theme.palette.primary.main,
   },
   form: {
     display: "flex",
     justifyContent: "center",
     flexDirection: "column",
-    background: "rgba(255, 255, 255, 0.1)",
+    background: "white",
     padding: "20px 60px",
     borderRadius: "5px",
     margin: "20px 300px",
@@ -30,7 +30,8 @@ export default makeStyles((theme) => ({
   submit: {
     marginTop: "10px",
     width: "100%",
-    color: theme.palette.primary.main,
+    background: theme.palette.primary.main,
+    color: "white",
     fontWeight: "bold",
   },
 }));

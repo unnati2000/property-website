@@ -26,14 +26,19 @@ export async function getUserDetailsByID(id) {
   return user;
 }
 
-export async function addProfileToAccount(id, name, address, pincode) {
-  const { data } = await axios.get(
-    `http://api.positionstack.com/v1/forward?access_key=${process.env.REACT_APP_API_KEY}&query=${address.city} ${address.district}`
+export async function addProfileToAccount(
+  id,
+  name,
+  address,
+  pincode,
+  profilePic
+) {
+  const response = await axios.get(
+    `https://geocode.xyz/${address.city} ${address.district}?json=1`
   );
 
-  const latitude = data?.data[0].latitude;
-  const longitude = data?.data[0].longitude;
-
+  const latitude = parseFloat(response.data.latt);
+  const longitude = parseFloat(response.data.longt);
   const res = await firebase.firestore().collection("users").doc(id).update(
     {
       name: name,
@@ -41,11 +46,10 @@ export async function addProfileToAccount(id, name, address, pincode) {
       pincode: pincode,
       latitude: latitude,
       longitude: longitude,
+      profilePic: profilePic,
     },
     { merge: true }
   );
-
-  console.log(res);
 }
 
 export async function addPackage(id, packageName, packagePrice) {

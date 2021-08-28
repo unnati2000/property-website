@@ -19,9 +19,9 @@ export default makeStyles((theme) => ({
   icon: {
     fontSize: "25px",
   },
-  img: {
+  profileImage: {
     height: "35px",
     width: "35px",
-    borderRadius: "100%",
+    borderRadius: "100px",
   },
 }));

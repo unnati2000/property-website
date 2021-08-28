@@ -1,11 +1,9 @@
 import React from "react";
-import useStyles from "./Alert.styles"
+import MuiAlert from "@material-ui/lab/Alert";
+import useStyles from "./Alert.styles";
 
-const Alert = ({message})=>{
-
-    const classes = useStyles();
-    return <div className={classes.errorMsg}>{message}</div>
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-export default Alert
-
+export default Alert;

@@ -11,7 +11,6 @@ import User from "../../assets/user.png";
 import Agent from "../../assets/agent.png";
 import useStyles from "./Register.styles";
 import { useAuth } from "../../context/auth-context";
-import Alert from "../../components/alert/Alert.component";
 import { firestore } from "../../firebase/firebase.utils";
 import firebase from "../../firebase/firebase.utils";
 import { doesPhoneNumberExist } from "../../services/firebase.services";
@@ -56,7 +55,7 @@ const RegisterPage = () => {
 
             if (code === null) return;
             e.confirm(code).then(function (result) {
-              alert("Email verified");
+              alert("Phone Number verified");
               firestore
                 .collection("users")
                 .add({
@@ -69,6 +68,9 @@ const RegisterPage = () => {
                   pincode: "",
                   packageName: "",
                   packagePrice: "",
+                  latitude: 0,
+                  longitude: 0,
+                  profilePic: "",
                 })
                 .then((res) => {
                   console.log(res);
@@ -102,9 +104,7 @@ const RegisterPage = () => {
           <Typography variant="h6" color="primary" className={classes.header}>
             Choose your account type
           </Typography>
-          <Box>
-            <Alert errorMsg={error} />
-          </Box>
+
           <form onSubmit={onSubmit}>
             <Grid container spacing={2}>
               <Grid item md={6} sm={6}>

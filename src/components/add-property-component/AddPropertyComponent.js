@@ -256,12 +256,12 @@ const AddPropertyComponent = ({ plan }) => {
           (snapshot) => {},
           (error) => console.log(error.code),
           async () => {
-            const { data } = await axios.get(
-              `http://api.positionstack.com/v1/forward?access_key=${process.env.REACT_APP_API_KEY}&query=${city} ${district}`
+            const response = await axios.get(
+              `https://geocode.xyz/${address.city} ${address.district}?json=1`
             );
 
-            const latitude = data?.data[0].latitude;
-            const longitude = data?.data[0].longitude;
+            const latitude = parseFloat(response.data.latt);
+            const longitude = parseFloat(response.data.longt);
 
             const downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
             urls.push(downloadURL);
