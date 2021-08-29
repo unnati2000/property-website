@@ -13,6 +13,7 @@ import useStyles from "./Register.styles";
 import { useAuth } from "../../context/auth-context";
 import { firestore } from "../../firebase/firebase.utils";
 import firebase from "../../firebase/firebase.utils";
+import HandleAlert, { Alert } from "../../components/alert/Alert.component";
 import { doesPhoneNumberExist } from "../../services/firebase.services";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -40,9 +41,9 @@ const RegisterPage = () => {
     e.preventDefault();
 
     const phoneNumberExists = await doesPhoneNumberExist(phoneNumber);
-    console.log(phoneNumberExists);
-    if (phoneNumberExists === false) {
-      console.log("yes");
+    if (phoneNumber === "") {
+      <HandleAlert type="error" message="Enter a valid phone Number" />;
+    } else if (phoneNumberExists === false) {
       let recaptcha = new firebase.auth.RecaptchaVerifier("recaptcha");
       try {
         setError("");
@@ -56,27 +57,50 @@ const RegisterPage = () => {
             if (code === null) return;
             e.confirm(code).then(function (result) {
               alert("Phone Number verified");
-              firestore
-                .collection("users")
-                .add({
-                  userId: result.user.uid,
-                  phoneNumber: phoneNumber,
-                  role: role,
-                  dateCreated: Date.now(),
-                  name: "",
-                  address: "",
-                  pincode: "",
-                  packageName: "",
-                  packagePrice: "",
-                  latitude: 0,
-                  longitude: 0,
-                  profilePic: "",
-                })
-                .then((res) => {
-                  console.log(res);
-                  history.push("/");
-                })
-                .catch((err) => console.log(err));
+
+              if (role === "agent") {
+                firestore
+                  .collection("users")
+                  .add({
+                    userId: result.user.uid,
+                    phoneNumber: phoneNumber,
+                    role: role,
+                    dateCreated: Date.now(),
+                    name: "",
+                    address: "",
+                    pincode: "",
+                    packageName: "",
+                    packagePrice: "",
+                    latitude: 0,
+                    longitude: 0,
+                    profilePic: "",
+                  })
+                  .then((res) => {
+                    console.log(res);
+                    history.push("/");
+                  })
+                  .catch((err) => console.log(err));
+              } else if (role === "user") {
+                firestore
+                  .collection("users")
+                  .add({
+                    userId: result.user.uid,
+                    phoneNumber: phoneNumber,
+                    role: role,
+                    dateCreated: Date.now(),
+                    name: "",
+                    address: "",
+                    pincode: "",
+                    latitude: 0,
+                    longitude: 0,
+                    profilePic: "",
+                  })
+                  .then((res) => {
+                    console.log(res);
+                    history.push("/");
+                  })
+                  .catch((err) => console.log(err));
+              }
             });
           })
           .catch((err) => console.log(err));

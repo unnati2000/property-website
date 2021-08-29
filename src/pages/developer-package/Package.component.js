@@ -17,6 +17,11 @@ const Package = () => {
     if (!currentUser) {
       history.push("/login");
     }
+
+    if (currentUser?.role === "user") {
+      history.push("/");
+    }
+
     if (currentUser?.packageName) {
       history.push("/");
     }

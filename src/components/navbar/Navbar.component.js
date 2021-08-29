@@ -74,50 +74,82 @@ const Navbar = () => {
           </Typography>
 
           {currentUser ? (
-            currentUser?.packageName === "" ? (
-              <div>
-                <Link to="/package" className={classes.link}>
-                  <Button color="inherit">Package</Button>
-                </Link>
+            currentUser?.role === "agent" ? (
+              currentUser?.packageName === "" ? (
+                <div>
+                  <Link to="/package" className={classes.link}>
+                    <Button color="inherit">Package</Button>
+                  </Link>
 
-                <Button
-                  aria-controls="simple-menu"
-                  aria-haspopup="true"
-                  onClick={handleClick}
-                >
-                  <img
-                    src="https://www.gravatar.com/avatar/4f28f38e798f29c5d75b85c883327d09?d=mm&r=g&s=190"
-                    className={classes.profileImage}
-                  />
-                </Button>
-                <Menu
-                  id="simple-menu"
-                  anchorEl={anchorEl}
-                  keepMounted
-                  open={Boolean(anchorEl)}
-                  onClose={handleClose}
-                >
-                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                </Menu>
-              </div>
+                  <Button
+                    aria-controls="simple-menu"
+                    aria-haspopup="true"
+                    onClick={handleClick}
+                  >
+                    <img
+                      src="https://www.gravatar.com/avatar/4f28f38e798f29c5d75b85c883327d09?d=mm&r=g&s=190"
+                      className={classes.profileImage}
+                    />
+                  </Button>
+                  <Menu
+                    id="simple-menu"
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                  >
+                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                  </Menu>
+                </div>
+              ) : (
+                <div>
+                  <Link to="/" className={classes.link}>
+                    <Button color="inherit">
+                      <AiFillHome className={classes.icon} />{" "}
+                    </Button>
+                  </Link>
+                  <Link to="/add" className={classes.link}>
+                    <Button color="inherit">
+                      <MdLibraryAdd className={classes.icon} />{" "}
+                    </Button>
+                  </Link>
+                  <Link to="/profile" className={classes.link}>
+                    <Button color="inherit">
+                      <BsPersonFill className={classes.icon} />{" "}
+                    </Button>
+                  </Link>
+
+                  <Button
+                    aria-controls="simple-menu"
+                    aria-haspopup="true"
+                    onClick={handleClick}
+                  >
+                    <img
+                      src="https://www.gravatar.com/avatar/4f28f38e798f29c5d75b85c883327d09?d=mm&r=g&s=190"
+                      className={classes.profileImage}
+                    />
+                  </Button>
+                  <Menu
+                    id="simple-menu"
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                  >
+                    <Link to="/edit" className={classes.link}>
+                      <MenuItem> Edit Profile</MenuItem>
+                    </Link>
+                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                  </Menu>
+                </div>
+              )
             ) : (
               <div>
-                <Link to="/" className={classes.link}>
-                  <Button color="inherit">
-                    <AiFillHome className={classes.icon} />{" "}
-                  </Button>
-                </Link>
-                <Link to="/add" className={classes.link}>
-                  <Button color="inherit">
-                    <MdLibraryAdd className={classes.icon} />{" "}
-                  </Button>
-                </Link>
                 <Link to="/profile" className={classes.link}>
                   <Button color="inherit">
                     <BsPersonFill className={classes.icon} />{" "}
                   </Button>
                 </Link>
-
                 <Button
                   aria-controls="simple-menu"
                   aria-haspopup="true"

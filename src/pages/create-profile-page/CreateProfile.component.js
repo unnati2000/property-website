@@ -59,14 +59,20 @@ const CreateProfile = () => {
       pincode,
       imageUrl
     );
+
     history.push("/package");
   };
   return (
     <div className={classes.profileDiv}>
-      <Typography variant="h3" className={classes.profileHeader}>
-        Create your profile first
-      </Typography>
       <form className={classes.form} onSubmit={onSubmit}>
+        <img
+          src={
+            profilePic
+              ? URL.createObjectURL(profilePic)
+              : "https://www.gravatar.com/avatar/4f28f38e798f29c5d75b85c883327d09?d=mm&r=g&s=190"
+          }
+          className={classes.uploadImage}
+        />
         <TextField
           label="Name"
           id="outlined-size-normal"
@@ -76,6 +82,7 @@ const CreateProfile = () => {
           onChange={(e) => setName(e.target.value)}
           className={classes.text}
         />
+
         <TextField
           label="Area Name"
           id="outlined-size-normal"

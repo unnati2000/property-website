@@ -66,7 +66,7 @@ const FlatDetails = ({ id }) => {
         </Box>
         <Box>
           <Typography variant="h6">
-            {flatData?.price} {flatData?.value}
+            ₹ {flatData?.price} {flatData?.value}
           </Typography>
           {currentUser?.userId !== flatData?.userId && (
             <Link to={"/enquiry/" + id + "/" + flatData?.userDocId}>
