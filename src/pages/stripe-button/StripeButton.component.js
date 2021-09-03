@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import StripeCheckout from "react-stripe-checkout";
 import { useHistory } from "react-router";
 import { withRouter } from "react-router-dom";
@@ -11,10 +11,21 @@ const StripeButton = ({ price, plan }) => {
     "pk_test_51J8rJ6SBWexFkajKSIroI0A9KFg5jLCCKyaO3apfU21zQkFmsuhN9Y4cZlnam0XMcRVbQVQE22ndqORdVY6z865t00J0X95AbN";
 
   const { currentUser } = useAuth();
+  useEffect(() => {
+    if (!currentUser) {
+      history.push("/login");
+    }
+
+    if (currentUser?.packageName) {
+      history.push("/");
+    }
+  }, [currentUser?.packageName, currentUser]);
+
   const onToken = async (token) => {
     console.log(token);
     await addPackage(currentUser?.docId, plan, price);
     alert("Payment successful");
+    window.location.reload();
     history.push("/");
   };
 

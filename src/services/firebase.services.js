@@ -1,5 +1,4 @@
 import firebase from "../firebase/firebase.utils";
-import axios from "axios";
 
 export async function doesPhoneNumberExist(phoneNumber) {
   const result = await firebase
@@ -31,14 +30,10 @@ export async function addProfileToAccount(
   name,
   address,
   pincode,
-  profilePic
+  profilePic,
+  longitude,
+  latitude
 ) {
-  const response = await axios.get(
-    `https://geocode.xyz/${address.city} ${address.district}?json=1`
-  );
-
-  const latitude = parseFloat(response.data.latt);
-  const longitude = parseFloat(response.data.longt);
   const res = await firebase.firestore().collection("users").doc(id).update(
     {
       name: name,

@@ -260,8 +260,8 @@ const AddPropertyComponent = ({ plan }) => {
               `https://geocode.xyz/${address.city} ${address.district}?json=1`
             );
 
-            const latitude = parseFloat(response.data.latt);
-            const longitude = parseFloat(response.data.longt);
+            const latitude = await parseFloat(response.data.latt);
+            const longitude = await parseFloat(response.data.longt);
 
             const downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
             urls.push(downloadURL);

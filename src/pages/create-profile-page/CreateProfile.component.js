@@ -3,6 +3,7 @@ import useStyles from "./CreateProfile.styles";
 import { useHistory } from "react-router";
 import { useAuth } from "../../context/auth-context";
 import { Typography, TextField, Button, Box } from "@material-ui/core";
+import axios from "axios";
 import { storage } from "../../firebase/firebase.utils";
 import { addProfileToAccount } from "../../services/firebase.services";
 
@@ -45,6 +46,13 @@ const CreateProfile = () => {
 
     const ref = storage.ref(`/profilePic/${profilePic.name}`);
 
+    const response = await axios.get(
+      `https://geocode.xyz/${address.city} ${address.district}?json=1`
+    );
+
+    const latitude = parseFloat(response.data.latt);
+    const longitude = parseFloat(response.data.longt);
+
     const uploadImage = ref.put(profilePic);
     await uploadImage.on("state_changed", console.log, console.error, () => {
       ref.getDownloadURL().then((url) => {
@@ -57,10 +65,16 @@ const CreateProfile = () => {
       name,
       address,
       pincode,
-      imageUrl
+      imageUrl,
+      latitude,
+      longitude
     );
 
-    history.push("/package");
+    if (currentUser?.role === "user") {
+      history.push("/");
+    } else {
+      history.push("/package");
+    }
   };
   return (
     <div className={classes.profileDiv}>
