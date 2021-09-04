@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import useStyles from "./HomePage.styles";
+import useStyles from "./NearByProperties.styles";
 import { Typography, Button, Container, Grid } from "@material-ui/core";
 import { Link, useHistory } from "react-router-dom";
 import ProjectCard from "../../components/project-card/ProjectCard.component";
@@ -8,14 +8,45 @@ import VillaCard from "../../components/villa-card/VillaCard.component";
 import { useAuth } from "../../context/auth-context";
 import firebase from "../../firebase/firebase.utils";
 
-const HomePage = () => {
-  const classes = useStyles();
+const NearByProperties = () => {
   const { currentUser } = useAuth();
-  const history = useHistory();
   const [flats, setFlats] = useState([]);
   const [villas, setVillas] = useState([]);
   const [projects, setProjects] = useState([]);
-  const [location, setLocation] = useState("");
+  const classes = useStyles();
+  const history = useHistory();
+
+  function filterProp(response) {
+    return (
+      getDistanceFromLatLonInKm(
+        response.latitude,
+        response.longitude,
+        currentUser?.latitude,
+        currentUser?.longitude
+      ) <= 50
+    );
+  }
+
+  function deg2rad(deg) {
+    return deg * (Math.PI / 180);
+  }
+
+  function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+    console.log(lat1, lon1, lat2, lon2);
+    var R = 6371; // Radius of the earth in km
+    var dLat = deg2rad(lat2 - lat1); // deg2rad below
+    var dLon = deg2rad(lon2 - lon1);
+    var a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(deg2rad(lat1)) *
+        Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c; // Distance in km
+    console.log(d);
+    return d;
+  }
 
   useEffect(() => {
     if (!currentUser) {
@@ -35,7 +66,9 @@ const HomePage = () => {
           ...item.data(),
           docId: item.id,
         }));
-
+        console.log(response);
+        response = response.filter(filterProp);
+        console.log(response);
         setFlats(response);
       });
     firebase
@@ -48,7 +81,7 @@ const HomePage = () => {
           ...item.data(),
           docId: item.id,
         }));
-
+        response = response.filter(filterProp);
         setVillas(response);
       });
 
@@ -62,60 +95,13 @@ const HomePage = () => {
           ...item.data(),
           docId: item.id,
         }));
-
+        response = response.filter(filterProp);
         setProjects(response);
       });
   }, [currentUser, history]);
 
   return (
     <div>
-      <div className={classes.header}>
-        <Container
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          flexDirection="column"
-          className={classes.container}
-        >
-          <Typography
-            variant="h2"
-            className={classes.textHeader}
-            color="secondary"
-          >
-            Search properties as per your convenience
-          </Typography>
-          <div className={classes.searchBox}>
-            <div className={classes.linkDiv}>
-              <Link to="/near-me" className={classes.link}>
-                Near me
-              </Link>
-              <Link to="/rent" className={classes.link}>
-                Rent
-              </Link>
-            </div>
-            <input
-              type="text"
-              className={classes.input}
-              name="location"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              placeholder="Enter location"
-            />
-            <Link to={"/" + location}>
-              <Button variant="contained" className={classes.searchButton}>
-                Search
-              </Button>
-            </Link>
-
-            <br />
-            <br />
-            <Link to="/advanced-search" className={classes.link}>
-              Advanced Search
-            </Link>
-          </div>
-        </Container>
-      </div>
-
       <div className={classes.featuredProjects}>
         <Typography
           variant="h3"
@@ -136,7 +122,6 @@ const HomePage = () => {
           </Grid>
         </Container>
       </div>
-
       <div className={classes.property}>
         <Typography
           variant="h4"
@@ -156,7 +141,6 @@ const HomePage = () => {
           </Grid>
         </Container>
       </div>
-
       <div className={classes.property}>
         <Typography
           variant="h4"
@@ -180,4 +164,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default NearByProperties;

@@ -14,6 +14,7 @@ import PropertyDetails from "./pages/property-details/PropertyDetails.component"
 import EnquiryForm from "./pages/enquiry-form/EnquiryForm.component";
 import AdvancedSearch from "./pages/advanced-search/AdvancedSearch.component";
 import SearchPage from "./pages/search-pages/SearchPage.component";
+import NearByProperties from "./pages/near-by-properties/NearByProperties.component";
 import AdvancedSearchProperty from "./pages/advanced-search-property-page/AdvancedSearchProperty.component";
 import EditProfile from "./pages/edit-profile/EditProfile.component";
 
@@ -31,6 +32,7 @@ function App() {
             <Route exact path="/enquiry/:id/:userId" component={EnquiryForm} />
             <Route exact path="/package" component={Package} />
             <Route exact path="/add" component={AddProperty} />
+            <Route exact path="/near-me" component={NearByProperties} />
             <Route exact path="/edit" component={EditProfile} />
             <Route exact path="/profile" component={ProfilePage} />
             <Route

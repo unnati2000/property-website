@@ -3,13 +3,17 @@ import { Modal, Typography, Box, TextField, Button } from "@material-ui/core";
 import { useHistory } from "react-router";
 import { addEnquiry } from "../../services/firebase.services";
 import firebase from "../../firebase/firebase.utils";
+import { useAuth } from "../../context/auth-context";
 import useStyles from "./EnquiryForm.styles";
+import { ToastContainer, toast } from "react-toastify";
 
 const EnquiryForm = ({ match }) => {
   const classes = useStyles();
 
   const [agent, setAgent] = useState({});
   const [property, setProperty] = useState({});
+
+  const { currentUser } = useAuth();
 
   const [formData, setFormData] = useState({
     phoneNumber: "",
@@ -62,31 +66,47 @@ const EnquiryForm = ({ match }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  console.log(property);
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    await addEnquiry(
-      phoneNumber,
-      name,
-      email,
-      availableOn,
-      agent?.userId,
-      match.params.userId,
-      match.params.id,
-      property?.bathroom,
-      property?.bedroom,
-      property?.parking,
-      property?.propertyType,
-      property?.propertyName,
-      property?.images[0],
-      property?.address
-    );
+    if (phoneNumber === "" || name === "") {
+      toast("Enter phone number and name", { type: "error" });
+    } else {
+      let bedroom = "";
 
-    history.push("/");
+      if (property?.propertyType === "flat") {
+        bedroom = property?.roomType;
+      } else if (property?.propertyType === "villa") {
+        bedroom = property?.villaBedroom;
+      }
+
+      await addEnquiry(
+        phoneNumber,
+        name,
+        email,
+        availableOn,
+        agent?.userId,
+        match.params.userId,
+        match.params.id,
+        currentUser?.docId,
+        currentUser?.userId,
+        property?.bathroom,
+        bedroom,
+        property?.parking,
+        property?.propertyType,
+        property?.propertyName,
+        property?.images[0],
+        property?.address
+      );
+
+      history.push("/");
+    }
   };
 
   return (
     <div>
+      <ToastContainer />
       <Modal
         disablePortal
         disableEnforceFocus

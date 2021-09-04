@@ -20,19 +20,37 @@ const ProfilePage = () => {
       history.push("/login");
     }
 
-    firebase
-      .firestore()
-      .collection("enquiry")
-      .where("agentUserDocId", "==", currentUser?.docId)
-      .get()
-      .then((res) => {
-        const result = res.docs.map((item) => ({
-          ...item.data(),
-          docId: item.id,
-        }));
-        setEnquiries(result);
-      })
-      .catch((err) => console.log(err));
+    if (currentUser?.role === "agent") {
+      firebase
+        .firestore()
+        .collection("enquiry")
+        .where("agentUserDocId", "==", currentUser?.docId)
+        .get()
+        .then((res) => {
+          const result = res.docs.map((item) => ({
+            ...item.data(),
+            docId: item.id,
+          }));
+          setEnquiries(result);
+        })
+        .catch((err) => console.log(err));
+    }
+
+    if (currentUser?.role === "user") {
+      firebase
+        .firestore()
+        .collection("enquiry")
+        .where("userDocId", "==", currentUser?.docId)
+        .get()
+        .then((res) => {
+          const result = res.docs.map((item) => ({
+            ...item.data(),
+            docId: item.id,
+          }));
+          setEnquiries(result);
+        })
+        .catch((err) => console.log(err));
+    }
   }, [currentUser, history]);
 
   return (
