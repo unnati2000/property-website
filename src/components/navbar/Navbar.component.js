@@ -87,7 +87,11 @@ const Navbar = () => {
                     onClick={handleClick}
                   >
                     <img
-                      src="https://www.gravatar.com/avatar/4f28f38e798f29c5d75b85c883327d09?d=mm&r=g&s=190"
+                      src={
+                        currentUser?.profilePic
+                          ? currentUser?.profilePic
+                          : "https://www.gravatar.com/avatar/4f28f38e798f29c5d75b85c883327d09?d=mm&r=g&s=190"
+                      }
                       className={classes.profileImage}
                     />
                   </Button>
@@ -156,7 +160,11 @@ const Navbar = () => {
                   onClick={handleClick}
                 >
                   <img
-                    src="https://www.gravatar.com/avatar/4f28f38e798f29c5d75b85c883327d09?d=mm&r=g&s=190"
+                    src={
+                      currentUser?.profilePic
+                        ? currentUser?.profilePic
+                        : "https://www.gravatar.com/avatar/4f28f38e798f29c5d75b85c883327d09?d=mm&r=g&s=190"
+                    }
                     className={classes.profileImage}
                   />
                 </Button>
