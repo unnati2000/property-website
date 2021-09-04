@@ -89,8 +89,8 @@ const HomePage = () => {
               <Link to="/near-me" className={classes.link}>
                 Near me
               </Link>
-              <Link to="/rent" className={classes.link}>
-                Rent
+              <Link to="/projects" className={classes.link}>
+                Projects
               </Link>
             </div>
             <input

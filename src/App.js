@@ -17,6 +17,7 @@ import SearchPage from "./pages/search-pages/SearchPage.component";
 import NearByProperties from "./pages/near-by-properties/NearByProperties.component";
 import AdvancedSearchProperty from "./pages/advanced-search-property-page/AdvancedSearchProperty.component";
 import EditProfile from "./pages/edit-profile/EditProfile.component";
+import Project from "./pages/projects/Project.component";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
             <Route exact path="/onboarding" component={CreateProfile} />
             <Route exact path="/enquiry/:id/:userId" component={EnquiryForm} />
             <Route exact path="/package" component={Package} />
+            <Route exact path="/projects" component={Project} />
             <Route exact path="/add" component={AddProperty} />
             <Route exact path="/near-me" component={NearByProperties} />
             <Route exact path="/edit" component={EditProfile} />
