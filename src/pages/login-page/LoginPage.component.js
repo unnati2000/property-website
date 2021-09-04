@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Typography, Box, TextField, Button } from "@material-ui/core";
-import Alert from "../../components/alert/Alert.component";
 import { useAuth } from "../../context/auth-context";
 import firebase from "../../firebase/firebase.utils";
 import { useHistory } from "react-router";
 import { doesPhoneNumberExist } from "../../services/firebase.services";
 import { Link } from "react-router-dom";
 import useStyles from "./LoginPage.styles";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 
 const SignInPage = () => {
   const classes = useStyles();
@@ -22,26 +23,29 @@ const SignInPage = () => {
   }, [currentUser, history]);
 
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [error, setError] = useState("");
 
   const onSubmit = async (e) => {
     e.preventDefault();
     let recaptcha = new firebase.auth.RecaptchaVerifier("recaptcha");
-    const phoneNumberExists = doesPhoneNumberExist(phoneNumber);
 
-    if (phoneNumberExists) {
-      try {
-        setError("");
-        await Login(phoneNumber, recaptcha);
-      } catch (error) {
-        setError("");
-      }
+    if (phoneNumber === "") {
+      toast("Please enter a valid phone number", { type: "error" });
     } else {
-      setError("You don't have an account. Please register");
+      const phoneNumberExists = doesPhoneNumberExist(phoneNumber);
+      if (phoneNumberExists) {
+        try {
+          await Login(phoneNumber, recaptcha);
+        } catch (error) {
+          toast(error.message, { type: "error" });
+        }
+      } else {
+        toast("You don't have an account", { type: "error" });
+      }
     }
   };
   return (
     <div>
+      <ToastContainer />
       <Modal
         disablePortal
         disableEnforceFocus
@@ -50,15 +54,12 @@ const SignInPage = () => {
         aria-labelledby="server-modal-title"
         aria-describedby="server-modal-description"
         className={classes.modal}
-        // container={() => rootRef.current}
       >
         <div className={classes.paper}>
           <Typography variant="h6" color="primary" className={classes.header}>
             Login with your Phone Number
           </Typography>
-          <Box>
-            <Alert errorMsg={error} />
-          </Box>
+
           <form onSubmit={onSubmit} className={classes.form}>
             <Box
               display="flex"

@@ -13,10 +13,11 @@ import useStyles from "./Register.styles";
 import { useAuth } from "../../context/auth-context";
 import { firestore } from "../../firebase/firebase.utils";
 import firebase from "../../firebase/firebase.utils";
-import HandleAlert, { Alert } from "../../components/alert/Alert.component";
 import { doesPhoneNumberExist } from "../../services/firebase.services";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 
 const RegisterPage = () => {
   const classes = useStyles();
@@ -27,7 +28,6 @@ const RegisterPage = () => {
 
   const [role, setRole] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [error, setError] = useState("");
 
   useEffect(() => {
     if (!currentUser) {
@@ -40,80 +40,86 @@ const RegisterPage = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    const phoneNumberExists = await doesPhoneNumberExist(phoneNumber);
+    if (role === "") {
+      toast("Please select your role", { type: "error" });
+    }
     if (phoneNumber === "") {
-      <HandleAlert type="error" message="Enter a valid phone Number" />;
-    } else if (phoneNumberExists === false) {
-      let recaptcha = new firebase.auth.RecaptchaVerifier("recaptcha");
-      try {
-        setError("");
-
-        await firebase
-          .auth()
-          .signInWithPhoneNumber("+91" + phoneNumber, recaptcha)
-          .then((e) => {
-            let code = prompt("Enter OTP ", "");
-
-            if (code === null) return;
-            e.confirm(code).then(function (result) {
-              alert("Phone Number verified");
-
-              if (role === "agent") {
-                firestore
-                  .collection("users")
-                  .add({
-                    userId: result.user.uid,
-                    phoneNumber: phoneNumber,
-                    role: role,
-                    dateCreated: Date.now(),
-                    name: "",
-                    address: [],
-                    pincode: "",
-                    packageName: "",
-                    packagePrice: "",
-                    latitude: 0,
-                    longitude: 0,
-                    profilePic: "",
-                  })
-                  .then((res) => {
-                    console.log(res);
-                    history.push("/");
-                  })
-                  .catch((err) => console.log(err));
-              } else if (role === "user") {
-                firestore
-                  .collection("users")
-                  .add({
-                    userId: result.user.uid,
-                    phoneNumber: phoneNumber,
-                    role: role,
-                    dateCreated: Date.now(),
-                    name: "",
-                    address: [],
-                    pincode: "",
-                    latitude: 0,
-                    longitude: 0,
-                    profilePic: "",
-                  })
-                  .then((res) => {
-                    console.log(res);
-                    history.push("/");
-                  })
-                  .catch((err) => console.log(err));
-              }
-            });
-          })
-          .catch((err) => console.log(err));
-      } catch (error) {
-        console.log(error);
-        setError("Failed to create an account");
-      }
+      toast("Please enter your phone number", { type: "error" });
     } else {
-      setError("User already exists");
+      const phoneNumberExists = await doesPhoneNumberExist(phoneNumber);
+      if (phoneNumberExists === false) {
+        let recaptcha = new firebase.auth.RecaptchaVerifier("recaptcha");
+        try {
+          await firebase
+            .auth()
+            .signInWithPhoneNumber("+91" + phoneNumber, recaptcha)
+            .then((e) => {
+              let code = prompt("Enter OTP ", "");
+
+              if (code === null) return;
+              e.confirm(code).then(function (result) {
+                alert("Phone Number verified");
+
+                if (role === "agent") {
+                  firestore
+                    .collection("users")
+                    .add({
+                      userId: result.user.uid,
+                      phoneNumber: phoneNumber,
+                      role: role,
+                      dateCreated: Date.now(),
+                      name: "",
+                      address: [],
+                      pincode: "",
+                      packageName: "",
+                      packagePrice: "",
+                      latitude: 0,
+                      longitude: 0,
+                      profilePic: "",
+                    })
+                    .then((res) => {
+                      console.log(res);
+                      toast("Created account successfully", {
+                        type: "success",
+                      });
+                      history.push("/");
+                    })
+                    .catch((err) => toast(err.message, { type: "error" }));
+                } else if (role === "user") {
+                  firestore
+                    .collection("users")
+                    .add({
+                      userId: result.user.uid,
+                      phoneNumber: phoneNumber,
+                      role: role,
+                      dateCreated: Date.now(),
+                      name: "",
+                      address: [],
+                      pincode: "",
+                      latitude: 0,
+                      longitude: 0,
+                      profilePic: "",
+                    })
+                    .then((res) => {
+                      console.log(res);
+                      history.push("/");
+                    })
+                    .catch((err) => toast(err.message, { type: "error" }));
+                }
+              });
+            })
+            .catch((err) => toast(err.message, { type: "error" }));
+        } catch (error) {
+          toast("Failed to create an account", { type: "error" });
+        }
+      } else {
+        toast("User already exists", { type: "error" });
+      }
     }
   };
   return (
     <div>
+      <ToastContainer />
       <Modal
         disablePortal
         disableEnforceFocus
