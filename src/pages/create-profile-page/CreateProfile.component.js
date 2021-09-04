@@ -6,6 +6,8 @@ import { Typography, TextField, Button, Box } from "@material-ui/core";
 import axios from "axios";
 import { storage } from "../../firebase/firebase.utils";
 import { addProfileToAccount } from "../../services/firebase.services";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 
 const CreateProfile = () => {
   const classes = useStyles();
@@ -44,40 +46,52 @@ const CreateProfile = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    const ref = storage.ref(`/profilePic/${profilePic.name}`);
-
-    const response = await axios.get(
-      `https://geocode.xyz/${address.city} ${address.district}?json=1`
-    );
-
-    const latitude = parseFloat(response.data.latt);
-    const longitude = parseFloat(response.data.longt);
-
-    const uploadImage = ref.put(profilePic);
-    await uploadImage.on("state_changed", console.log, console.error, () => {
-      ref.getDownloadURL().then((url) => {
-        setURL(url);
-      });
-    });
-
-    await addProfileToAccount(
-      currentUser?.docId,
-      name,
-      address,
-      pincode,
-      imageUrl,
-      latitude,
-      longitude
-    );
-
-    if (currentUser?.role === "user") {
-      history.push("/");
+    if (
+      name === "" ||
+      pincode === "" ||
+      areaName === "" ||
+      city === "" ||
+      district === ""
+    ) {
+      toast("Enter all the fields", { type: "error" });
     } else {
-      history.push("/package");
+      const ref = storage.ref(`/profilePic/${profilePic.name}`);
+
+      const response = await axios.get(
+        `https://geocode.xyz/${address.city} ${address.district}?json=1`
+      );
+
+      const latitude = parseFloat(response.data.latt);
+      const longitude = parseFloat(response.data.longt);
+
+      const uploadImage = ref.put(profilePic);
+      await uploadImage.on("state_changed", console.log, console.error, () => {
+        ref.getDownloadURL().then((url) => {
+          setURL(url);
+        });
+      });
+
+      await addProfileToAccount(
+        currentUser?.docId,
+        name,
+        address,
+        pincode,
+        imageUrl,
+        latitude,
+        longitude
+      );
+
+      if (currentUser?.role === "user") {
+        toast("Profile created successfully", { type: "success" });
+        history.push("/");
+      } else {
+        history.push("/package");
+      }
     }
   };
   return (
     <div className={classes.profileDiv}>
+      <ToastContainer />
       <form className={classes.form} onSubmit={onSubmit}>
         <img
           src={

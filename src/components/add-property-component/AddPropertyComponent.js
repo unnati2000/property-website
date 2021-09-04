@@ -26,6 +26,9 @@ import firebase from "../../firebase/firebase.utils";
 import { useHistory } from "react-router";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import ArrangeImages from "../arrange-images/ArrangeImages.component.js";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 
 const AddPropertyComponent = ({ plan }) => {
   const classes = useStyles();
@@ -237,10 +240,13 @@ const AddPropertyComponent = ({ plan }) => {
     });
 
     if (plan === "flat" && images.length > 4) {
+      toast("Not allowed to upload more than 4 photos", { type: "error" });
       console.log("Not allowed to upload more than 4 images");
     } else if (plan === "project" && images.length > 8) {
+      toast("Not allowed to upload more than 4 photos", { type: "error" });
       console.log("Not allowed to add more than 8 images");
     } else if (plan === "villa" && images.length > 10) {
+      toast("Not allowed to upload more than 4 photos", { type: "error" });
       console.log("Not allowred to add more than 10 images");
     } else {
       const promises = [];
@@ -288,6 +294,7 @@ const AddPropertyComponent = ({ plan }) => {
                   currentUser?.userId,
                   currentUser?.docId
                 );
+                toast("Added property successfully", { type: "success" });
                 history.push("/");
               } else if (plan === "project") {
                 await addProject(
@@ -314,6 +321,7 @@ const AddPropertyComponent = ({ plan }) => {
                   currentUser?.userId,
                   currentUser?.docId
                 );
+                toast("Added property successfully", { type: "success" });
                 history.push("/");
               } else if (plan === "villa") {
                 await addVilla(
@@ -337,6 +345,7 @@ const AddPropertyComponent = ({ plan }) => {
                   currentUser?.userId,
                   currentUser?.docId
                 );
+                toast("Added property successfully", { type: "success" });
                 history.push("/");
               }
             }
@@ -348,6 +357,7 @@ const AddPropertyComponent = ({ plan }) => {
 
   return (
     <div className={classes.mainDiv}>
+      <ToastContainer />
       <Container className={classes.container}>
         <Card className={classes.card}>
           {plan === "flat" && (
@@ -594,8 +604,17 @@ const AddPropertyComponent = ({ plan }) => {
                     />
                   </Box>
                 </Box>
+                <Box m={2}>
+                  <Typography color="primary">
+                    Enter less than 4 photos
+                  </Typography>
+                </Box>
+
                 <input type="file" multiple onChange={handleImageChange} />
               </Box>
+              {images?.length > 0 && (
+                <ArrangeImages images={images} setImages={setImages} />
+              )}
               <Button
                 type="contained"
                 className={classes.formbutton}
@@ -926,8 +945,14 @@ const AddPropertyComponent = ({ plan }) => {
                 />
               </Box>
               <Box mt={2} mb={2} textAlign="center">
+                <Typography color="primary">
+                  Enter less than 8 photos
+                </Typography>
                 <input type="file" multiple onChange={handleImageChange} />
               </Box>
+              {images?.length > 0 && (
+                <ArrangeImages images={images} setImages={setImages} />
+              )}
               <Button
                 type="contained"
                 className={classes.formbutton}
@@ -1283,8 +1308,16 @@ const AddPropertyComponent = ({ plan }) => {
                 />
               </Box>
               <Box mt={2} mb={2}>
+                <Box m={2}>
+                  <Typography color="primary">
+                    Enter less than 10 photos
+                  </Typography>
+                </Box>
                 <input type="file" multiple onChange={handleImageChange} />
               </Box>
+              {images?.length > 0 && (
+                <ArrangeImages images={images} setImages={setImages} />
+              )}
 
               <Button
                 type="contained"
