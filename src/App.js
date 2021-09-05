@@ -33,23 +33,24 @@ function App() {
             <Route exact path="/register" component={RegisterPage} />
             <Route exact path="/package" component={Package} />
             <Route exact path="/add" component={AddProperty} />
+            <Route exact path="/advanced-search" component={AdvancedSearch} />
             <Route exact path="/onboarding" component={CreateProfile} />
             <Route exact path="/:location" component={SearchPage} />
-
             <Route exact path="/enquiry/:id/:userId" component={EnquiryForm} />
             <Route exact path="/near-me" component={NearByProperties} />
-            <Route exact path="/edit" component={EditProfile} />
-            <Route exact path="/profile" component={ProfilePage} />
-            <Route
-              exact
-              path="/:propertyType/:id"
-              component={PropertyDetails}
-            />
-            <Route exact path="/advanced-search" component={AdvancedSearch} />
             <Route
               exact
               path="/:location/:type/:rooms"
               component={AdvancedSearchProperty}
+            />
+
+            <Route exact path="/edit" component={EditProfile} />
+            <Route exact path="/profile" component={ProfilePage} />
+
+            <Route
+              exact
+              path="/:propertyType/:id"
+              component={PropertyDetails}
             />
           </Switch>
         </AuthProvider>

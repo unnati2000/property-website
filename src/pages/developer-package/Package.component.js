@@ -13,19 +13,19 @@ const Package = () => {
   const { currentUser } = useAuth();
   const history = useHistory();
 
-  useEffect(() => {
-    if (!currentUser) {
-      history.push("/login");
-    }
+  // useEffect(() => {
+  //   if (!currentUser) {
+  //     history.push("/login");
+  //   }
 
-    if (currentUser?.role === "user") {
-      history.push("/");
-    }
+  //   if (currentUser?.role === "user") {
+  //     history.push("/");
+  //   }
 
-    if (currentUser?.packageName) {
-      history.push("/");
-    }
-  }, [currentUser?.packageName, currentUser?.role, history]);
+  //   if (currentUser?.packageName) {
+  //     history.push("/");
+  //   }
+  // }, [currentUser?.packageName, currentUser?.role, history]);
 
   return (
     <div className={classes.packageDiv}>
