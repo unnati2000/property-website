@@ -26,7 +26,7 @@ const Project = () => {
       <Container>
         <Grid container spacing={2}>
           {projects?.map((project) => (
-            <Grid item xs={12} md={2}>
+            <Grid item xs={12} md={6}>
               <ProjectCard project={project} />
             </Grid>
           ))}

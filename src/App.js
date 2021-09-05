@@ -26,14 +26,17 @@ function App() {
         <AuthProvider>
           <Navbar />
           <Switch>
+            <Route exact path="/projects" component={Project} />
             <Route exact path="/" component={HomePage} />
             <Route exact path="/login" component={LoginPage} />
+
             <Route exact path="/register" component={RegisterPage} />
-            <Route exact path="/onboarding" component={CreateProfile} />
-            <Route exact path="/enquiry/:id/:userId" component={EnquiryForm} />
             <Route exact path="/package" component={Package} />
-            <Route exact path="/projects" component={Project} />
             <Route exact path="/add" component={AddProperty} />
+            <Route exact path="/onboarding" component={CreateProfile} />
+            <Route exact path="/:location" component={SearchPage} />
+
+            <Route exact path="/enquiry/:id/:userId" component={EnquiryForm} />
             <Route exact path="/near-me" component={NearByProperties} />
             <Route exact path="/edit" component={EditProfile} />
             <Route exact path="/profile" component={ProfilePage} />
@@ -48,7 +51,6 @@ function App() {
               path="/:location/:type/:rooms"
               component={AdvancedSearchProperty}
             />
-            <Route exact path="/:location" component={SearchPage} />
           </Switch>
         </AuthProvider>
       </BrowserRouter>
