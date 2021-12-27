@@ -16,43 +16,53 @@ import AdvancedSearch from "./pages/advanced-search/AdvancedSearch.component";
 import SearchPage from "./pages/search-pages/SearchPage.component";
 import NearByProperties from "./pages/near-by-properties/NearByProperties.component";
 import AdvancedSearchProperty from "./pages/advanced-search-property-page/AdvancedSearchProperty.component";
-import EditProfile from "./pages/edit-profile/EditProfile.component";
 import Project from "./pages/projects/Project.component";
+import Footer from "./components/footer/Footer.component";
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <AuthProvider>
-          <Navbar />
-          <Switch>
-            <Route exact path="/projects" component={Project} />
-            <Route exact path="/" component={HomePage} />
-            <Route exact path="/login" component={LoginPage} />
+          <div className="body">
+            <Navbar />
+            <main className="main_content">
+              <Switch>
+                <Route exact path="/projects" component={Project} />
+                <Route exact path="/" component={HomePage} />
+                <Route exact path="/login" component={LoginPage} />
+                <Route exact path="/register" component={RegisterPage} />
+                <Route exact path="/package" component={Package} />
+                <Route exact path="/profile" component={ProfilePage} />
+                <Route exact path="/add" component={AddProperty} />
+                <Route
+                  exact
+                  path="/advanced-search"
+                  component={AdvancedSearch}
+                />
+                <Route exact path="/onboarding" component={CreateProfile} />
+                <Route
+                  exact
+                  path="/enquiry/:id/:userId"
+                  component={EnquiryForm}
+                />
+                <Route exact path="/near" component={NearByProperties} />
+                <Route exact path="/:location" component={SearchPage} />
+                <Route
+                  exact
+                  path="/:location/:type/:rooms"
+                  component={AdvancedSearchProperty}
+                />
+                <Route
+                  exact
+                  path="/:propertyType/:id"
+                  component={PropertyDetails}
+                />
+              </Switch>
+            </main>
 
-            <Route exact path="/register" component={RegisterPage} />
-            <Route exact path="/package" component={Package} />
-            <Route exact path="/add" component={AddProperty} />
-            <Route exact path="/advanced-search" component={AdvancedSearch} />
-            <Route exact path="/onboarding" component={CreateProfile} />
-            <Route exact path="/:location" component={SearchPage} />
-            <Route exact path="/enquiry/:id/:userId" component={EnquiryForm} />
-            <Route exact path="/near-me" component={NearByProperties} />
-            <Route
-              exact
-              path="/:location/:type/:rooms"
-              component={AdvancedSearchProperty}
-            />
-
-            <Route exact path="/edit" component={EditProfile} />
-            <Route exact path="/profile" component={ProfilePage} />
-
-            <Route
-              exact
-              path="/:propertyType/:id"
-              component={PropertyDetails}
-            />
-          </Switch>
+            <Footer />
+          </div>
         </AuthProvider>
       </BrowserRouter>
     </ThemeProvider>

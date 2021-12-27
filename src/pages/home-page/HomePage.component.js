@@ -86,7 +86,7 @@ const HomePage = () => {
           </Typography>
           <div className={classes.searchBox}>
             <div className={classes.linkDiv}>
-              <Link to="/near-me" className={classes.link}>
+              <Link to="/near" className={classes.link}>
                 Near me
               </Link>
               <Link to="/projects" className={classes.link}>

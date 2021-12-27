@@ -140,9 +140,6 @@ const Navbar = () => {
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                   >
-                    <Link to="/edit" className={classes.link}>
-                      <MenuItem> Edit Profile</MenuItem>
-                    </Link>
                     <MenuItem onClick={handleLogout}>Logout</MenuItem>
                   </Menu>
                 </div>

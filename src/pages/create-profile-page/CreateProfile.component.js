@@ -57,8 +57,10 @@ const CreateProfile = () => {
     } else {
       const ref = storage.ref(`/profilePic/${profilePic.name}`);
 
+      console.log(process.env.REACT_APP_POSITION_STACK_API_KEY);
+
       const response = await axios.get(
-        `https://geocode.xyz/${address.city} ${address.district}?json=1`
+        `https://geocode.xyz/${address.city} ${address.district}?json=1&auth=${process.env.REACT_APP_GEOCODE_API}`
       );
 
       const latitude = parseFloat(response.data.latt);

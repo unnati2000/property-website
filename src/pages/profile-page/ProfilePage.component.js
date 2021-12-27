@@ -62,11 +62,17 @@ const ProfilePage = () => {
       </Box>
 
       <Grid container spacing={3} className={classes.grid}>
-        {enquiries?.map((enquiry) => (
-          <Grid md={4} item>
-            <AgentEnquiry enquiry={enquiry} />
-          </Grid>
-        ))}
+        {enquiries?.length ? (
+          enquiries?.map((enquiry) => (
+            <Grid md={4} item>
+              <AgentEnquiry enquiry={enquiry} />
+            </Grid>
+          ))
+        ) : (
+          <Typography variant="h6" color="primary">
+            No enquiries found
+          </Typography>
+        )}
       </Grid>
     </div>
   );

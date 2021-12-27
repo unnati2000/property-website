@@ -14,7 +14,9 @@ const SelectProperty = () => {
   const [plan, setPlan] = useState("");
   return (
     <div className={classes.mainDiv}>
-      {currentUser?.packageName === "Primary Pack" && <AddPropertyComponent />}
+      {currentUser?.packageName === "Primary Pack" && (
+        <AddPropertyComponent plan="flat" />
+      )}
 
       {currentUser?.packageName === "Developer Pack" && (
         <>

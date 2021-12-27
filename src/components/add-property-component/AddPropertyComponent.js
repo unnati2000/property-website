@@ -208,6 +208,7 @@ const AddPropertyComponent = ({ plan }) => {
   };
 
   const handleImageChange = (e) => {
+    images.splice(0, images?.length);
     for (let i = 0; i < e.target.files.length; i++) {
       const newImage = e.target.files[i];
       newImage["id"] = Math.random();
@@ -263,11 +264,11 @@ const AddPropertyComponent = ({ plan }) => {
           (error) => console.log(error.code),
           async () => {
             const response = await axios.get(
-              `https://geocode.xyz/${address.city} ${address.district}?json=1`
+              `https://geocode.xyz/${address.city} ${address.district}?json=1&auth=${process.env.REACT_APP_GEOCODE_API}`
             );
 
-            const latitude = await parseFloat(response.data.latt);
-            const longitude = await parseFloat(response.data.longt);
+            const latitude = parseFloat(response.data.latt);
+            const longitude = parseFloat(response.data.longt);
 
             const downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
             urls.push(downloadURL);
@@ -358,6 +359,7 @@ const AddPropertyComponent = ({ plan }) => {
   return (
     <div className={classes.mainDiv}>
       <ToastContainer />
+
       <Container className={classes.container}>
         <Card className={classes.card}>
           {plan === "flat" && (

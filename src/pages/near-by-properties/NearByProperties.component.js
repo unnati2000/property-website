@@ -66,9 +66,9 @@ const NearByProperties = () => {
           ...item.data(),
           docId: item.id,
         }));
-        console.log(response);
+
         response = response.filter(filterProp);
-        console.log(response);
+
         setFlats(response);
       });
     firebase
@@ -100,6 +100,7 @@ const NearByProperties = () => {
       });
   }, [currentUser, history]);
 
+  console.log(flats);
   return (
     <div>
       <div className={classes.featuredProjects}>
@@ -113,12 +114,17 @@ const NearByProperties = () => {
 
         <Container>
           <Grid container spacing={2}>
-            {projects &&
+            {projects?.length ? (
               projects?.slice(0, 2)?.map((project) => (
                 <Grid item md={6}>
                   <ProjectCard project={project} />
                 </Grid>
-              ))}
+              ))
+            ) : (
+              <Typography variant="h6" color="primary">
+                No properties found
+              </Typography>
+            )}
           </Grid>
         </Container>
       </div>
@@ -132,12 +138,17 @@ const NearByProperties = () => {
         </Typography>
         <Container>
           <Grid spacing={2} container>
-            {flats &&
+            {flats?.length ? (
               flats?.slice(0, 4)?.map((flat) => (
                 <Grid item xs={12} md={3}>
                   <PropertyCard flat={flat} />
                 </Grid>
-              ))}
+              ))
+            ) : (
+              <Typography variant="h6" color="primary">
+                No properties found
+              </Typography>
+            )}
           </Grid>
         </Container>
       </div>
@@ -151,12 +162,17 @@ const NearByProperties = () => {
         </Typography>
         <Container>
           <Grid container spacing={2}>
-            {villas &&
+            {villas?.length ? (
               villas?.slice(0, 2)?.map((villa) => (
                 <Grid item md={6}>
                   <VillaCard villa={villa} />
                 </Grid>
-              ))}
+              ))
+            ) : (
+              <Typography variant="h6" color="primary">
+                No properties found
+              </Typography>
+            )}
           </Grid>
         </Container>
       </div>

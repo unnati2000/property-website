@@ -2,7 +2,7 @@ import React, { useContext, createContext, useState, useEffect } from "react";
 import { Box, CircularProgress, Container } from "@material-ui/core";
 import { auth } from "../firebase/firebase.utils";
 import { getUserDetailsByID } from "../services/firebase.services";
-import { useHistory } from "react-router";
+import { Router, useHistory } from "react-router";
 import firebase from "firebase";
 
 const AuthContext = createContext();
@@ -18,11 +18,11 @@ export function AuthProvider({ children }) {
   const history = useHistory();
 
   const Logout = () => {
-    firebase.auth().signOut();
+    return firebase.auth().signOut();
   };
 
   const Login = (phoneNumber, recaptcha) => {
-    firebase
+    return firebase
       .auth()
       .signInWithPhoneNumber("+91" + phoneNumber, recaptcha)
       .then((e) => {
